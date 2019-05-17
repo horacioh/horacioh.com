@@ -10,6 +10,7 @@
   "author": "Horacio Herrera <horacio.herrera@agilogy.com> (http://www.agilogy.com/)",
   "license": "ISC",
   "dependencies": {
+    "@jxnblk/gatsby-theme-mdx-blog": "^0.0.16",
     "gatsby": "^2.4.6",
     "gatsby-theme-horacioh": "*",
     "react": "^16.8.6",
