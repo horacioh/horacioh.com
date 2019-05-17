@@ -1,0 +1,18 @@
+{
+  "name": "site",
+  "version": "0.0.1",
+  "description": "horacioh.com site. the example for my custom gatsby theme too",
+  "main": "gatsby-config.js",
+  "scripts": {
+    "develop": "gatsby develop",
+    "build": "gatsby build"
+  },
+  "author": "Horacio Herrera <horacio.herrera@agilogy.com> (http://www.agilogy.com/)",
+  "license": "ISC",
+  "dependencies": {
+    "gatsby": "^2.4.6",
+    "gatsby-theme-horacioh": "*",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "gatsby-theme-blog",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "Horacio Herrera <me@hherrerag.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@jxnblk/gatsby-theme-mdx-blog": "^0.0.16"
+  }
+}
