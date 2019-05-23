@@ -32,5 +32,6 @@ module.exports = {
         // cookieDomain: "example.com",
       },
     },
+    `gatsby-plugin-offline`
   ]
 }
