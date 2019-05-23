@@ -15,7 +15,7 @@ const ALink = styled.a`
 
 export const TextLink = ({ to, children, ...rest }) => (
   <Text fontSize={[3, 4]} {...rest}>
-    <ALink href={to}>
+    <ALink href={to} target="_blank">
       {children}
     </ALink>
   </Text>

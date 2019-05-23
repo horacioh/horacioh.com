@@ -6,6 +6,7 @@ import {
   Box,
   Container
 } from "@jxnblk/gatsby-theme-mdx-blog";
+import Logo from "../../components/logo";
 
 export default props => (
   <Box as="header" block="header">
@@ -28,7 +29,7 @@ export default props => (
             textDecoration: "none"
           }}
         >
-          Horacio Herrera
+          <Logo />
         </Link>
       </Styled.h1>
     </Container>
