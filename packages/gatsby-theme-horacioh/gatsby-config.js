@@ -1,6 +1,18 @@
 module.exports = {
   __experimentalThemes: [
-    "gatsby-theme-blog"
+    {
+      resolve: 'gatsby-theme-blog',
+      options: {
+        name: '',
+      }
+    }
   ],
-  plugins: []
+  plugins: [
+    {
+      resolve: `gatsby-mdx`,
+      options: {
+        extensions: [`.mdx`, `.md`]
+      }
+    }
+  ]
 }

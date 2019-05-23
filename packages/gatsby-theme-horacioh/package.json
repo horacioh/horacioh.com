@@ -10,9 +10,9 @@
   "license": "ISC",
   "devDependencies": {
     "gatsby": "^2.4.6",
+    "gatsby-theme-blog": "*",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "gatsby-theme-blog": "*"
+    "react-dom": "^16.8.6"
   },
   "peerDependencies": {
     "gatsby": "^2.4.6",
@@ -24,6 +24,8 @@
     "@mdx-js/react": "^1.0.16",
     "@mdx-js/tag": "^0.20.3",
     "gatsby-mdx": "^0.6.3",
-    "gatsby-plugin-page-creator": "^2.0.13"
+    "gatsby-plugin-page-creator": "^2.0.13",
+    "rebass": "^3.1.0",
+    "styled-components": "^4.2.0"
   }
 }

@@ -6,5 +6,8 @@
   "license": "MIT",
   "devDependencies": {
     "@jxnblk/gatsby-theme-mdx-blog": "^0.0.16"
+  },
+  "dependencies": {
+    "@jxnblk/gatsby-theme-mdx-blog": "0.0.17-0"
   }
 }
