@@ -25,6 +25,7 @@ Trace:
 
 npm manifest: 
   {
+    "private": true,
     "name": "horacioh.com",
     "version": "0.1.0",
     "author": "Horacio Herrera <hi@horacioh.com> (http://www.horacioh.com/)",
@@ -35,8 +36,7 @@ npm manifest:
     "workspaces": [
       "site",
       "themes/*"
-    ],
-    "private": true
+    ]
   }
 
 yarn manifest: 

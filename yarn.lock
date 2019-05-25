@@ -915,6 +915,30 @@
     styled-system "^4.0.8"
     theme-ui "^0.0.14"
 
+"@jxnblk/gatsby-theme-mdx-blog@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@jxnblk/gatsby-theme-mdx-blog/-/gatsby-theme-mdx-blog-0.0.17.tgz#eb2a6fd6ab8358c9d98b5a8d509c9acb860d2cdb"
+  integrity sha512-g1kjNK/v0A7sbVZAbO7JgonN/8IPplZ1ue4gOmSTA3qIpBUBpZaTz+kQHz5mF4uNbafSWneT5NxL6NINSCMxnw==
+  dependencies:
+    "@emotion/core" "^10.0.0"
+    "@mdx-js/mdx" "^1.0.0"
+    "@mdx-js/react" "^1.0.0"
+    "@styled-system/should-forward-prop" "^1.0.0"
+    debug "^4.1.1"
+    gatsby "^2.5.6"
+    gatsby-mdx "^0.6.2"
+    gatsby-plugin-emotion "^4.0.6"
+    gatsby-plugin-feed "^2.1.0"
+    gatsby-plugin-react-helmet "^3.0.11"
+    gatsby-source-filesystem "^2.0.28"
+    lodash.merge "^4.6.1"
+    mkdirp "^0.5.1"
+    react-helmet "^5.2.0"
+    remark-slug "^5.1.1"
+    remark-unwrap-images "^0.2.0"
+    styled-system "^4.0.8"
+    theme-ui "^0.0.14"
+
 "@mdx-js/mdx@^1.0.0", "@mdx-js/mdx@^1.0.19":
   version "1.0.19"
   resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-1.0.19.tgz#ee5323fb2f00f8910b64d58126f54c08d61b3e73"

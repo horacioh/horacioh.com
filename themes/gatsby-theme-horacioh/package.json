@@ -20,6 +20,7 @@
     "react-dom": "^16.8.6"
   },
   "dependencies": {
+    "@jxnblk/gatsby-theme-mdx-blog": "^0.0.17",
     "@mdx-js/mdx": "^1.0.19",
     "@mdx-js/react": "^1.0.16",
     "@mdx-js/tag": "^0.20.3",

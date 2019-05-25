@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "horacioh.com",
   "version": "0.1.0",
   "author": "Horacio Herrera <hi@horacioh.com> (http://www.horacioh.com/)",
@@ -9,6 +10,5 @@
   "workspaces": [
     "site",
     "themes/*"
-  ],
-  "private": true
+  ]
 }
