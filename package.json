@@ -1,10 +1,10 @@
 {
-  "name": "gatsby-themes-experimental",
-  "version": "0.0.1",
+  "name": "horacioh.com",
+  "version": "0.1.0",
   "author": "Horacio Herrera <hi@horacioh.com> (http://www.horacioh.com/)",
   "workspaces": [
     "site",
-    "packages/*"
+    "themes/*"
   ],
   "private": true
 }

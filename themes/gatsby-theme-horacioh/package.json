@@ -6,11 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Horacio Herrera <horacio.herrera@agilogy.com> (http://www.agilogy.com/)",
+  "author": "Horacio Herrera <hi@horacioh.com>",
   "license": "ISC",
   "devDependencies": {
     "gatsby": "^2.4.6",
-    "gatsby-theme-blog": "*",
+    "horacio-gatsby-theme-blog": "^0.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
