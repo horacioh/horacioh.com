@@ -1,7 +1,7 @@
 module.exports = {
   __experimentalThemes: [
     {
-      resolve: 'gatsby-theme-blog',
+      resolve: 'horacio-gatsby-theme-blog',
       options: {
         name: '',
       }
