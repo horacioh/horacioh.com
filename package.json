@@ -2,6 +2,10 @@
   "name": "horacioh.com",
   "version": "0.1.0",
   "author": "Horacio Herrera <hi@horacioh.com> (http://www.horacioh.com/)",
+  "scripts": {
+    "develop": "yarn workspace site develop",
+    "build": "yarn workspace site build"
+  },
   "workspaces": [
     "site",
     "themes/*"
