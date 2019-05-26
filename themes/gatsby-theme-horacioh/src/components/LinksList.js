@@ -13,27 +13,19 @@ const ALink = styled.a`
   }
 `;
 
-export const IconLink = ({ to, children, ...rest }) => (
-  <Box {...rest} mr={4}>
+export const IconLink = ({ to, icon, ...rest }) => (
+  <Box mr={4} {...rest}>
     <ALink href={to} target="_blank">
-      {children}
+      {icon}
     </ALink>
   </Box>
 );
 
 export const LinksList = () => (
   <Flex>
-    <IconLink to="https://twitter.com/hhg2288">
-      <Twitter />
-    </IconLink>
-    <IconLink to="https://github.com/horacioh">
-      <Github />
-    </IconLink>
-    <IconLink to="https://dribbble.com/horacio">
-      <Dribbble />
-    </IconLink>
-    <IconLink to="mailto:me@hherrerag.com">
-      <Email />
-    </IconLink>
+    <IconLink to="https://twitter.com/hhg2288" icon={<Twitter />} />
+    <IconLink to="https://github.com/horacioh" icon={<Github />} />
+    <IconLink to="https://dribbble.com/horacio" icon={<Dribbble />} />
+    <IconLink to="mailto:me@hherrerag.com" icon={<Email />} />
   </Flex>
 );
