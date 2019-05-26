@@ -2,7 +2,7 @@
   "name": "site",
   "version": "0.0.1",
   "description": "horacioh.com site. the example for my custom gatsby theme too",
-  "main": "gatsby-config.js",
+  "main": "index.js",
   "scripts": {
     "develop": "gatsby develop",
     "build": "gatsby build"

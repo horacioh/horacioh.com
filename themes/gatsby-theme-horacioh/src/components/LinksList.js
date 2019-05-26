@@ -1,6 +1,7 @@
 import React from "react";
-import { Text } from "rebass";
-import styled from 'styled-components'
+import { Box, Flex } from "rebass";
+import styled from "styled-components";
+import { Twitter, Github, Dribbble, Email } from "site";
 
 const ALink = styled.a`
   color: black;
@@ -10,44 +11,29 @@ const ALink = styled.a`
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 
-
-export const TextLink = ({ to, children, ...rest }) => (
-  <Text fontSize={[3, 4]} {...rest}>
+export const IconLink = ({ to, children, ...rest }) => (
+  <Box {...rest} mr={4}>
     <ALink href={to} target="_blank">
       {children}
     </ALink>
-  </Text>
+  </Box>
 );
 
-const links = [
-  {
-    label: "Twitter",
-    value: "https://twitter.com/hhg2288"
-  },
-  {
-    label: "Github",
-    value: "https://github.com/horacioh"
-  },
-  {
-    label: "Dribbble",
-    value: "https://dribbble.com/horacio"
-  },
-  {
-    label: "Email",
-    value: "mailto:me@hherrerag.com"
-  }
-];
-
 export const LinksList = () => (
-  <div style={{ fontSize: 24 }}>
-    <ul>
-      {links.map(({ label, value }) => (
-        <li>
-          <TextLink to={value}>{label}</TextLink>
-        </li>
-      ))}
-    </ul>
-  </div>
+  <Flex>
+    <IconLink to="https://twitter.com/hhg2288">
+      <Twitter />
+    </IconLink>
+    <IconLink to="https://github.com/horacioh">
+      <Github />
+    </IconLink>
+    <IconLink to="https://dribbble.com/horacio">
+      <Dribbble />
+    </IconLink>
+    <IconLink to="mailto:me@hherrerag.com">
+      <Email />
+    </IconLink>
+  </Flex>
 );
