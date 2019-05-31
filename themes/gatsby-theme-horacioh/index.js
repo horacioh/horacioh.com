@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-
+import styled from 'styled-components'
 export { LinksList } from './src/components/LinksList'
 
 const Page = props => {
@@ -26,6 +26,35 @@ const Page = props => {
     </>
   )
 }
+
+
+
+export const BlockQuote = styled.blockquote`
+  margin: 0;
+  padding: 16px;
+  background-color: whitesmoke;
+  border-radius: 6px;
+  margin-bottom: 32px;
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+`
+
+export const List = styled.div`
+  ul {
+    margin: 0 0 32px 0;
+    padding: 0 0 0 24px;
+    font-size: 18px;
+  }
+  
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+`
 
 export const wrapPageElement = ({ element, props }) =>
   <Page {...props}>

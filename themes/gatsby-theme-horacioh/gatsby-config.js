@@ -1,17 +1,33 @@
 module.exports = {
   __experimentalThemes: [
     {
-      resolve: 'horacio-gatsby-theme-blog',
+      resolve: "horacio-gatsby-theme-blog",
       options: {
-        name: '',
+        name: ""
       }
     }
   ],
   plugins: [
+    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-mdx`,
       options: {
-        extensions: [`.mdx`, `.md`]
+        extensions: [`.mdx`, `.md`],
+        gatsbyRemarkPlugins: [
+          {
+            resolve: "gatsby-remark-images",
+            options: {
+              maxWidth: 1035,
+              sizeByPixelDensity: true
+            }
+          }
+        ]
+      }
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        path: `src/posts`
       }
     },
     {
@@ -28,10 +44,10 @@ module.exports = {
         // variationId: "YOUR_GOOGLE_OPTIMIZE_VARIATION_ID",
         // Any additional create only fields (optional)
         sampleRate: 5,
-        siteSpeedSampleRate: 10,
+        siteSpeedSampleRate: 10
         // cookieDomain: "example.com",
-      },
+      }
     },
     `gatsby-plugin-offline`
   ]
-}
+};
