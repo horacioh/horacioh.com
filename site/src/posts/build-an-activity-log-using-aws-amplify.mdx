@@ -155,7 +155,7 @@ Of course this is a really simplistic example, and it has a couple of limitation
 <List>
 
 - Currently the `creator` attribute is a string, but eventually I would like this to be a connection to the actual user that's logged in for each operation, this will let me not only get access to more data from the user, but also flexible for changes on the user's data.
-- Now I now this is a more `REST` approach, we are making 2 round trips to the server for one single user's operation. In the future, I would like this to be automatic, and maybe call a Lambda function from any DynamoDB event? or maybe a [pipeline resolver]() could work?
+- Now I now this is a more `REST` approach, we are making 2 round trips to the server for one single user's operation. In the future, I would like this to be automatic, and maybe call a Lambda function from any DynamoDB event? or maybe a [pipeline resolver](https://docs.aws.amazon.com/appsync/latest/devguide/pipeline-resolvers.html) could work?
 - if you see the [`Post.js` component](https://github.com/horacioh/posts-activity-amplify-example/blob/master/src/components/Post.js), you see that I create aldo 2 queries to get the data for the frontend. This is OK, but maybe I would like to change my schema to something like this:
 
 </List>
