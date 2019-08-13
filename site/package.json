@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "develop": "gatsby develop",
-    "build": "gatsby build",
-    "lh": "lighthousebot"
+    "build": "gatsby build"
   },
   "author": "Horacio Herrera <horacio.herrera@agilogy.com> (http://www.agilogy.com/)",
   "license": "ISC",
