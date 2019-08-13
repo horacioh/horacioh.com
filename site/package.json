@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "develop": "gatsby develop",
-    "build": "gatsby build"
+    "build": "gatsby build",
+    "lh": "lighthousebot"
   },
   "author": "Horacio Herrera <horacio.herrera@agilogy.com> (http://www.agilogy.com/)",
   "license": "ISC",
   "dependencies": {
     "gatsby": "^2.4.6",
     "gatsby-theme-horacioh": "*",
+    "lighthousebot": "https://github.com/GoogleChromeLabs/lighthousebot",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   }

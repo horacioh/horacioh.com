@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Flex } from "rebass";
 import styled from "styled-components";
-import { Twitter, Github, Dribbble, Email } from "site";
+import { Twitter, Github, Dribbble, Email, Youtube } from "site";
 
 const ALink = styled.a`
   color: black;
@@ -23,6 +23,7 @@ export const IconLink = ({ to, icon, ...rest }) => (
 
 export const LinksList = () => (
   <Flex>
+    <IconLink to="https://www.youtube.com/channel/UC-MHIQayBciRoA4HXx873jg" icon={<Youtube />} />
     <IconLink to="https://twitter.com/hhg2288" icon={<Twitter />} />
     <IconLink to="https://github.com/horacioh" icon={<Github />} />
     <IconLink to="https://dribbble.com/horacio" icon={<Dribbble />} />
