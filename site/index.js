@@ -1,1 +1,1 @@
-export { Twitter, Github, Dribbble, Email, Youtube } from './src/components/icons'
+export { Twitter, Github, Dribbble, Email, Youtube, Twitch } from './src/components/icons'
