@@ -10,10 +10,13 @@
   "author": "Horacio Herrera <horacio.herrera@agilogy.com> (http://www.agilogy.com/)",
   "license": "ISC",
   "dependencies": {
+    "@theme-ui/presets": "^0.2.42",
+    "deepmerge": "^4.0.0",
     "gatsby": "^2.4.6",
-    "gatsby-theme-horacioh": "*",
-    "lighthousebot": "https://github.com/GoogleChromeLabs/lighthousebot",
+    "gatsby-theme-blog": "^1.2.1",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "typeface-merriweather-sans": "^0.0.72",
+    "typography-theme-parnassus": "^0.16.19"
   }
 }
