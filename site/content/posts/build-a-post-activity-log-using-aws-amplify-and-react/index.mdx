@@ -2,10 +2,9 @@
 title: Build a Post activity log using React & AWS Amplify
 date: 2019-06-03
 draft: false
+lang: en
 excerpt: A simple walkthrough on How to create an activity log using AWS Amplify, GraphQL & React.
 ---
-
-import { Link } from 'gatsby';
 
 ![Post Cover](./cover.jpg)
 
@@ -95,7 +94,7 @@ Another thing to point here is the `HistoryPayload` type. I use a simple type he
 
 First we need to create our [`CreatePost` component](https://github.com/horacioh/posts-activity-amplify-example/blob/master/src/components/CreatePost.js) with a simple form. Let's focus on the `handleSubmit` method:
 
-```jsx:title=CreatePost.js
+```jsx
 const handleSubmit = async e => {
   e.preventDefault();
   const date = new Date();

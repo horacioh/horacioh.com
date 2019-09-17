@@ -16,9 +16,9 @@ module.exports = {
     ]
   },
   plugins: [
+    `gatsby-plugin-theme-ui`,
     {
       resolve: `gatsby-theme-blog`,
-      options: {},
     },
     {
       resolve: 'gatsby-plugin-mdx',

@@ -12,7 +12,10 @@ export default () => (
       fontSize: 5,
       mb: 0
     })}><span role="img" aria-label="wave emoji">👋</span></Styled.p>
-    <Styled.h3>I'm Horacio Herrera, Designer & Developer consultant from Panama living in Barcelona. I help companies develop digital products that users want.</Styled.h3>
+    <Styled.p>
+      Hola! my name is <b>Horacio Herrera</b>, Designer & Developer consultant from Panama living in Barcelona. I help companies build great products and websites.
+    </Styled.p>
+    <Styled.p>I'm also a coach on <a href="https://hhg.link/rgqla" target="_blank">React GraphQL academy</a> since 2017 & I'm fortunate enough to teach React, Redux & GraphQL to many designers & developers looking for a shift in their professional careers.</Styled.p>
     <LinksList />
   </Fragment>
 )

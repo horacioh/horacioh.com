@@ -1,10 +1,10 @@
 import React from "react"
 import { Link } from "gatsby"
-import { css, useColorMode, Styled } from "theme-ui"
-import Switch from "gatsby-theme-blog/src/components/switch"
+import { css, Styled } from "theme-ui"
+// import Switch from "gatsby-theme-blog/src/components/switch"
 import Bio from "./bio"
-import sun from "../../../content/assets/sun.png"
-import moon from "../../../content/assets/moon.png"
+// import sun from "../../../content/assets/sun.png"
+// import moon from "../../../content/assets/moon.png"
 import Logo from '../../components/logo'
 
 const rootPath = `${__PATH_PREFIX__}/`
@@ -55,40 +55,12 @@ const Title = ({ children, location }) => {
   }
 }
 
-const checkedIcon = (
-  <img
-    alt="moon indicating dark mode"
-    src={moon}
-    width="16"
-    height="16"
-    role="presentation"
-    css={{
-      pointerEvents: `none`,
-      margin: 4,
-    }}
-  />
-)
-
-const uncheckedIcon = (
-  <img
-    alt="sun indicating light mode"
-    src={sun}
-    width="16"
-    height="16"
-    role="presentation"
-    css={{
-      pointerEvents: `none`,
-      margin: 4,
-    }}
-  />
-)
-
 export default ({ children, title, ...props }) => {
-  const [colorMode, setColorMode] = useColorMode()
-  const isDark = colorMode === `dark`
-  const toggleColorMode = e => {
-    setColorMode(isDark ? `light` : `dark`)
-  }
+  // const [colorMode, setColorMode] = useColorMode()
+  // const isDark = colorMode === `dark`
+  // const toggleColorMode = e => {
+  //   setColorMode(isDark ? `light` : `dark`)
+  // }
 
   return (
     <header>
@@ -96,7 +68,7 @@ export default ({ children, title, ...props }) => {
         css={css({
           maxWidth: `container`,
           mx: `auto`,
-          px: 0,
+          px: 3,
           pt: 4,
         })}
       >
@@ -112,7 +84,7 @@ export default ({ children, title, ...props }) => {
             <Logo />
           </Title>
           {children}
-          <Switch
+          {/* <Switch
             aria-label="Toggle dark mode"
             css={css({
               bg: `black`,
@@ -121,7 +93,7 @@ export default ({ children, title, ...props }) => {
             uncheckedIcon={uncheckedIcon}
             checked={isDark}
             onChange={toggleColorMode}
-          />
+          /> */}
         </div>
         {props.location.pathname === rootPath && <Bio />}
       </div>
