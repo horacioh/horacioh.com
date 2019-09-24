@@ -1,37 +1,59 @@
 import React from 'react';
-import { css } from 'theme-ui';
-import Post from 'gatsby-theme-blog/src/components/post';
+import { Styled, css } from 'theme-ui';
 import Helmet from 'react-helmet';
-// import slugify from "@sindresorhus/slugify";
+import PostFooter from './post-footer';
+import Layout from '../../components/layout';
+import SEO from '../../components/seo';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 
-export default (props) => {
-  const newProps = props;
-  newProps.data.post.date = '';
-  return (
-    <div
+const Post = ({
+  data: {
+    post,
+    site: {
+      siteMetadata: { title },
+    },
+  },
+  location,
+  previous,
+  next,
+}) => (
+  <Layout location={location} title={title}>
+    <SEO title={post.title} description={post.excerpt} />
+    <Helmet
+      meta={[
+        {
+          name: `twitter:card`,
+          content: 'summary_large_image',
+        },
+        // {
+        //   name: `twitter:image`,
+        //   content: `https://www.christopherbiscardi.com/blog-post-images/${slugify(
+        //     props.data.post.title
+        //   )}.png`
+        // },
+        { name: `twitter:site`, content: `@hhg2288` },
+      ]}
+    />
+
+    <Styled.h1
       css={css({
-        maxWidth: 'container',
-        mx: 'auto',
-        px: 3,
-        py: 4,
+        fontSize: [4, 5],
       })}
     >
-      <Post {...newProps} />
-      <Helmet
-        meta={[
-          {
-            name: `twitter:card`,
-            content: 'summary_large_image',
-          },
-          // {
-          //   name: `twitter:image`,
-          //   content: `https://www.christopherbiscardi.com/blog-post-images/${slugify(
-          //     props.data.post.title
-          //   )}.png`
-          // },
-          { name: `twitter:site`, content: `@hhg2288` },
-        ]}
-      />
-    </div>
-  );
-};
+      {post.title}
+    </Styled.h1>
+    <Styled.p
+      css={css({
+        fontSize: 1,
+        mt: -3,
+        mb: 3,
+      })}
+    >
+      {post.date}
+    </Styled.p>
+    <MDXRenderer>{post.body}</MDXRenderer>
+    <PostFooter {...{ previous, next }} />
+  </Layout>
+);
+
+export default Post;

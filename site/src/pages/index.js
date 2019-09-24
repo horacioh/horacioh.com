@@ -8,7 +8,7 @@ import SEO from '../components/seo';
 import { LinksList } from '../components/linksList';
 
 const List = ({ title, subtitle, secondary, ...props }) => (
-  <div css={{ marginBottom: '3rem' }}>
+  <div css={{ marginBottom: '5rem' }}>
     <div
       css={{
         marginBottom: '1rem',
@@ -32,11 +32,21 @@ const ListItem = ({ to, logo, children }) => {
       <Component
         to={to}
         href={to}
+        target={to.startsWith('https') ? '_blank' : ''}
         css={css({
           color: 'rgba(255,255,255,0.86)',
-          display: 'flex',
-          borderRadius: '8px',
           textDecoration: 'none',
+          display: 'block',
+          p: 2,
+          mx: -2,
+          borderRadius: '8px',
+          '&:hover': {
+            bg: 'rgba(255,255,255,0.05)',
+
+            h3: {
+              color: 'highlight',
+            },
+          },
         })}
       >
         <div css={css({ display: 'flex', flexDirection: ['column', 'row'] })}>
@@ -48,7 +58,6 @@ const ListItem = ({ to, logo, children }) => {
 };
 
 export default ({ data, ...props }) => {
-  console.log('TCL: data', data);
   return (
     <Layout>
       <SEO title="Horacio Herrera" />
@@ -91,42 +100,140 @@ export default ({ data, ...props }) => {
         </div>
       </div>
       <List
-        title="Latest Posts"
-        secondary={
-          <Link
-            to="/writing"
-            css={{
-              color: 'rgba(255,255,255,0.86)',
-              textDecoration: 'none',
-              alignSelf: 'flex-end',
+        title="✍🏼 Latest Posts"
+        // secondary={
+        //   <Link
+        //     to="/writing"
+        //     css={{
+        //       color: 'rgba(255,255,255,0.86)',
+        //       textDecoration: 'none',
+        //       alignSelf: 'flex-end',
 
-              '&:hover': {
-                textDecoration: 'underline',
-              },
-            }}
-          >
-            all posts
-          </Link>
-        }
+        //       '&:hover': {
+        //         textDecoration: 'underline',
+        //       },
+        //     }}
+        //   >
+        //     all posts
+        //   </Link>
+        // }
       >
         {data.recentPosts.nodes.map(
           ({ id, title, slug, tags, excerpt, parent }) => (
             <ListItem to={slug} key={id}>
               {/* <Image fixed={parent.frontmatter.cover.childImageSharp.fixed} /> */}
               <div css={css({ flex: 1, p: 0 })}>
-                <h3
+                <Styled.h3
                   css={css({
-                    variant: 'text.heading',
+                    color: 'primary',
                     fontSize: [3, 4],
                     m: 0,
                     p: 0,
+                    mb: 2,
+                    '&:hover': {
+                      color: 'highlight',
+                    },
                   })}
                 >
                   {title}
-                </h3>
-                <Styled.p>{excerpt}</Styled.p>
+                </Styled.h3>
+                <Styled.p css={{ margin: 0, padding: 0 }}>{excerpt}</Styled.p>
               </div>
             </ListItem>
+          ),
+        )}
+      </List>
+
+      <List
+        title="🗓️ Next Workshops & Events"
+        // secondary={
+        //   <Link
+        //     to="/writing"
+        //     css={{
+        //       color: 'rgba(255,255,255,0.86)',
+        //       textDecoration: 'none',
+        //       alignSelf: 'flex-end',
+
+        //       '&:hover': {
+        //         textDecoration: 'underline',
+        //       },
+        //     }}
+        //   >
+        //     all posts
+        //   </Link>
+        // }
+      >
+        {data.events.nodes.map(
+          ({ id, title, url, type, location, venue, date }) => (
+            <li css={{ marginBottom: '2rem' }}>
+              <a
+                href={url}
+                target="_blank"
+                css={css({
+                  color: 'rgba(255,255,255,0.86)',
+                  textDecoration: 'none',
+                  display: 'block',
+                  p: 2,
+                  mx: -2,
+                  borderRadius: '8px',
+                  '&:hover': {
+                    bg: 'rgba(255,255,255,0.05)',
+
+                    h3: {
+                      color: 'highlight',
+                    },
+                  },
+                })}
+              >
+                <div
+                  css={css({
+                    display: 'flex',
+                    flexDirection: 'column',
+                  })}
+                >
+                  <Styled.h3
+                    css={css({
+                      m: 0,
+                      p: 0,
+                      mb: 1,
+                      display: 'flex',
+                      flexDirection: ['column', 'row'],
+                      alignItems: ['flex-start', 'center'],
+                      '&:hover': {
+                        color: 'highlight',
+                      },
+                    })}
+                  >
+                    <span
+                      css={css({
+                        px: 1,
+                        py: '3px',
+                        borderRadius: '4px',
+                        bg: 'primary',
+                        color: 'white',
+                        fontWeight: '800',
+                        mr: 2,
+                        mb: [1, 0],
+                        fontSize: 0,
+                        textTransform: 'uppercase',
+                      })}
+                    >
+                      {type}
+                    </span>
+                    {title}
+                  </Styled.h3>
+                  <Styled.p
+                    css={css({
+                      m: 0,
+                      p: 0,
+                      color: 'rgba(255,255,255,0.8)',
+                    })}
+                  >
+                    {date} - {venue}, {location}
+                  </Styled.p>
+                </div>
+              </a>
+            </li>
           ),
         )}
       </List>
@@ -174,6 +281,17 @@ export const query = graphql`
             }
           }
         }
+      }
+    }
+    events: allEventsYaml {
+      nodes {
+        id
+        title
+        location
+        venue
+        date(formatString: "YYYY-MM-DD")
+        type
+        url
       }
     }
   }

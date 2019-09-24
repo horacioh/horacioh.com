@@ -25,7 +25,7 @@ export default function Layout({ children, ...props }) {
         })}
       >
         <Header />
-        <main>{children}</main>
+        <main css={css({ my: 4 })}>{children}</main>
         <Footer />
       </div>
     </Styled.root>

@@ -34,6 +34,7 @@ export default {
   },
   sizes: {
     container: 800,
+    small: 650,
   },
   styles: {
     ...baseTheme.styles,

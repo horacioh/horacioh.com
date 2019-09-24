@@ -30,5 +30,12 @@ module.exports = {
         plugins: [`gatsby-remark-images`],
       },
     },
+    `gatsby-transformer-yaml`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `./events/`,
+      },
+    },
   ],
 };

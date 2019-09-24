@@ -10,7 +10,7 @@ export default function Header(props) {
       css={css({
         maxWidth: 'container',
         margin: 'auto',
-        marginTop: '24px',
+        marginTop: 0,
         justifyContent: ['center', 'space-between'],
         alignItems: ['center'],
         flexDirection: ['column', 'row'],

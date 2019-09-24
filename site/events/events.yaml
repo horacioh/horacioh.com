@@ -1,0 +1,41 @@
+- title: 1-Day React Foundation
+  venue: Marfeel HQ
+  location: Barcelona
+  date: 2019-09-28
+  url: https://reactgraphql.academy/react/training/workshops/react-foundation/barcelona/
+  type: workshop
+
+- title: Building (& Selling) Gatsby + WordPress sites
+  venue: Gatsby Days
+  location: London
+  date: 2019-09-30
+  url: https://www.gatsbyjs.com/resources/gatsby-days/
+  type: talk
+
+- title: TBD
+  venue: DocPlanner tech Barcelona
+  location: Barcelona
+  date: 2019-10-03
+  url: https://www.meetup.com/DocPlanner-Tech-Barcelona/events/264956150/
+  type: meetup
+
+- title: 1-Day React Native Foundation
+  venue: TBD
+  location: Barcelona
+  date: 2019-10-19
+  url: https://reactgraphql.academy/react/training/workshops/react-native/barcelona/
+  type: workshop
+
+- title: 1-Day Advanced React UIs, Styling & Design Systems
+  venue: TBD
+  location: Barcelona
+  date: 2019-10-30
+  url: https://reactgraphql.academy/react/training/workshops/advanced-uis-styling-design-systems/barcelona/
+  type: workshop
+
+- title: 1-Month Part-time React Redux Course
+  venue: TBD
+  location: Barcelona
+  date: 2019-11-09
+  url: https://reactgraphql.academy/react/training/part-time-course/barcelona/
+  type: workshop

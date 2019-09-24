@@ -5,7 +5,7 @@ import { Link } from 'gatsby';
 const nav = [
   // { displayName: 'About', url: '/about' },
   { displayName: 'Writing', url: '/writing' },
-  { displayName: 'aprendegatsby', url: 'https://aprendegatsby.com' },
+  // { displayName: 'aprendegatsby', url: 'https://aprendegatsby.com' },
   { displayName: 'newsletter', url: 'https://hhg.link/newsletter' },
 ];
 
