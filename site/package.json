@@ -10,13 +10,17 @@
   "author": "Horacio Herrera <horacio.herrera@agilogy.com> (http://www.agilogy.com/)",
   "license": "ISC",
   "dependencies": {
+    "@emotion/core": "^10.0.17",
+    "@mdx-js/react": "^1.4.5",
     "@theme-ui/presets": "^0.2.42",
     "deepmerge": "^4.0.0",
     "gatsby": "^2.4.6",
+    "gatsby-image": "^2.2.20",
     "gatsby-theme-blog": "^1.2.1",
     "gatsby-transformer-remark": "^2.6.22",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "theme-ui": "^0.2.43",
     "typeface-merriweather-sans": "^0.0.72",
     "typography-theme-parnassus": "^0.16.19"
   }

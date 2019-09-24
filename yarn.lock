@@ -795,7 +795,7 @@
     "@emotion/utils" "0.11.2"
     "@emotion/weak-memoize" "0.2.3"
 
-"@emotion/core@^10.0.15":
+"@emotion/core@^10.0.15", "@emotion/core@^10.0.17":
   version "10.0.17"
   resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.0.17.tgz#3367376709721f4ee2068cff54ba581d362789d8"
   integrity sha512-gykyjjr0sxzVuZBVTVK4dUmYsorc2qLhdYgSiOVK+m7WXgcYTKZevGWZ7TLAgTZvMelCTvhNq8xnf8FR1IdTbg==
@@ -1199,7 +1199,7 @@
     unist-builder "1.0.4"
     unist-util-visit "2.0.0"
 
-"@mdx-js/react@^1.3.0":
+"@mdx-js/react@^1.3.0", "@mdx-js/react@^1.4.5":
   version "1.4.5"
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.4.5.tgz#c1e79ebabf61917527b955044340bac794025148"
   integrity sha512-zSqXbG+La9JRaNp2ff2wzaSoU2zNR5kQ/YWkjcddqDMZz06eiyjqIz+A2MkZio5IfFrvFTCkgDtWKb7+UsAQUw==
@@ -5558,6 +5558,15 @@ gatsby-graphiql-explorer@^0.2.14:
   integrity sha512-OYNd6llC+ZOSvG2YV0oY4/IVPa9Mi5ykBVey0KjJfDDK8lHwVfuD/ev2baX4KClRZkSjFtYuhDq5+Ro316Mfxg==
   dependencies:
     "@babel/runtime" "^7.6.0"
+
+gatsby-image@^2.2.20:
+  version "2.2.20"
+  resolved "https://registry.yarnpkg.com/gatsby-image/-/gatsby-image-2.2.20.tgz#df156fcc8ee166954e7f56a93729569f05a50624"
+  integrity sha512-bf2YnqJLYmUnXkXjVF20I6x09rOJS3UrFKoWLvmsZUvYSunGjFda0SvE05nTFCc/7PGvlGhua/NZMNtXb5glmA==
+  dependencies:
+    "@babel/runtime" "^7.6.0"
+    object-fit-images "^3.2.4"
+    prop-types "^15.7.2"
 
 gatsby-image@^2.2.8:
   version "2.2.18"
@@ -12510,6 +12519,15 @@ theme-ui@^0.2.33:
     "@styled-system/css" "^5.0.16"
     deepmerge "^4.0.0"
     react "^16.8.0"
+
+theme-ui@^0.2.43:
+  version "0.2.43"
+  resolved "https://registry.yarnpkg.com/theme-ui/-/theme-ui-0.2.43.tgz#10f275a1a677eeac35bd92e361bda5131c579231"
+  integrity sha512-YY5fx6ATiwK2y+1h5uOJR4S2DpM1kzkiAlURjNr3KGQRNY3QYZoAcJlBicBOYRwHeZ4qFhaVHkzlI56UZ4CYXQ==
+  dependencies:
+    "@emotion/is-prop-valid" "^0.8.1"
+    "@styled-system/css" "^5.0.16"
+    deepmerge "^4.0.0"
 
 through2@^2.0.0, through2@^2.0.1:
   version "2.0.5"

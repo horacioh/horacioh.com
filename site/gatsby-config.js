@@ -1,9 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: "Horacio Herrera",
-    author: "Horacio Herrera",
-    description: "Personal website for Horacio. Designer & Developer",
-    siteUrl: "https://horacioh.com",
+    title: 'Horacio Herrera',
+    author: 'Horacio Herrera',
+    description: 'Personal website for Horacio. Designer & Developer',
+    siteUrl: 'https://horacioh.com',
     social: [
       {
         name: `twitter`,
@@ -13,19 +13,22 @@ module.exports = {
         name: `github`,
         url: `https://hhg.link/github`,
       },
-    ]
+    ],
   },
   plugins: [
     `gatsby-plugin-theme-ui`,
     {
       resolve: `gatsby-theme-blog`,
+      options: {
+        basePath: '/writing',
+      },
     },
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
-        gatsbyRemarkPlugins: [ `gatsby-remark-images` ],
-        plugins: [ `gatsby-remark-images` ],
-      }
+        gatsbyRemarkPlugins: [`gatsby-remark-images`],
+        plugins: [`gatsby-remark-images`],
+      },
     },
-  ]
+  ],
 };

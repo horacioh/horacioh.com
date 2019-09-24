@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Styled, css } from 'theme-ui';
-import BioContent from './bio-content.js';
 
-const Bio = () => {
-  return (
-    <Styled.div css={css({ mb: 4 })}>
-      <BioContent />
-    </Styled.div>
-  );
-};
+/**
+ * Shadow me to add your own bio content
+ */
 
-export default Bio;
+export default () => (
+  <Fragment>
+    (Words by | Palabras de){' '}
+    <Styled.a
+      css={css({ display: 'inline-block', mb: 4 })}
+      href="https://hhg.link/twitter"
+    >
+      Horacio Herrera
+    </Styled.a>
+    .
+  </Fragment>
+);

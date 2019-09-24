@@ -1,17 +1,45 @@
-import merge from "deepmerge"
-import typography from "./typography"
-import colors from "./colors"
+import baseTheme from 'gatsby-theme-blog/src/gatsby-plugin-theme-ui';
 
-export default merge(typography, {
-  // initialColorMode: `dark`,
-  colors,
+export default {
+  ...baseTheme,
+  initialColorMode: `dark`,
+  colors: {
+    ...baseTheme.colors.modes.dark,
+    background: '#1C1C1C',
+    highlight: '#92D825',
+    primary: '#50CEEA',
+    prism: {
+      ...baseTheme.colors.prism,
+    },
+    modes: {
+      dark: {
+        ...baseTheme.colors.modes.dark,
+        background: '#1C1C1C',
+        highlight: '#92D825',
+        primary: '#50CEEA',
+        prism: {
+          ...baseTheme.colors.prism,
+        },
+      },
+    },
+  },
   fonts: {
-    heading: `Montserrat, sans-serif`,
-    monospace: `Consolas, Menlo, Monaco, source-code-pro, Courier New, monospace`,
+    body: 'system-ui, sans-serif',
+    heading: 'system-ui, sans-serif',
+    monospace: 'monospace',
+  },
+  fontWeights: {
+    ...baseTheme.fontWeights,
+    heading: 800,
   },
   sizes: {
-    container: 672,
+    container: 800,
   },
-  // styles,
-  // prism,
-})
+  styles: {
+    ...baseTheme.styles,
+    p: {
+      ...baseTheme.styles.p,
+      m: 0,
+    },
+  },
+};
