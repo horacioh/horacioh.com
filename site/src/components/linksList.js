@@ -60,7 +60,7 @@ export function LinksList() {
       />
       <IconLink
         aria-label="go to my Twitter account (@hhg2288)"
-        to="https://hhg.link/"
+        to="https://hhg.link/twitter"
         icon="Twitter"
       />
       <IconLink
