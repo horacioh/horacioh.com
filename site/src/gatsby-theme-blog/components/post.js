@@ -16,44 +16,41 @@ const Post = ({
   location,
   previous,
   next,
-}) => (
-  <Layout location={location} title={title}>
-    <SEO title={post.title} description={post.excerpt} />
-    <Helmet
-      meta={[
-        {
-          name: `twitter:card`,
-          content: 'summary_large_image',
-        },
-        // {
-        //   name: `twitter:image`,
-        //   content: `https://www.christopherbiscardi.com/blog-post-images/${slugify(
-        //     props.data.post.title
-        //   )}.png`
-        // },
-        { name: `twitter:site`, content: `@hhg2288` },
-      ]}
-    />
+}) => {
+  console.log('TCL: post', post);
+  return (
+    <Layout location={location} title={title}>
+      <SEO title={post.title} description={post.excerpt} />
+      <Helmet
+        meta={[
+          {
+            name: `twitter:card`,
+            content: 'summary_large_image',
+          },
+          { name: `twitter:site`, content: `@hhg2288` },
+        ]}
+      />
 
-    <Styled.h1
-      css={css({
-        fontSize: [4, 5],
-      })}
-    >
-      {post.title}
-    </Styled.h1>
-    <Styled.p
-      css={css({
-        fontSize: 1,
-        mt: -3,
-        mb: 3,
-      })}
-    >
-      {post.date}
-    </Styled.p>
-    <MDXRenderer>{post.body}</MDXRenderer>
-    <PostFooter {...{ previous, next }} />
-  </Layout>
-);
+      <Styled.h1
+        css={css({
+          fontSize: [4, 5],
+        })}
+      >
+        {post.title}
+      </Styled.h1>
+      <Styled.p
+        css={css({
+          fontSize: 1,
+          mt: -3,
+          mb: 3,
+        })}
+      >
+        {post.date}
+      </Styled.p>
+      <MDXRenderer>{post.body}</MDXRenderer>
+      <PostFooter {...{ previous, next }} />
+    </Layout>
+  );
+};
 
 export default Post;

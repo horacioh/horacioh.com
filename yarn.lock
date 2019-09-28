@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@andrioid/gatsby-plugin-social-card@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/@andrioid/gatsby-plugin-social-card/-/gatsby-plugin-social-card-0.5.6.tgz#ecdfba1d3fad39fedb2fb8999750e020ed1aa471"
+  integrity sha512-ezA76hfkiJNn1PpCiA66tUsDG+b2BPvTfkW/L1+kmKPUOB0Mu73O/sPWN4Ma3cNjJMfwbQt6qmaY0OpxVaLpMw==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.5.5.tgz#bc0782f6d69f7b7d49531219699b988f669a8f9d"
