@@ -44,7 +44,7 @@ function SEO({
               },
               {
                 property: `twitter:site`,
-                content: '@chrisbiscardi',
+                content: '@hhg2288',
               },
               {
                 name: `twitter:card`,

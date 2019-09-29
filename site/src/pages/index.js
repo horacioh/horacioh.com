@@ -6,6 +6,7 @@ import Layout from '../components/layout';
 // import Icon, { iconFromList } from '../components/small-icons';
 import SEO from '../components/seo';
 import { LinksList } from '../components/linksList';
+import Contact from '../components/Contact';
 
 const List = ({ title, subtitle, secondary, ...props }) => (
   <div css={{ marginBottom: '5rem' }}>
@@ -28,7 +29,14 @@ const List = ({ title, subtitle, secondary, ...props }) => (
 const ListItem = ({ to, logo, children }) => {
   const Component = to.startsWith('https') ? 'a' : Link;
   return (
-    <li css={{ marginBottom: '2rem' }}>
+    <li
+      css={{
+        marginBottom: '2rem',
+        '&:last-child': {
+          marginBottom: 0,
+        },
+      }}
+    >
       <Component
         to={to}
         href={to}
@@ -99,50 +107,57 @@ export default ({ data, ...props }) => {
           </div>
         </div>
       </div>
-      <List
-        title="✍🏼 Latest Posts"
-        // secondary={
-        //   <Link
-        //     to="/writing"
-        //     css={{
-        //       color: 'rgba(255,255,255,0.86)',
-        //       textDecoration: 'none',
-        //       alignSelf: 'flex-end',
-
-        //       '&:hover': {
-        //         textDecoration: 'underline',
-        //       },
-        //     }}
-        //   >
-        //     all posts
-        //   </Link>
-        // }
-      >
+      <List title="✍🏼 Latest Posts">
         {data.recentPosts.nodes.map(
           ({ id, title, slug, tags, excerpt, parent }) => (
             <ListItem to={slug} key={id}>
               {/* <Image fixed={parent.frontmatter.cover.childImageSharp.fixed} /> */}
               <div css={css({ flex: 1, p: 0 })}>
-                <Styled.h3
-                  css={css({
-                    color: 'primary',
-                    fontSize: [3, 4],
-                    m: 0,
-                    p: 0,
-                    mb: 2,
-                    '&:hover': {
-                      color: 'highlight',
-                    },
-                  })}
-                >
-                  {title}
-                </Styled.h3>
+                <div css={css({ mb: 2 })}>
+                  <Styled.h3
+                    css={css({
+                      color: 'primary',
+                      fontSize: [3, 4],
+                      m: 0,
+                      p: 0,
+                      mb: 1,
+                      '&:hover': {
+                        color: 'highlight',
+                      },
+                    })}
+                  >
+                    {title}
+                  </Styled.h3>
+                  <Styled.p css={css({ m: 0, p: 0 })}>
+                    {tags.map((tag) => (
+                      <span
+                        css={css({
+                          color: 'primary',
+                          border: '1px solid',
+                          borderColor: 'primary',
+                          py: '2px',
+                          textTransform: 'uppercase',
+                          px: '8px',
+                          fontSize: '10px',
+                          borderRadius: '20px',
+                          mr: 1,
+                          my: '4px',
+                          display: 'inline-block',
+                        })}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </Styled.p>
+                </div>
                 <Styled.p css={{ margin: 0, padding: 0 }}>{excerpt}</Styled.p>
               </div>
             </ListItem>
           ),
         )}
       </List>
+
+      <Contact />
 
       <List
         title="🗓️ Next Workshops & Events"
