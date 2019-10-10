@@ -1,23 +1,30 @@
-- title: Building (& Selling) Gatsby + WordPress sites
-  venue: Gatsby Days
-  location: London
-  date: 2019-09-30
-  url: https://www.gatsbyjs.com/resources/gatsby-days/
-  type: talk
+# - title: Building (& Selling) Gatsby + WordPress sites
+#   venue: Gatsby Days
+#   location: London
+#   date: 2019-09-30
+#   url: https://www.gatsbyjs.com/resources/gatsby-days/
+#   type: talk
 
-- title: Introduction to GraphQL
-  venue: DocPlanner tech Barcelona
+# - title: Introduction to GraphQL
+#   venue: DocPlanner tech Barcelona
+#   location: Barcelona
+#   date: 2019-10-03
+#   url: https://www.meetup.com/DocPlanner-Tech-Barcelona/events/264956150/
+#   type: meetup
+
+# - title: 1-Day React Native Foundation
+#   venue: TBD
+#   location: Barcelona
+#   date: 2019-10-19
+#   url: https://reactgraphql.academy/react/training/workshops/react-native/barcelona/
+#   type: workshop
+
+- title: Introduction to D3.js & Styling in React
+  venue: ForceManager
   location: Barcelona
-  date: 2019-10-03
-  url: https://www.meetup.com/DocPlanner-Tech-Barcelona/events/264956150/
+  date: 2019-10-23
+  url: https://www.meetup.com/Barcelona-Front-End-Development-Meetup/events/265508447/
   type: meetup
-
-- title: 1-Day React Native Foundation
-  venue: TBD
-  location: Barcelona
-  date: 2019-10-19
-  url: https://reactgraphql.academy/react/training/workshops/react-native/barcelona/
-  type: workshop
 
 - title: 1-Day Advanced React UIs, Styling & Design Systems
   venue: TBD
