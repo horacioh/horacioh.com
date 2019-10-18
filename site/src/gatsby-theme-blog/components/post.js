@@ -17,7 +17,6 @@ const Post = ({
   previous,
   next,
 }) => {
-  console.log('TCL: post', post);
   return (
     <Layout location={location} title={title}>
       <SEO title={post.title} description={post.excerpt} />
