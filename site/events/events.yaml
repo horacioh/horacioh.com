@@ -19,11 +19,11 @@
 #   url: https://reactgraphql.academy/react/training/workshops/react-native/barcelona/
 #   type: workshop
 
-- title: Introduction to D3.js & Styling in React
-  venue: ForceManager
+- title: October Talks & Networking
+  venue: iSolutions
   location: Barcelona
-  date: 2019-10-23
-  url: https://www.meetup.com/Barcelona-Front-End-Development-Meetup/events/265508447/
+  date: 2019-10-28
+  url: https://reactgraphql.academy/community/meetups/5d93b9bbcb460626bf93e400/
   type: meetup
 
 - title: 1-Day Advanced React UIs, Styling & Design Systems
