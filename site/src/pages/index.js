@@ -111,7 +111,6 @@ export default ({ data, ...props }) => {
         {data.recentPosts.nodes.map(
           ({ id, title, slug, tags, excerpt, parent }) => (
             <ListItem to={slug} key={id}>
-              {/* <Image fixed={parent.frontmatter.cover.childImageSharp.fixed} /> */}
               <div css={css({ flex: 1, p: 0 })}>
                 <div css={css({ mb: 2 })}>
                   <Styled.h3
@@ -273,29 +272,6 @@ export const query = graphql`
         tags
         slug
         excerpt
-        ... on MdxBlogPost {
-          parent {
-            ... on Mdx {
-              frontmatter {
-                featured
-                cover {
-                  id
-                  childImageSharp {
-                    id
-                    fixed(
-                      cropFocus: CENTER
-                      fit: COVER
-                      width: 280
-                      height: 180
-                    ) {
-                      ...GatsbyImageSharpFixed
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     }
     events: allEventsYaml {

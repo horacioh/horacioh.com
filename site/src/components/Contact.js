@@ -61,7 +61,7 @@ export default function Contact() {
             mx: 2,
           })}
         >
-          available for new projects starting November!
+          available for new projects starting December!
         </p>
       </Flex>
     </div>
