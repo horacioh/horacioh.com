@@ -5,6 +5,7 @@
   "author": "Horacio Herrera <hi@horacioh.com> (http://www.horacioh.com/)",
   "scripts": {
     "develop": "yarn workspace site develop",
+    "dev": "yarn workspace site dev",
     "build": "yarn workspace site build"
   },
   "workspaces": [

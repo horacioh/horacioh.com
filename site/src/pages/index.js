@@ -1,63 +1,63 @@
-import React from 'react';
-import { Link, graphql } from 'gatsby';
-import { Styled, css } from 'theme-ui';
-import Image from 'gatsby-image';
-import Layout from '../components/layout';
+import React from "react";
+import { Link, graphql } from "gatsby";
+import { Styled, css } from "theme-ui";
+import Image from "gatsby-image";
+import Layout from "../components/layout";
 // import Icon, { iconFromList } from '../components/small-icons';
-import SEO from '../components/seo';
-import { LinksList } from '../components/linksList';
-import Contact from '../components/Contact';
+import SEO from "../components/seo";
+import { LinksList } from "../components/linksList";
+import Contact from "../components/Contact";
 
 const List = ({ title, subtitle, secondary, ...props }) => (
-  <div css={{ marginBottom: '5rem' }}>
+  <div css={{ marginBottom: "5rem" }}>
     <div
       css={{
-        marginBottom: '1rem',
-        display: 'flex',
-        justifyContent: 'space-between',
+        marginBottom: "1rem",
+        display: "flex",
+        justifyContent: "space-between"
       }}
     >
       <h2 css={{ margin: 0 }}>{title}</h2>
       {secondary}
     </div>
-    <ul css={{ listStyleType: 'none', margin: 0, padding: 0 }}>
+    <ul css={{ listStyleType: "none", margin: 0, padding: 0 }}>
       {props.children}
     </ul>
   </div>
 );
 
 const ListItem = ({ to, logo, children }) => {
-  const Component = to.startsWith('https') ? 'a' : Link;
+  const Component = to.startsWith("https") ? "a" : Link;
   return (
     <li
       css={{
-        marginBottom: '2rem',
-        '&:last-child': {
-          marginBottom: 0,
-        },
+        marginBottom: "2rem",
+        "&:last-child": {
+          marginBottom: 0
+        }
       }}
     >
       <Component
         to={to}
         href={to}
-        target={to.startsWith('https') ? '_blank' : ''}
+        target={to.startsWith("https") ? "_blank" : ""}
         css={css({
-          color: 'rgba(255,255,255,0.86)',
-          textDecoration: 'none',
-          display: 'block',
+          color: "rgba(255,255,255,0.86)",
+          textDecoration: "none",
+          display: "block",
           p: 2,
           mx: -2,
-          borderRadius: '8px',
-          '&:hover': {
-            bg: 'rgba(255,255,255,0.05)',
+          borderRadius: "8px",
+          "&:hover": {
+            bg: "rgba(255,255,255,0.05)",
 
             h3: {
-              color: 'highlight',
-            },
-          },
+              color: "highlight"
+            }
+          }
         })}
       >
-        <div css={css({ display: 'flex', flexDirection: ['column', 'row'] })}>
+        <div css={css({ display: "flex", flexDirection: ["column", "row"] })}>
           {children}
         </div>
       </Component>
@@ -71,31 +71,31 @@ export default ({ data, ...props }) => {
       <SEO title="Horacio Herrera" />
       <div
         css={css({
-          margin: 'auto',
-          marginTop: '24px',
-          marginBottom: '80px',
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: ['column', 'row'],
+          margin: "auto",
+          marginTop: "24px",
+          marginBottom: "80px",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: ["column", "row"]
         })}
       >
         <Styled.div
           css={{
-            borderRadius: '50%',
-            overflow: 'hidden',
+            borderRadius: "50%",
+            overflow: "hidden"
           }}
         >
           <Image fixed={data.avatar.childImageSharp.fixed} />
         </Styled.div>
         <div css={css({ flex: 1, pl: 3 })}>
-          <span css={css({ fontSize: ['2rem', '3rem'], marginBottom: 0 })}>
+          <span css={css({ fontSize: ["2rem", "3rem"], marginBottom: 0 })}>
             👋
           </span>
           <p
             css={css({
-              fontSize: ['1.2rem', '1.5rem'],
+              fontSize: ["1.2rem", "1.5rem"],
               fontWeight: 300,
-              lineHeight: 1.5,
+              lineHeight: 1.5
             })}
           >
             <b>I'm Horacio Herrera</b>, Designer & Developer consultant from
@@ -107,6 +107,9 @@ export default ({ data, ...props }) => {
           </div>
         </div>
       </div>
+
+      <Contact />
+
       <List title="✍🏼 Latest Posts">
         {data.recentPosts.nodes.map(
           ({ id, title, slug, tags, excerpt, parent }) => (
@@ -115,33 +118,33 @@ export default ({ data, ...props }) => {
                 <div css={css({ mb: 2 })}>
                   <Styled.h3
                     css={css({
-                      color: 'primary',
+                      color: "primary",
                       fontSize: [3, 4],
                       m: 0,
                       p: 0,
                       mb: 1,
-                      '&:hover': {
-                        color: 'highlight',
-                      },
+                      "&:hover": {
+                        color: "highlight"
+                      }
                     })}
                   >
                     {title}
                   </Styled.h3>
                   <Styled.p css={css({ m: 0, p: 0 })}>
-                    {tags.map((tag) => (
+                    {tags.map(tag => (
                       <span
                         css={css({
-                          color: 'primary',
-                          border: '1px solid',
-                          borderColor: 'primary',
-                          py: '2px',
-                          textTransform: 'uppercase',
-                          px: '8px',
-                          fontSize: '10px',
-                          borderRadius: '20px',
+                          color: "primary",
+                          border: "1px solid",
+                          borderColor: "primary",
+                          py: "2px",
+                          textTransform: "uppercase",
+                          px: "8px",
+                          fontSize: "10px",
+                          borderRadius: "20px",
                           mr: 1,
-                          my: '4px',
-                          display: 'inline-block',
+                          my: "4px",
+                          display: "inline-block"
                         })}
                       >
                         {tag}
@@ -152,13 +155,13 @@ export default ({ data, ...props }) => {
                 <Styled.p css={{ margin: 0, padding: 0 }}>{excerpt}</Styled.p>
               </div>
             </ListItem>
-          ),
+          )
         )}
       </List>
 
-      <Contact />
+      {/* <Contact /> */}
 
-      <List
+      {/* <List
         title="🗓️ Next Workshops & Events"
         // secondary={
         //   <Link
@@ -250,7 +253,7 @@ export default ({ data, ...props }) => {
             </li>
           ),
         )}
-      </List>
+      </List> */}
     </Layout>
   );
 };

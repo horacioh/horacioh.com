@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "develop": "gatsby develop",
+    "dev": "gatsby develop -o",
     "build": "gatsby build"
   },
   "author": "Horacio Herrera <horacio.herrera@agilogy.com> (http://www.agilogy.com/)",

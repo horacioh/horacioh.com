@@ -1,12 +1,12 @@
-import React from 'react';
-import { css, Styled, Flex } from 'theme-ui';
-import * as Icons from './icons';
+import React from "react";
+import { css, Styled, Flex } from "theme-ui";
+import * as Icons from "./icons";
 
 const socialStyles = {
-  twitter: { backgroundColor: '#00aced', color: '#eef1f7' },
-  twitch: { backgroundColor: '#6441a5', color: '#eef1f7' },
-  youtube: { backgroundColor: '#c4302b', color: '#eef1f7' },
-  github: { backgroundColor: '#eef1f7', color: 'black' },
+  twitter: { backgroundColor: "#00aced", color: "#eef1f7" },
+  twitch: { backgroundColor: "#6441a5", color: "#eef1f7" },
+  youtube: { backgroundColor: "#c4302b", color: "#eef1f7" },
+  github: { backgroundColor: "#eef1f7", color: "black" }
 };
 
 export function IconLink({ to, icon, ...rest }) {
@@ -15,20 +15,20 @@ export function IconLink({ to, icon, ...rest }) {
     <div
       css={css({
         mr: 4,
-        mb: 2,
+        mb: 2
       })}
     >
       <Styled.a
         css={css({
-          color: 'primary',
-          textDecoration: 'none',
-          fontWeight: 'bold',
-          display: 'flex',
+          color: "primary",
+          textDecoration: "none",
+          fontWeight: "bold",
+          display: "flex",
           flex: 1,
-          alignItems: 'center',
-          ':hover': {
-            color: 'highlight',
-          },
+          alignItems: "center",
+          ":hover": {
+            color: "highlight"
+          }
         })}
         href={to}
         target="_blank"
@@ -45,7 +45,7 @@ export function LinksList() {
   return (
     <Flex
       css={{
-        flexWrap: 'wrap',
+        flexWrap: "wrap"
       }}
     >
       <IconLink
@@ -67,6 +67,11 @@ export function LinksList() {
         aria-label="go to my Github profile (horacioh)"
         to="https://hhg.link/github"
         icon="Github"
+      />
+      <IconLink
+        aria-label="Checkout my condesandbox profile"
+        to="https://hhg.link/csb"
+        icon="CodeSandbox"
       />
       <IconLink
         aria-label="go to my Dribbble Profile (horacio)"
