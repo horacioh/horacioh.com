@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "horacioh.com",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Horacio Herrera <hi@horacioh.com> (http://www.horacioh.com/)",
   "scripts": {
     "develop": "yarn workspace site develop",
