@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - uses: JCofman/webPagetestAction@master
+      - uses: horacioh/webPagetestAction@master
         name: "Webpagetest"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
