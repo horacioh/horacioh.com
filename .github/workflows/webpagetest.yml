@@ -1,0 +1,17 @@
+name: Webpagetest
+on:
+  pull_request:
+    paths-ignore:
+      - ".github/**"
+jobs:
+  wpt:
+    name: "webpagetest analysis"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: horacioh/webPagetestAction@master
+        name: "Webpagetest"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TEST_URL: https://horacioh.netlify.com
+          WEBPAGETEST_API_KEY: ${{ secrets.WEBPAGETEST_API_KEY }}
+    
