@@ -1,8 +1,5 @@
 name: Webpagetest
-on:
-  pull_request:
-    paths-ignore:
-      - ".github/**"
+on: pull_request
 jobs:
   wpt:
     name: "webpagetest analysis"
@@ -14,4 +11,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TEST_URL: https://horacioh.netlify.com
           WEBPAGETEST_API_KEY: ${{ secrets.WEBPAGETEST_API_KEY }}
-    

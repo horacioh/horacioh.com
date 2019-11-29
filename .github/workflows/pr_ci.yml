@@ -1,6 +1,6 @@
 name: CI
-on: 
-  push:
+on:
+  delete: #push
     paths-ignore:
       - ".github/**"
 jobs:
@@ -29,4 +29,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TEST_URL: https://horacioh.netlify.com
           WEBPAGETEST_API_KEY: ${{ secrets.WEBPAGETEST_API_KEY }}
-    
