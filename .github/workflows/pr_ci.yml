@@ -23,6 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
+      - name: Upload results as an artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: wpt_report
+          path: "./wpt_report"
       - uses: horacioh/webPagetestAction@master
         name: "Webpagetest"
         env:

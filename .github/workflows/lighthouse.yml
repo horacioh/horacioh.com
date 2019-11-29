@@ -11,5 +11,5 @@ jobs:
       - name: Upload results as an artifact
         uses: actions/upload-artifact@master
         with:
-          name: report
-          path: "./report"
+          name: lh_report
+          path: "./lh_report"
