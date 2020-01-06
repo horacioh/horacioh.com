@@ -1,27 +1,6 @@
-# - title: Building (& Selling) Gatsby + WordPress sites
-#   venue: Gatsby Days
-#   location: London
-#   date: 2019-09-30
-#   url: https://www.gatsbyjs.com/resources/gatsby-days/
-#   type: talk
-
-# - title: Introduction to GraphQL
-#   venue: DocPlanner tech Barcelona
-#   location: Barcelona
-#   date: 2019-10-03
-#   url: https://www.meetup.com/DocPlanner-Tech-Barcelona/events/264956150/
-#   type: meetup
-
-# - title: 1-Day React Native Foundation
-#   venue: TBD
-#   location: Barcelona
-#   date: 2019-10-19
-#   url: https://reactgraphql.academy/react/training/workshops/react-native/barcelona/
-#   type: workshop
-
-- title: Migrate your API incrementally from REST to GraphQL @ API Days London
-  venue: The Mermaid
-  location: London, UK
-  date: 2019-11-14
-  url: https://www.apidays.co/london
+- title: Your local meetup?
+  venue: TBD
+  location: TBD
+  date: 2020-01-01
+  url: mailto:hi@horacioh.com
   type: talk

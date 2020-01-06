@@ -20,6 +20,7 @@
     "gatsby-image": "^2.2.29",
     "gatsby-source-filesystem": "^2.1.26",
     "gatsby-theme-blog": "^1.2.1",
+    "gatsby-theme-notes": "^1.0.40",
     "gatsby-transformer-remark": "^2.6.22",
     "gatsby-transformer-yaml": "^2.2.15",
     "react": "^16.8.6",
