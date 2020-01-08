@@ -43,6 +43,10 @@ function SEO({
                 content: `website`
               },
               {
+                name: `og:image`,
+                content: image || `https://www.horacioh.com${defaultOGImage}`
+              },
+              {
                 property: `twitter:site`,
                 content: "@hhg2288"
               },
@@ -64,10 +68,6 @@ function SEO({
               },
               {
                 name: `twitter:image`,
-                content: image || `https://www.horacioh.com${defaultOGImage}`
-              },
-              {
-                name: `og:url`,
                 content: image || `https://www.horacioh.com${defaultOGImage}`
               }
             ]
