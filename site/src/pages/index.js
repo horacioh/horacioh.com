@@ -88,7 +88,11 @@ export default ({ data, ...props }) => {
           <Image fixed={data.avatar.childImageSharp.fixed} />
         </Styled.div>
         <div css={css({ flex: 1, pl: 3 })}>
-          <span css={css({ fontSize: ["2rem", "3rem"], marginBottom: 0 })}>
+          <span
+            css={css({ fontSize: ["2rem", "3rem"], marginBottom: 0 })}
+            role="img"
+            aria-label="hand waving"
+          >
             👋
           </span>
           <p

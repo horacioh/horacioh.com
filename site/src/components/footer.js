@@ -1,19 +1,18 @@
-import React from 'react';
-import { css } from 'theme-ui';
-import { Link } from 'gatsby';
-import NavLinks from './navLinks';
+import React from "react";
+import { css } from "theme-ui";
+import NavLinks from "./navLinks";
 
 export default function Footer() {
   return (
     <footer
       css={css({
-        variant: 'styles.footer',
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
+        variant: "styles.footer",
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
         py: 2,
         px: 0,
-        justifyContent: 'space-between',
+        justifyContent: "space-between"
       })}
     >
       <NavLinks />

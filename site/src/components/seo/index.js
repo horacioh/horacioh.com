@@ -1,86 +1,83 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import { StaticQuery, graphql } from 'gatsby';
-import defaultOGImage from './defaultOGImage.jpg';
+import React from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
+import { StaticQuery, graphql } from "gatsby";
+import defaultOGImage from "./defaultOGImage.jpg";
 
 function SEO({
   description,
-  lang = 'en',
+  lang = "en",
   meta = [],
   keywords = [],
   title,
-  image,
+  image
 }) {
   return (
     <StaticQuery
       query={detailsQuery}
-      render={(data) => {
+      render={data => {
         const metaDescription =
           description || data.site.siteMetadata.description;
         return (
           <Helmet
             htmlAttributes={{
-              lang,
+              lang
             }}
             title={title}
             titleTemplate={`%s | ${data.site.siteMetadata.title}`}
             meta={[
               {
                 name: `description`,
-                content: metaDescription,
+                content: metaDescription
               },
               {
                 property: `og:title`,
-                content: title,
+                content: title
               },
               {
                 property: `og:description`,
-                content: metaDescription,
+                content: metaDescription
               },
               {
                 property: `og:type`,
-                content: `website`,
+                content: `website`
               },
               {
                 property: `twitter:site`,
-                content: '@hhg2288',
+                content: "@hhg2288"
               },
               {
                 name: `twitter:card`,
-                content: `summary_large_image`,
+                content: `summary_large_image`
               },
               {
                 name: `twitter:creator`,
-                content: data.site.siteMetadata.author,
+                content: data.site.siteMetadata.author
               },
               {
                 name: `twitter:title`,
-                content: title,
+                content: title
               },
               {
                 name: `twitter:description`,
-                content: metaDescription,
+                content: metaDescription
               },
+              {
+                name: `twitter:image`,
+                content: image || `https://www.horacioh.com${defaultOGImage}`
+              },
+              {
+                name: `og:url`,
+                content: image || `https://www.horacioh.com${defaultOGImage}`
+              }
             ]
               .concat(
                 keywords.length > 0
                   ? {
                       name: `keywords`,
-                      content: keywords.join(`, `),
+                      content: keywords.join(`, `)
                     }
-                  : [],
-              )
-              .concat(
-                image
-                  ? {
-                      name: `twitter:image`,
-                      content: `https://www.horacioh.com${image}`,
-                    }
-                  : {
-                      name: `twitter:image`,
-                      content: `https://www.horacioh.com${defaultOGImage}`,
-                    },
+                  : []
               )
               .concat(meta)}
           />
@@ -95,7 +92,7 @@ SEO.propTypes = {
   lang: PropTypes.string,
   meta: PropTypes.array,
   keywords: PropTypes.arrayOf(PropTypes.string),
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 export default SEO;

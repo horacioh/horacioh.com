@@ -37,21 +37,23 @@ export default function Contact() {
             color: "background",
             bg: "highlight",
             fontWeight: 600,
-            fontSize: [".8rem", "1rem"],
+            fontSize: [".8rem", "1.1rem"],
             lineHeight: 1,
             textDecoration: "none",
             py: 2,
             px: 3,
             my: [3, 2],
             pl: 2,
-            fontSize: "1.1rem",
             borderRadius: "0.3rem",
             "&:hover": {}
           })}
           href="mailto:hi@horacioh.com"
           target="_blank"
+          rel="noopener noreferrer"
         >
-          <span>👉</span>
+          <span role="img" aria-label="hand pointing to the right">
+            👉
+          </span>
           hi@horacioh.com
         </a>
         {/* <p

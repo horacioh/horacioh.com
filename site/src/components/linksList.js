@@ -2,13 +2,6 @@ import React from "react";
 import { css, Styled, Flex } from "theme-ui";
 import * as Icons from "./icons";
 
-const socialStyles = {
-  twitter: { backgroundColor: "#00aced", color: "#eef1f7" },
-  twitch: { backgroundColor: "#6441a5", color: "#eef1f7" },
-  youtube: { backgroundColor: "#c4302b", color: "#eef1f7" },
-  github: { backgroundColor: "#eef1f7", color: "black" }
-};
-
 export function IconLink({ to, icon, ...rest }) {
   const Icon = Icons[icon];
   return (
