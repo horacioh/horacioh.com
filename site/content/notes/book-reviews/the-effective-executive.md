@@ -45,4 +45,14 @@ If the answer is `Nothing`, then STOP doing it. 100% this task is making you was
 
 If the answer is `Yes`, then delegate!, that way you can use your time to other important and more meaningful tasks
 
-## What can I contribute?
+## More notes
+
+- Record where your time goes, this is mechanical, but is the foundation to understand and become more effective in what we do.
+- create a list of priorities and posteriorities. It takes courage to set this lists. But we need to be careful on what we will do (priorities) and what we are not going to do (posteriorities)
+- there are two types of work, physical work and mental work. the less physical work the better.
+- for every task ask yourself this question: what happens if this task is not done at all? if the answer is nothing, then stop doing it. found the things that are pure waste time without any results.
+- No one is strong in many areas. There's no such thing as good man/woman, good for what? is the right question.
+- Focus on what you can do, not on the things that you can’t, on your weaknesses. focus on make the things you can do effective.
+- Make your strengths productive: focusing on your strengths is the key, focus on weakness is wasteful and not very useful. That does not mean that you can have many interests. human excellence can be achieve in one or very few things.
+- don’t waste your time and strengths to complain about their inability to do anything, the effective executive go ahead and do.
+- focus on one thing at a time, or how is described “single minded concentration on one task at a time”. that’s the “secret” of those who achieve so many things, and apparently difficult things. Often people that doesn't get anything done, work surprisingly harder, because they expect everything to go right, while effective executives knows that nothing ever goes right, the unexpected always happens, and is the only thing you can always expect.
