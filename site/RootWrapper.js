@@ -1,8 +1,9 @@
 import React from "react";
-import Header from "./header";
-import Footer from "./footer";
-import { Styled, css, Container } from "theme-ui";
+import { Styled, css, ThemeProvider } from "theme-ui";
 import { Global } from "@emotion/core";
+import theme from "./src/gatsby-plugin-theme-ui";
+import Header from "./src/components/header";
+import Footer from "./src/components/footer";
 
 export default function Layout({ children, ...props }) {
   return (
@@ -20,12 +21,12 @@ export default function Layout({ children, ...props }) {
         css={css({
           maxWidth: "container",
           mx: "auto",
-          px: 3,
+          // px: 3,
           py: 4
         })}
       >
         <Header />
-        <main css={css({ my: 4 })}>{children}</main>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
         <Footer />
       </div>
     </Styled.root>

@@ -5,33 +5,34 @@ tags: [book]
 link: https://www.amazon.com/Effective-Executive-Definitive-Harperbusiness-Essentials/dp/0060833459
 ---
 
-**title** The Effective Executive
+# The Effective Executive
 
-**subtitle** The Definitive Guide to Getting the Right Things Done
+**The Definitive Guide to Getting the Right Things Done**
+[Amazon](https://www.amazon.com/Effective-Executive-Definitive-Harperbusiness-Essentials/dp/0060833459)
 
-**link** [Amazon](https://www.amazon.com/Effective-Executive-Definitive-Harperbusiness-Essentials/dp/0060833459)
+---
 
-# Why
+## Why
 
-#### Why did I read this book?
+### Why did I read this book?
 
 As a way to understand better how I need to focus my energy and time. I think I have great knowledge on multiple things, but I'm really bad at organizing myself to be more effective on doing things on my own.
 
-#### Why should you read this book?
+### Why should you read this book?
 
 Anyone who wants to become better professionally and start using time more effectively.
 
-#### What did I get out of it
+### What did I get out of it
 
-not finished yet.
+The most important concept I took from this book is that in order to become more effective, I need to identify where am I good at, and become better and better on it. Focusing on trying to be good at many things, is a waste of time and resources. In order to become more effective, start focusing on your strength and less on your weaknesses.
 
-# Review
+## Review
 
-## Effectiveness can be learned
+### Effectiveness can be learned
 
 No one born being effective. Being effective takes practice and discipline. We just need to be consistent and start doing the things that matter the most.
 
-## Know thy time
+### Know thy time
 
 Time is the most valuable asset we all have. everything takes time and we cannot exchange time with anything (we cannot buy time). That's why is really important to know how we are using it and make sure we are not wasting it too much.
 
@@ -45,7 +46,7 @@ If the answer is `Nothing`, then STOP doing it. 100% this task is making you was
 
 If the answer is `Yes`, then delegate!, that way you can use your time to other important and more meaningful tasks
 
-## More notes
+### More notes
 
 - Record where your time goes, this is mechanical, but is the foundation to understand and become more effective in what we do.
 - create a list of priorities and posteriorities. It takes courage to set this lists. But we need to be careful on what we will do (priorities) and what we are not going to do (posteriorities)

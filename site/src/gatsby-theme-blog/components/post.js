@@ -1,11 +1,9 @@
 import React from "react";
 import { Styled, css } from "theme-ui";
-import Helmet from "react-helmet";
 import PostFooter from "./post-footer";
 import Layout from "../../components/layout";
 import SEO from "../../components/seo";
 import { MDXRenderer } from "gatsby-plugin-mdx";
-// import getShareImage from "@jlengstorf/get-share-image";
 import getShareImage from "../../utils/get-share-image";
 
 function tags2String(tags) {
