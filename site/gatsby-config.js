@@ -44,6 +44,13 @@ module.exports = {
         basePath: `/notes`,
         mdx: true
       }
+    },
+    {
+      resolve: "gatsby-plugin-fathom",
+      options: {
+        siteId: "KBDHZHTK",
+        whitelistHostnames: ["horacioh.com"]
+      }
     }
   ]
 };
