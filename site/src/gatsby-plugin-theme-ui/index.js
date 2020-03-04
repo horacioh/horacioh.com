@@ -41,6 +41,19 @@ export default {
     p: {
       ...baseTheme.styles.p,
       m: 0
+    },
+    pre: {
+      fontFamily: "monospace",
+      overflowX: "auto",
+      code: {
+        color: "inherit"
+      }
+    },
+    code: {
+      fontFamily: "monospace",
+      fontSize: "inherit",
+      color: "#1C1C1C",
+      fontSize: 40
     }
   }
 };

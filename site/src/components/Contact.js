@@ -52,7 +52,7 @@ export default function Contact() {
           rel="noopener noreferrer"
         >
           <span role="img" aria-label="hand pointing to the right">
-            👉
+            👉{"  "}
           </span>
           hi@horacioh.com
         </a>

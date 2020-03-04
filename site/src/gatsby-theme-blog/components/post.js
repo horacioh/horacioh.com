@@ -1,5 +1,5 @@
 import React from "react";
-import { Styled, css } from "theme-ui";
+import { Styled, css, ThemeProvider } from "theme-ui";
 import PostFooter from "./post-footer";
 import Layout from "../../components/layout";
 import SEO from "../../components/seo";
@@ -10,6 +10,10 @@ function tags2String(tags) {
   const res = tags.map(tag => `#${tag}`).join(" ");
   return res;
 }
+
+const components = {
+  code: props => <p {...props} style={{ color: "black" }} />
+};
 
 const Post = ({
   data: {
@@ -55,7 +59,7 @@ const Post = ({
       >
         {post.date}
       </Styled.p>
-      <MDXRenderer>{post.body}</MDXRenderer>
+      <MDXRenderer components={components}>{post.body}</MDXRenderer>
       <PostFooter {...{ previous, next }} />
     </Layout>
   );
