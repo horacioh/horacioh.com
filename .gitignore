@@ -1,3 +1,6 @@
 public/
 site/.cache
 npm-packages-offline-cache/
+node_modules
+www/node_modules
+www/.cache
