@@ -20,5 +20,8 @@
     "gatsby-theme-notes": "^1.1.25",
     "react": "^16.13.0",
     "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "trim-right": "^1.0.1"
   }
 }
