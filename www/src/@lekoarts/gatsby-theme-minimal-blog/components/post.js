@@ -10,11 +10,16 @@ import getShareImage from "../../../components/share-image";
 const px = [`32px`, `16px`, `8px`, `4px`];
 const shadow = px.map(v => `rgba(0, 0, 0, 0.15) 0px ${v} ${v} 0px`);
 
+function tags2String(tags) {
+  const res = tags.map(tag => `#${tag.name}`).join(" ");
+  return res;
+}
+
 const Post = ({ data: { post } }) => {
   console.log("Post -> post", post);
   const socialImage = getShareImage({
     title: post.title,
-    // tagline: tags2String(post.tags),
+    tagline: tags2String(post.tags),
     cloudName: "horacioh",
     imagePublicID: "horacioh.com/post-card.jpg",
     font: "verb-black.otf",
