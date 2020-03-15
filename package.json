@@ -1,14 +1,17 @@
 {
-  "private": true,
   "name": "horacioh.com",
-  "version": "0.2.0",
-  "author": "Horacio Herrera <hi@horacioh.com> (http://www.horacioh.com/)",
+  "version": "0.3.0",
+  "description": "Horacio's Digital Garden",
+  "main": "index.js",
+  "repository": "https://github.com/horacioh/horacioh.com",
+  "author": "Horacio Herrera",
+  "license": "MIT",
+  "private": true,
   "scripts": {
-    "develop": "yarn workspace site develop",
-    "dev": "yarn workspace site dev",
-    "build": "yarn workspace site build"
+    "dev": "yarn workspace @horacioh/site dev",
+    "build": "yarn workspace @horacioh/site build"
   },
   "workspaces": [
-    "site"
+    "www"
   ]
 }

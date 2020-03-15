@@ -1,0 +1,32 @@
+---
+title: Setup lint-staged on a Monorepo
+date: 2020-03-04
+draft: false
+lang: en
+excerpt: example project of a monorepo using Yarn workspaces, changesets, prettier, eslint and lint-staged
+featured: true
+slug: "/writing/setup-lint-staged-on-a-monorepo"
+tags:
+  - english
+  - tutorial
+---
+
+> **TLDR:** Here's the [repo](https://github.com/horacioh/monorepo-changesets-lint-staged) I setup where is everything for you to check out.
+
+For my new project (more news soon) I need it to setup a monorepo (M O N O R E P O) and I wanted to check some tooling in order to validate and check multiple things before pushing to Github.
+
+What I found out was that in order to setup [`lint-staged`](https://github.com/okonet/lint-staged) and [`husky`](https://github.com/typicode/husky) correctly, **it needs to be installed only in teh root of the project**. If you have both tools installed on each package, it will not run when you commit. Thanks to yarn workspaces, I can still run my pre commit scripts on each package from the root, al automated using husky and lint-stages. Here's how:
+
+- go to your monorepo root
+- `yarn add lint-staged husky --ignore-workspace-root-check` (you need the `--ignore-workspace-root-check` flag so the packages will be installed in the root of the project)
+- Setup lint-staged and husky the way you prefer (either in the `package.json` file or with separate rc files: `.huskyrc` and `.lintstagedrc`). You can see more about these tools on their own repos
+- setup your pre-commit script on every package. the script name needs to be the same. In this example I'm using `lint` as my pre commit script.
+- setup a `lint` script in the root's `package.json` with `yarn workspaces run lint`.
+
+### and that's it!.
+
+lint-staged will run the root's `lint` script, and Yarn workspaces will run each package `lint` script using the `yarn workspaces run lint` command.
+
+In the [repo](https://github.com/horacioh/monorepo-changesets-lint-staged) you'll find also other tools setup (like prettier, npm-run-all, eslint, tsdx and more). Please feel free to ask me any questions about it on [Twitter](https://twitter.com/hhg2288) and hope this will help you!
+
+Big kudos to [@kentcdodds](https://twitter.com/kentcdodds) because most of the pre commit scripts you'll see in the repo comes from his [testing javascript](https://testingjavascript.com/) course!. Also the party corgi crew ([Join us!](https://discord.gg/BJW6ksT)) which are always big supporters of my work :love:
