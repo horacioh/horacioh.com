@@ -32,17 +32,46 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        extensions: [`.md`, `.mdx`],
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 960,
+              quality: 90,
+              linkImagesToOriginal: false
+            }
+          }
+        ],
+        plugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 960,
+              quality: 90,
+              linkImagesToOriginal: false
+            }
+          }
+        ]
+      }
+    },
+    {
       resolve: `gatsby-theme-notes`,
       options: {
         // basePath defaults to `/`
         basePath: `/notes`,
-        // mdx: false
-        mdxOtherwiseConfigured: true
+        mdx: false,
+        mdxOtherwiseConfigured: false
       }
     },
     {
       resolve: "@lekoarts/gatsby-theme-minimal-blog",
       options: {
+        feed: true,
+        feedTitle: "Horacio Herrera - Horacio's Digital Garden",
+        mdx: false,
         blogPath: "/writing",
         navigation: [
           {
