@@ -36,8 +36,8 @@ module.exports = {
       options: {
         // basePath defaults to `/`
         basePath: `/notes`,
-        mdx: false
-        // mdxOtherwiseConfigured: true
+        // mdx: false
+        mdxOtherwiseConfigured: true
       }
     },
     {
