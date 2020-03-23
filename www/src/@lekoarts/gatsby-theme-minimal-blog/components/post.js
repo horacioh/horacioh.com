@@ -16,7 +16,6 @@ function tags2String(tags) {
 }
 
 const Post = ({ data: { post } }) => {
-  console.log("Post -> post", post);
   const socialImage = getShareImage({
     title: post.title,
     tagline: tags2String(post.tags),
