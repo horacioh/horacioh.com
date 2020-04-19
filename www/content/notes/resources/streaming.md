@@ -17,6 +17,7 @@
 - use Streamlabs OBS to stream
 - you can use either Streamlabs or StreamElements as your chatbot/overlays software
 - tweetAlerts.tv if you want to show a tweet source on stream
+- setup your Desktop audio + mic as a source on Streamlabs OBS: https://www.youtube.com/watch?v=-gzFKtJf3po
 
 ## Gear
 
