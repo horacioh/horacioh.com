@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "dev": "yarn workspace @horacioh/site dev",
+    "clean": "yarn workspace @horacioh/site clean",
     "build": "yarn workspace @horacioh/site build"
   },
   "workspaces": [
