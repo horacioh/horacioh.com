@@ -10,3 +10,8 @@
 * `p`: go to the previous chapter
 * `C-l`: Display a "garbaged" page (maybe ctrl-z ?)
 * `?` or `H`: view the list of commands
+* `]` and `[`:
+
+## Menus
+
+-

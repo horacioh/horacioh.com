@@ -1,5 +1,9 @@
 # org-mode
 
+## Other topics
+
+- [org-capture](./org-capture)
+
 ## Install from source
 
 - is an Outliner
