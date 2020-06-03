@@ -159,6 +159,11 @@ try {
 - [Examples of various Lambda function integrations with API Gateway and CORS enabled](https://github.com/dabit3/api-gateway-lambda-in-various-runtimes)
 - [Live Streaming with React & AWS](https://github.com/dabit3/react-aws-live-streaming)
 - [Lambda GraphQL Resolver Examples](https://github.com/dabit3/lambda-graphql-resolver-examples)
+- [Code examples for my book Full Stack Serverless with O'Reilly Publications](https://github.com/dabit3/full-stack-serverless-code)
+- [Basic serverless API](https://github.com/dabit3/basic-serverless-api)
+- [Building Web Applications with AWS Amplify](https://github.com/dabit3/aws-amplify-workshop-web)
+- [DynamoDB Lambda Trigger examples](https://github.com/dabit3/dynamodb-triggers)
+- [Code and examples from my talk - Curious Cases of GraphQL](https://github.com/dabit3/curious-cases-of-graphql)
 
 ### Other
 
