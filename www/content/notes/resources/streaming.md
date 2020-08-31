@@ -14,7 +14,7 @@
 ## Software
 
 - add transitions when you change your scenes
-- use Streamlabs OBS to stream
+- use Streamlabs OBS or OBS to stream
 - you can use either Streamlabs or StreamElements as your chatbot/overlays software
 - tweetAlerts.tv if you want to show a tweet source on stream
 - setup your Desktop audio + mic as a source on Streamlabs OBS: https://www.youtube.com/watch?v=-gzFKtJf3po
@@ -30,3 +30,4 @@
 - https://www.youtube.com/watch?v=1Dq5RAjpr5k
 - https://www.youtube.com/watch?v=khcXMrBb1a0
 - https://www.youtube.com/watch?v=ciCgK67xulA
+- https://egghead.io/playlists/how-to-livestream-code-and-design-on-twitch-6646
