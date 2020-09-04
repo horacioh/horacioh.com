@@ -7,3 +7,4 @@
 - Up and running with react-beautiful-dnd
 - Create your first context + hook to access it (collection)
 - Como reutilizar una function para preservar multiples inputs al estado (`setState({[e.target.name]: e.target.value})`)
+- different ways to use pseudo selectors
