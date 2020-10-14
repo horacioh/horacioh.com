@@ -32,3 +32,4 @@
 - https://www.youtube.com/watch?v=ciCgK67xulA
 - https://www.youtube.com/watch?v=efO45WUtmOc
 - https://egghead.io/playlists/how-to-livestream-code-and-design-on-twitch-6646
+- [Kurt Kemple's gear recommendation](https://twitter.com/kurtkemple/status/1316407718832476163?s=21)
