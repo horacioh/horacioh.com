@@ -231,3 +231,15 @@ twoSeconds(() => {
 ## 22. Define a Function to Set Common Behaviors in Operators
 
 - again, the magic of functions wrapping other functions!
+
+## 28.
+
+- TODO: ASK QUESTION ABOUT APPLYOPERATOR!!!
+
+## 29. Create a Win Condition with a mapDone Operator
+
+- show how we can add additional logic yo our previous play functions, by wrapping it and capturing all the cancel values to cancel when a condition is met (by filtering the results)
+
+## 30. Repeat a Broadcaster that Is Done
+
+-
