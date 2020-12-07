@@ -22,13 +22,13 @@ module.exports = {
     social: [
       {
         name: `twitter`,
-        url: `https://hhg.link/twitter`
+        url: `https://hhg.link/twitter`,
       },
       {
         name: `github`,
-        url: `https://hhg.link/github`
-      }
-    ]
+        url: `https://hhg.link/github`,
+      },
+    ],
   },
   plugins: [
     {
@@ -41,9 +41,9 @@ module.exports = {
             options: {
               maxWidth: 960,
               quality: 90,
-              linkImagesToOriginal: false
-            }
-          }
+              linkImagesToOriginal: false,
+            },
+          },
         ],
         plugins: [
           {
@@ -51,11 +51,11 @@ module.exports = {
             options: {
               maxWidth: 960,
               quality: 90,
-              linkImagesToOriginal: false
-            }
-          }
-        ]
-      }
+              linkImagesToOriginal: false,
+            },
+          },
+        ],
+      },
     },
     {
       resolve: `gatsby-theme-notes`,
@@ -63,8 +63,8 @@ module.exports = {
         // basePath defaults to `/`
         basePath: `/notes`,
         mdx: false,
-        mdxOtherwiseConfigured: false
-      }
+        mdxOtherwiseConfigured: false,
+      },
     },
     {
       resolve: "@lekoarts/gatsby-theme-minimal-blog",
@@ -76,43 +76,47 @@ module.exports = {
         navigation: [
           {
             title: `Writing`,
-            slug: `/writing`
+            slug: `/writing`,
           },
           {
             title: `About`,
-            slug: `/about`
+            slug: `/about`,
           },
           {
             title: `Notes`,
-            slug: `/notes`
-          }
+            slug: `/notes`,
+          },
         ],
         externalLinks: [
           {
             name: `Twitter`,
-            url: `https://twitter.com/hhg2288`
+            url: `https://twitter.com/hhg2288`,
           },
           {
             name: `Twitch`,
-            url: `https://hhg.link/twitch`
+            url: `https://hhg.link/twitch`,
           },
           {
             name: `Github`,
-            url: `https://hhg.link/github`
+            url: `https://hhg.link/github`,
           },
           {
             name: `aprendegatsby`,
-            url: `https://aprendegatsby.com`
-          }
-        ]
-      }
+            url: `https://aprendegatsby.com`,
+          },
+          {
+            name: `Braindump`,
+            url: `https://horacioh.github.io/braindump/`,
+          },
+        ],
+      },
     },
     {
       resolve: "gatsby-plugin-fathom",
       options: {
-        siteId: "KBDHZHTK"
+        siteId: "KBDHZHTK",
         // whitelistHostnames: ["horacioh.com"]
-      }
+      },
     },
     `gatsby-plugin-sitemap`,
     {
@@ -129,16 +133,16 @@ module.exports = {
           {
             src: `/android-chrome-192x192.png`,
             sizes: `192x192`,
-            type: `image/png`
+            type: `image/png`,
           },
           {
             src: `/android-chrome-512x512.png`,
             sizes: `512x512`,
-            type: `image/png`
-          }
-        ]
-      }
+            type: `image/png`,
+          },
+        ],
+      },
     },
-    `gatsby-plugin-offline`
-  ]
-};
+    `gatsby-plugin-offline`,
+  ],
+}
