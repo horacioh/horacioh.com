@@ -16,9 +16,11 @@
     "gatsby": "^2.25.3",
     "gatsby-plugin-fathom": "^1.2.0",
     "gatsby-plugin-manifest": "^2.2.47",
+    "gatsby-plugin-mdx-embed": "^0.0.19",
     "gatsby-plugin-offline": "^3.3.3",
     "gatsby-plugin-sitemap": "^2.2.29",
     "gatsby-theme-notes": "^2.0.3",
+    "mdx-embed": "^0.0.19",
     "react": "^16.13.0",
     "react-dom": "^16.13.0"
   },

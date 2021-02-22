@@ -104,12 +104,12 @@ Another thing to point here is the `HistoryPayload` type. I use a simple type he
 First we need to create our [`CreatePost` component](https://github.com/horacioh/posts-activity-amplify-example/blob/master/src/components/CreatePost.js) with a simple form. Let's focus on the `handleSubmit` method:
 
 ```jsx
-const handleSubmit = async e => {
-  e.preventDefault();
-  const date = new Date();
-  const input = { title, content, slug };
+const handleSubmit = async (e) => {
+  e.preventDefault()
+  const date = new Date()
+  const input = { title, content, slug }
 
-  const { data } = await API.graphql(graphqlOperation(createPost, { input }));
+  const { data } = await API.graphql(graphqlOperation(createPost, { input }))
   if (data.createPost.id) {
     const postHistory = await API.graphql(
       graphqlOperation(createPostHistory, {
@@ -121,26 +121,19 @@ const handleSubmit = async e => {
           payload: {
             title: data.createPost.title,
             slug: data.createPost.slug,
-            content: data.createPost.content
-          }
-        }
+            content: data.createPost.content,
+          },
+        },
       })
-    );
-    history.push(`/post/${data.createPost.id}`);
+    )
+    history.push(`/post/${data.createPost.id}`)
   }
-};
+}
 ```
 
 As you can see, I'm creating a post as you normally will do with the Amplify's `API` module. After the creation, I take the result and create a new `PostHistory` using the generated `createPostHistory` mutation. You should see something like this:
 
-<iframe
-  width="100%"
-  height="500"
-  src="https://www.youtube.com/embed/HD-s0yQFU7I"
-  frameBorder={0}
-  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-></iframe>
+<YouTube youTubeId="HD-s0yQFU7I" />
 
 You can also checkout how the [UpdatePost component](https://github.com/horacioh/posts-activity-amplify-example/blob/master/src/components/UpdatePost.js) works, it's pretty similar to the creation.
 
