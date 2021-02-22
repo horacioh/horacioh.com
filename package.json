@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "yarn workspace @horacioh/site dev",
     "clean": "yarn workspace @horacioh/site clean",
-    "build": "yarn workspace @horacioh/site build"
+    "build": "yarn workspace @horacioh/site build",
+    "serve": "yarn workspace @horacioh/site serve"
   },
   "workspaces": [
     "www"
