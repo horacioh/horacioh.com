@@ -21,6 +21,10 @@ _Photo by <a href="https://unsplash.com/@foxxmd?utm_source=unsplash&utm_medium=r
 
 > TLDR: checkout the final machine [here](https://stately.ai/viz/a7bc3ca4-8db6-4585-840f-8707fcdfdafd)
 
+> UPDATE: I rename the `callback` to `send` as a suggestion from [Erik](https://twitter.com/erikras/status/1456498973909430275) and I mention some resources created by [Matt Pocock](https://twitter.com/mpocock1)
+
+---
+
 One of the key libraries we use to develop the [Mintter](https://mintter.com) app is [XState](https://xstate.js.org/). In this short post, I want to show you how are we using it to check if a user is logged in or logged out, and change the app behaviour depending on the result.
 
 ## What is XState?
@@ -162,13 +166,13 @@ const authMachine = authModel.createMachine(
   },
   {
     services: {
-      fetchAccount: () => (callback) => {
+      fetchAccount: () => (send) => {
         return getAccount()
           .then(function (info) {
-            callback({ type: "REPORT_ACCOUNT_PRESENT", account })
+            send({ type: "REPORT_ACCOUNT_PRESENT", account })
           })
           .catch(function (err) {
-            callback("REPORT_ACCOUNT_MISSING")
+            send("REPORT_ACCOUNT_MISSING")
           })
       },
     },
@@ -180,18 +184,20 @@ function getAccount() {
 }
 ```
 
-Let's talk about the actual implementation of `fetchAccount`. As you can see is a curried function, the first function gets as parameters the machine's context and the event, but for this actor we don't need those so we avoid them. the second function takes to arguments too, the first one is a `callback` and the second one is an event listener called `onReceive`
+Let's talk about the actual implementation of `fetchAccount`. As you can see is a curried function, the first function gets as parameters the machine's context and the event, but for this actor we don't need those so we avoid them. the second function takes to arguments too, the first one is a `send` and the second one is an event listener called `onReceive`
 
-- `callback` let you send events to the parent machine
+- `send` let you send events to the parent machine
 - `onReceive` let you listen to events sent to the parent
 
-In our machine, the _parent_ is the actual auth machine we are defining, since this is all defined from the actor perspective (the `fetchAccount` function). having access to this `callback` is what we need to transition to the appropiate states depending on the request result! As you can see in the implementation, we are calling the `callback` passing the appropiate event based on the `fetchAccount` result.
+In our machine, the _parent_ is the actual auth machine we are defining, since this is all defined from the actor perspective (the `fetchAccount` function). having access to this `send` is what we need to transition to the appropiate states depending on the request result! As you can see in the implementation, we are calling the `send` passing the appropiate event based on the `fetchAccount` result.
+
+> If you want to learn more about the Invoked Callback pattern, you can checkout [this post](https://dev.to/mpocock1/xstate-why-i-love-invoked-callbacks-2f6i) from [Matt Pocock](https://twitter.com/mpocock1)
 
 and that's it!, with this machine in place, we can then render the appropiate components based on the current state in which the machine is in, feeling very confident we are not going to get any weird errors or wrong renderings.
 
 Or course this is a very small subset of all the machines and events we implement in our app, I will continue sharing more and more about how XState is helping us building our app with confidence and ease.
 
-Here's the final Diagram and code. You can also play and fork this machine in the [Stately registry](https://stately.ai/viz/a7bc3ca4-8db6-4585-840f-8707fcdfdafd) (feel free to like it too!)
+Here's the final Diagram and code. You can also play and fork this machine in the [Stately registry](https://stately.ai/viz/a7bc3ca4-8db6-4585-840f-8707fcdfdafd) (feel free to like it too!). Here's also a [very simple implementation of the machine](https://codesandbox.io/s/auth-state-machine-with-xstate-and-react-dqjmo) in a React Application.
 
 ![Final Machine Diagram](./diagram-2.png)
 
@@ -248,13 +254,13 @@ export const authStateMachine = authModel.createMachine(
   },
   {
     services: {
-      fetchAccount: () => (callback) => {
+      fetchAccount: () => (send) => {
         return getAccount()
           .then(function (account) {
-            callback({ type: "REPORT_ACCOUNT_PRESENT", account })
+            send({ type: "REPORT_ACCOUNT_PRESENT", account })
           })
           .catch(function (err) {
-            callback("REPORT_ACCOUNT_MISSING")
+            send("REPORT_ACCOUNT_MISSING")
           })
       },
     },
