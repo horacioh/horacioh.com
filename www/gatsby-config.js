@@ -22,11 +22,11 @@ module.exports = {
     social: [
       {
         name: `twitter`,
-        url: `https://hhg.link/twitter`,
+        url: `https://twitter.com/hhg2288`,
       },
       {
         name: `github`,
-        url: `https://hhg.link/github`,
+        url: `https://github.com/horacioh`,
       },
     ],
   },
@@ -95,11 +95,11 @@ module.exports = {
           },
           {
             name: `Twitch`,
-            url: `https://hhg.link/twitch`,
+            url: `https://twitch.tv/horacioh`,
           },
           {
             name: `Github`,
-            url: `https://hhg.link/github`,
+            url: `https://github.com/horacioh`,
           },
           {
             name: `aprendegatsby`,
