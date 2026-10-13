@@ -3,21 +3,22 @@ import { entryId, findDuplicates, toEntryData, type CollectionSpec } from "./con
 import { documentAuthors } from "./seed";
 import { postSchema } from "./schema";
 
-const posts: CollectionSpec = { name: "posts", prefix: "posts", exclude: [], required: true };
-const rootPages: CollectionSpec = { name: "pages", prefix: "", exclude: ["posts"], required: false };
+const posts: CollectionSpec = { name: "posts", prefix: "writing", exclude: [], required: true };
+const rootPages: CollectionSpec = { name: "pages", prefix: "", exclude: ["writing"], required: false };
 
 describe("entryId", () => {
   test("maps Seed paths to routes and skips the collection index", () => {
-    expect(entryId("/posts/hello", posts)).toBe("posts/hello");
-    expect(entryId("/posts/2024/deep", posts)).toBe("posts/2024/deep");
-    expect(entryId("/posts", posts)).toBeNull();
-    expect(entryId("/postscript", posts)).toBeNull();
+    expect(entryId("/writing/foo", posts)).toBe("writing/foo");
+    expect(entryId("/writing/foo/bar", posts)).toBeNull();
+    expect(entryId("/writing", posts)).toBeNull();
+    expect(entryId("/writings/foo", posts)).toBeNull();
   });
 
   test("root pages exclude the home doc, posts and reserved routes", () => {
     expect(entryId("/about", rootPages)).toBe("about");
+    expect(entryId("/about/x", rootPages)).toBeNull();
     expect(entryId("/", rootPages)).toBeNull();
-    expect(entryId("/posts/hello", rootPages)).toBeNull();
+    expect(entryId("/writing/foo", rootPages)).toBeNull();
     expect(entryId("/rss.xml", rootPages)).toBeNull();
     expect(entryId("/favicon.svg", rootPages)).toBeNull();
     expect(entryId("/notes/logo.png", rootPages)).toBeNull();
@@ -54,7 +55,7 @@ describe("toEntryData + schema", () => {
     const raw = await toEntryData(
       {
         account: "z6MkOwner",
-        path: "/posts/a",
+        path: "/writing/a",
         version: "bafyv",
         createTime: "1970-01-01T00:00:00Z",
         updateTime: "2025-01-02T00:00:00Z",
@@ -65,12 +66,12 @@ describe("toEntryData + schema", () => {
     const data = postSchema.parse(raw);
     expect(data.title).toBe("A");
     expect(data.published.toISOString().slice(0, 10)).toBe("2024-05-06");
-    expect(data.path).toBe("/posts/a");
+    expect(data.path).toBe("/writing/a");
   });
 
   test("posts without any date fail the schema", async () => {
     const raw = await toEntryData(
-      { account: "a", path: "/posts/b", version: "v", createTime: "1970-01-01T00:00:00Z", metadata: { name: "B" } },
+      { account: "a", path: "/writing/b", version: "v", createTime: "1970-01-01T00:00:00Z", metadata: { name: "B" } },
       async () => [],
     );
     expect(postSchema.safeParse(raw).success).toBe(false);

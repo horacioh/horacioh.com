@@ -5,18 +5,18 @@ WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 COPY . .
-ARG PUBLIC_SEED_ORIGIN
-ARG PUBLIC_SEED_ACCOUNT
-ARG PUBLIC_SEED_POSTS_PATH=posts
-ARG PUBLIC_SEED_PAGES_PATH
+ARG PUBLIC_SEED_ORIGIN=https://seed.horacioh.com
+ARG PUBLIC_SEED_ACCOUNT=z6Mkvz9TgGtv9zsGsdrksfNk1ajbFancgHREJEz3Y2HsAVdk
+ARG PUBLIC_SEED_POSTS_PATH=writing
+ARG PUBLIC_SEED_PAGES_PATH=__PAGES_DISABLED__
 ARG SITE_URL=https://horacioh.com
 ENV PUBLIC_SEED_ORIGIN=$PUBLIC_SEED_ORIGIN \
     PUBLIC_SEED_ACCOUNT=$PUBLIC_SEED_ACCOUNT \
     PUBLIC_SEED_POSTS_PATH=$PUBLIC_SEED_POSTS_PATH \
-    PUBLIC_SEED_PAGES_PATH=$PUBLIC_SEED_PAGES_PATH \
     SITE_URL=$SITE_URL \
     ASTRO_TELEMETRY_DISABLED=1
-RUN bun run test && bun run build
+RUN if [ "$PUBLIC_SEED_PAGES_PATH" = "__PAGES_DISABLED__" ]; then unset PUBLIC_SEED_PAGES_PATH; fi && \
+    bun run test && bun run build
 
 FROM nginx:1.29-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf

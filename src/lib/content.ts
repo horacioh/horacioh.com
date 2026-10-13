@@ -42,6 +42,8 @@ export function entryId(path: string, spec: CollectionSpec): string | null {
   if (p === "/" || !under(p, spec.prefix) || p === `/${spec.prefix}`) return null;
   if (spec.exclude.some((x) => x && under(p, x))) return null;
   const id = p.slice(1).replace(/\/+$/, "");
+  const relative = spec.prefix ? id.slice(spec.prefix.length + 1) : id;
+  if (!relative || relative.includes("/")) return null;
   // Dotted segments would look like (and collide with) static files.
   return RESERVED.has(id.split("/")[0]) || id.split("/").some((s) => s.includes(".")) ? null : id;
 }

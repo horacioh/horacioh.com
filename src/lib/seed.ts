@@ -10,16 +10,16 @@ const readEnv = (k: string): string | undefined => {
   return v?.trim() || undefined;
 };
 
-/** Origin of the Seed site that hosts the documents (e.g. https://horacioh.hyper.media). */
-export const SEED_ORIGIN = (readEnv("PUBLIC_SEED_ORIGIN") ?? "").replace(/\/+$/, "");
-/** Account (space) id that owns the documents, e.g. `z6Mk…`. */
-export const SEED_ACCOUNT = readEnv("PUBLIC_SEED_ACCOUNT") ?? "";
+/** Origin of the Seed site that hosts the documents. */
+export const SEED_ORIGIN = (readEnv("PUBLIC_SEED_ORIGIN") ?? "https://seed.horacioh.com").replace(/\/+$/, "");
+/** Account (space) id that owns the documents. */
+export const SEED_ACCOUNT = readEnv("PUBLIC_SEED_ACCOUNT") ?? "z6Mkvz9TgGtv9zsGsdrksfNk1ajbFancgHREJEz3Y2HsAVdk";
 /** Public gateway used for documents of other accounts. */
 export const HM_GATEWAY = "https://hyper.media";
 
 const cleanPath = (p: string | undefined) => (p ?? "").replace(/^\/+|\/+$/g, "");
 /** Seed path prefix of the `posts` collection (no slashes). */
-export const POSTS_PATH = cleanPath(readEnv("PUBLIC_SEED_POSTS_PATH") ?? "posts");
+export const POSTS_PATH = cleanPath(readEnv("PUBLIC_SEED_POSTS_PATH") ?? "writing");
 /** Seed path prefix of the `pages` collection; unset disables it, `/` means top-level docs. */
 export const PAGES_PATH: string | null = (() => {
   // Read raw: an empty value is meaningful here (root-level pages).
@@ -28,13 +28,8 @@ export const PAGES_PATH: string | null = (() => {
   return raw === undefined ? null : cleanPath(raw.trim());
 })();
 
-/** Throws a readable error when the Seed site isn't configured. */
+/** Throws a readable error when the Seed origin is invalid. */
 export function assertSeedConfigured(): void {
-  const missing = [
-    !SEED_ORIGIN && "PUBLIC_SEED_ORIGIN",
-    !SEED_ACCOUNT && "PUBLIC_SEED_ACCOUNT",
-  ].filter(Boolean);
-  if (missing.length) throw new Error(`Seed site not configured: set ${missing.join(" and ")} (see .env.example)`);
   if (!/^https?:\/\//.test(SEED_ORIGIN)) throw new Error(`PUBLIC_SEED_ORIGIN must be an http(s) URL, got "${SEED_ORIGIN}"`);
 }
 

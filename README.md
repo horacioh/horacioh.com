@@ -11,7 +11,7 @@ Personal site of Horacio Herrera. A static [Astro](https://astro.build) site who
 
 ```sh
 bun install
-cp .env.example .env   # fill in the Seed site (see below)
+cp .env.example .env   # optional: defaults target the real Seed site
 bun run dev            # http://localhost:4321
 ```
 
@@ -26,23 +26,24 @@ bun run dev            # http://localhost:4321
 
 ## Environment
 
-All values are read at build time. **Placeholders until the Seed site is set up** — the build stops with a clear error
-if the required ones are missing.
+All values are read at build time. The Seed settings default to Horacio's public Seed site; set these only to override
+those defaults.
 
-| Variable                 | Required | Example                     | Notes                                                                    |
-| ------------------------ | -------- | --------------------------- | ------------------------------------------------------------------------ |
-| `PUBLIC_SEED_ORIGIN`     | yes      | `https://<your-seed-site>`  | Public origin of the Seed site (serves `/api/*` and `/ipfs/*`).          |
-| `PUBLIC_SEED_ACCOUNT`    | yes      | `z6Mk…`                     | Account ID (`hm://<account>`) that owns the site.                        |
-| `PUBLIC_SEED_POSTS_PATH` | no       | `posts`                     | Path prefix of the posts. The build fails if it has no documents.        |
-| `PUBLIC_SEED_PAGES_PATH` | no       | _(unset)_ or empty          | Standalone pages. Empty string = root-level docs (minus the posts path). |
-| `SITE_URL`               | no       | `https://horacioh.com`      | Canonical URL for links, RSS and OG tags.                                |
-| `WEB_PREVIEW_CACHE`      | no       | `off`                       | Path of the link-preview cache file, or `off`.                           |
+| Variable                 | Default                                            | Example                      | Notes                                                                    |
+| ------------------------ | -------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------ |
+| `PUBLIC_SEED_ORIGIN`     | `https://seed.horacioh.com`                        | `https://other-seed.example` | Public origin of the Seed site (serves `/api/*` and `/ipfs/*`).          |
+| `PUBLIC_SEED_ACCOUNT`    | `z6Mkvz9TgGtv9zsGsdrksfNk1ajbFancgHREJEz3Y2HsAVdk` | `z6Mk…`                      | Account ID (`hm://<account>`) that owns the site.                        |
+| `PUBLIC_SEED_POSTS_PATH` | `writing`                                          | `articles`                   | Path prefix of direct-child posts. The build fails if none exist.        |
+| `PUBLIC_SEED_PAGES_PATH` | _(unset; pages disabled)_                          | _(empty)_ or `pages`         | Standalone pages. Empty string = root-level docs (minus the posts path). |
+| `SITE_URL`               | `https://horacioh.com`                             | `https://other-site.example` | Canonical URL for links, RSS and OG tags.                                |
+| `WEB_PREVIEW_CACHE`      | _(unset)_                                          | `off`                        | Path of the link-preview cache file, or `off`.                           |
 
 ## How content maps
 
 - **Home**: the root document of the account (`hm://<account>`) gives the site name and intro (name + summary).
-- **Posts**: every document under `/<PUBLIC_SEED_POSTS_PATH>/…` becomes `/<path>` on the site, listed newest first on
-  the home page and in `/rss.xml`. Date = `displayPublishTime`, else the document's create time.
+- **Posts**: direct-child documents under `/<PUBLIC_SEED_POSTS_PATH>/…` become `/<path>` on the site; deeper nested
+  documents are ignored. Posts are listed newest first on the home page and in `/rss.xml`. Date = `displayPublishTime`,
+  else the document's create time.
 - **Pages** (optional): documents under `PUBLIC_SEED_PAGES_PATH`; top-level ones show up in the header nav.
 - **Metadata box**: author(s) (`displayAuthor`, else the signers' profile names, else the account), published, updated,
   version (truncated CID) and a link to the live Seed document.
@@ -89,6 +90,5 @@ curl -fsS -X POST \
 
 ## CI
 
-`.github/workflows/ci.yml` runs `bun test`, `astro check` and the full build on pushes and PRs. The Seed-dependent
-steps (typecheck and build) need the `PUBLIC_SEED_ORIGIN` / `PUBLIC_SEED_ACCOUNT` repository variables (Settings →
-Secrets and variables → Actions → Variables) and are skipped until they are set.
+`.github/workflows/ci.yml` runs `bun test`, `astro check` and the full build on pushes and PRs using the default Seed
+site settings.
