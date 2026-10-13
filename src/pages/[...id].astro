@@ -1,0 +1,62 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import DocMeta from "../components/DocMeta.astro";
+import Base from "../layouts/Base.astro";
+import { vtName } from "../lib/format";
+
+export async function getStaticPaths() {
+  const docs = await getCollection("docs");
+  return docs.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<"docs">;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const docs = await getCollection("docs");
+const [home] = await getCollection("home");
+const parentId = entry.id.split("/").slice(0, -1).join("/");
+const parent = parentId ? docs.find((doc) => doc.id === parentId) : undefined;
+const breadcrumb = parent?.data.title ?? (parentId ? "Home" : home?.data.name ?? "Home");
+const breadcrumbHref = parent ? `/${parent.id}` : "/";
+---
+<Base
+  title={d.title}
+  description={d.summary}
+  type="article"
+  image={d.cover}
+  published={d.published}
+  updated={d.updated}
+  authors={d.authors.map((a) => a.name)}
+>
+  <article>
+    <nav
+      aria-label="Breadcrumb"
+      class="rise -mt-8 mb-8 sm:-mt-12"
+      style="--i: 0"
+    >
+      <a
+        href={breadcrumbHref}
+        class="-ml-2 inline-flex min-h-11 items-center px-2 text-[0.9375rem] text-muted transition-colors hover:text-fg"
+      >
+        {breadcrumb}
+      </a>
+    </nav>
+    <header>
+      <h1 class="rise font-display text-[2rem] font-semibold leading-[1.12] tracking-[-0.022em] text-balance sm:text-[2.625rem] sm:leading-[1.08] sm:tracking-[-0.028em]" style="--i: 1">
+        <span transition:name={vtName("title", entry.id)}>{d.title}</span>
+      </h1>
+      {d.summary && <p class="rise mt-5 text-[1.1875rem] leading-normal text-muted text-pretty" style="--i: 2">{d.summary}</p>}
+      <div class="rise mt-10" style="--i: 3">
+        <DocMeta id={entry.id} authors={d.authors} published={d.published} updated={d.updated} version={d.version} source={d.source} />
+      </div>
+    </header>
+    {d.cover && <img src={d.cover} alt="" class="rise mt-10 w-full rounded" style="--i: 4" loading="eager" decoding="async" />}
+    <div class="prose rise mt-11" style="--i: 4">
+      <Content />
+    </div>
+  </article>
+</Base>

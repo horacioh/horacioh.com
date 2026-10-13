@@ -1,0 +1,342 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter/wght.css";
+@import "@fontsource-variable/inter-tight/wght.css";
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  --font-display: "Inter Tight Variable", "Inter Variable", ui-sans-serif, system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+}
+
+/* Warm monochrome base + one rust accent. Plain :root so values always exist,
+   even when no utility references them. */
+:root {
+  color-scheme: light dark;
+  --bg: #fbfaf8;
+  --fg: #161514;
+  --muted: #6b6761;
+  --faint: #8f8a83;
+  --line: #e7e3dd;
+  --line-strong: #cfc9c1;
+  --surface: #ffffff;
+  --accent: #b4441b;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141312;
+    --fg: #ece9e4;
+    --muted: #a39e97;
+    --faint: #7d7871;
+    --line: #2a2826;
+    --line-strong: #3d3a37;
+    --surface: #1b1a18;
+    --accent: #e8825a;
+  }
+}
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 106.25%;
+  line-height: 1.6;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Text links: hairline underline tinted with the accent. */
+.text-link {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 160ms ease, text-decoration-color 160ms ease;
+}
+.text-link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+/* Staggered fade/rise on load; --i is the item index. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.rise {
+  animation: rise 520ms var(--ease-out) both;
+  animation-delay: calc(min(var(--i, 0), 14) * 35ms);
+}
+
+
+/* Article body rendered from Seed blocks. */
+.prose {
+  line-height: 1.7;
+  overflow-wrap: break-word;
+}
+.prose > * + * {
+  margin-top: 1.25em;
+}
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  margin-top: 2.2em;
+  scroll-margin-top: 1.5rem;
+  text-wrap: balance;
+}
+.prose h2 {
+  font-size: 1.375rem;
+}
+.prose h3 {
+  font-size: 1.15rem;
+}
+.prose h4 {
+  font-size: 1rem;
+}
+.prose h2 + *,
+.prose h3 + *,
+.prose h4 + * {
+  margin-top: 0.75em;
+}
+.prose p,
+.prose li {
+  text-wrap: pretty;
+}
+.prose strong {
+  font-weight: 600;
+}
+.prose a:not(.embed-card, .web-card, .button, .mention) {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 160ms ease, color 160ms ease;
+}
+.prose a:not(.embed-card, .web-card, .button, .mention):hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.25em;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li + li,
+.prose li > ul,
+.prose li > ol {
+  margin-top: 0.4em;
+}
+.prose li::marker {
+  color: var(--faint);
+}
+.prose blockquote {
+  border-left: 1px solid var(--fg);
+  padding-left: 1.1em;
+  font-family: var(--font-display);
+  font-size: 1.15em;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+.prose blockquote > * + * {
+  margin-top: 0.8em;
+}
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: color-mix(in srgb, var(--fg) 6%, transparent);
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+}
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  overflow-x: auto;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+.prose pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+.prose figure img,
+.prose figure video {
+  width: 100%;
+  border-radius: 4px;
+}
+.prose figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.prose hr {
+  border-color: var(--line);
+  margin-block: 2.5em;
+}
+.prose .seed-query__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.prose .seed-query__item + .seed-query__item {
+  margin-top: 0;
+}
+.prose .seed-query a {
+  text-decoration: none;
+}
+.prose .seed-query__summary {
+  display: block;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Inline mention of a Seed document or account: accent text, no chrome. */
+.mention {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+  transition: text-decoration-color 160ms ease;
+}
+a.mention:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+/* Embedded Seed document + web link preview cards. */
+.embed-card,
+.web-card {
+  display: flex;
+  gap: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 1rem 1.15rem;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 160ms ease;
+}
+.embed-card {
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.embed-card:hover,
+.web-card:hover {
+  border-color: var(--line-strong);
+}
+.embed-card__kicker,
+.web-card__site {
+  font-size: 0.8125rem;
+  color: var(--faint);
+}
+.embed-card__title,
+.web-card__title {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  transition: color 160ms ease;
+}
+.embed-card:hover .embed-card__title,
+.web-card:hover .web-card__title {
+  color: var(--accent);
+}
+.embed-card__summary,
+.web-card__summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.embed-card__meta {
+  margin-top: 0.15rem;
+  font-size: 0.8125rem;
+  color: var(--faint);
+}
+.web-card__body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.web-card__image {
+  flex: none;
+  order: 2;
+  width: 6.5rem;
+  height: 4.5rem;
+  margin-left: auto;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.prose .button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  border-radius: 6px;
+  padding: 0 1.15rem;
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 160ms ease;
+}
+.prose .button:hover {
+  background: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

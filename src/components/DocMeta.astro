@@ -1,0 +1,54 @@
+---
+import { isoDay, mediumDate, vtName } from "../lib/format";
+import { shortId, type SeedAuthor } from "../lib/seed";
+
+interface Props {
+  id: string;
+  authors?: SeedAuthor[];
+  published?: Date;
+  updated?: Date;
+  version?: string;
+  source?: string;
+}
+
+const { id, authors = [], published, updated, version, source } = Astro.props;
+// Only show "Updated" when it falls on a different day than the publish date.
+const showUpdated = updated && (!published || isoDay(updated) !== isoDay(published));
+const rows = [authors.length, published, showUpdated, version, source].filter(Boolean).length;
+---
+{rows > 0 && (
+  <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-line py-4 text-[0.8125rem] leading-snug sm:flex sm:flex-wrap sm:justify-between">
+    {authors.length > 0 && (
+      <div>
+        <dt class="text-faint">{authors.length > 1 ? "Authors" : "Author"}</dt>
+        <dd class="mt-0.5">{authors.map((a) => a.name).join(", ")}</dd>
+      </div>
+    )}
+    {published && (
+      <div>
+        <dt class="text-faint">Published</dt>
+        <dd class="mt-0.5 tabular-nums"><time datetime={isoDay(published)} transition:name={vtName("date", id)}>{mediumDate(published)}</time></dd>
+      </div>
+    )}
+    {showUpdated && (
+      <div>
+        <dt class="text-faint">Updated</dt>
+        <dd class="mt-0.5 tabular-nums"><time datetime={isoDay(updated!)}>{mediumDate(updated!)}</time></dd>
+      </div>
+    )}
+    {version && (
+      <div>
+        <dt class="text-faint">Version</dt>
+        <dd class="mt-0.5 font-mono text-[0.75rem] text-muted"><span title={version}>{shortId(version, 8, 6)}</span></dd>
+      </div>
+    )}
+    {source && (
+      <div>
+        <dt class="text-faint">Source</dt>
+        <dd class="mt-0.5">
+          <a href={source} target="_blank" rel="noopener" class="text-accent hover:underline hover:underline-offset-[0.2em]">View on Seed</a>
+        </dd>
+      </div>
+    )}
+  </dl>
+)}

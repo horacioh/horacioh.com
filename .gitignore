@@ -1,8 +1,7 @@
-public/
-site/.cache
-npm-packages-offline-cache/
-node_modules
-www/node_modules
-www/.cache
-demo
-toast
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.DS_Store
