@@ -1,0 +1,57 @@
+---
+import { isoDay, longDate, vtName } from "../lib/format";
+import { shortId, type SeedAuthor } from "../lib/seed";
+
+interface Props {
+  id: string;
+  authors?: SeedAuthor[];
+  published?: Date;
+  updated?: Date;
+  version?: string;
+  source?: string;
+}
+
+const { id, authors = [], published, updated, version, source } = Astro.props;
+// Only show "Updated" when it falls on a different day than the publish date.
+const showUpdated = updated && (!published || isoDay(updated) !== isoDay(published));
+const rows = [authors.length, published, showUpdated, version, source].filter(Boolean).length;
+---
+{rows > 0 && (
+  <dl class="grid grid-cols-[max-content_1fr] gap-x-6 gap-y-1.5 rounded-lg border border-line px-4 py-3.5 text-sm">
+    {authors.length > 0 && (
+      <>
+        <dt class="text-faint">{authors.length > 1 ? "Authors" : "Author"}</dt>
+        <dd class="text-muted">{authors.map((a) => a.name).join(", ")}</dd>
+      </>
+    )}
+    {published && (
+      <>
+        <dt class="text-faint">Published</dt>
+        <dd class="text-muted"><time datetime={isoDay(published)} transition:name={vtName("date", id)}>{longDate(published)}</time></dd>
+      </>
+    )}
+    {showUpdated && (
+      <>
+        <dt class="text-faint">Updated</dt>
+        <dd class="text-muted"><time datetime={isoDay(updated!)}>{longDate(updated!)}</time></dd>
+      </>
+    )}
+    {version && (
+      <>
+        <dt class="text-faint">Version</dt>
+        <dd class="font-mono text-[0.8rem] text-muted"><span title={version}>{shortId(version, 8, 6)}</span></dd>
+      </>
+    )}
+    {source && (
+      <>
+        <dt class="text-faint">Source</dt>
+        <dd>
+          <a href={source} target="_blank" rel="noopener" class="group inline-flex items-center gap-1 text-accent">
+            <span class="link-draw">View on Seed</span>
+            <span aria-hidden="true" class="transition-transform duration-200 group-hover:-translate-y-px group-hover:translate-x-px">↗</span>
+          </a>
+        </dd>
+      </>
+    )}
+  </dl>
+)}

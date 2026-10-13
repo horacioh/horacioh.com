@@ -1,0 +1,57 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import DocMeta from "../components/DocMeta.astro";
+import Base from "../layouts/Base.astro";
+import { vtName } from "../lib/format";
+import { PAGES_PATH } from "../lib/seed";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+  const pages = PAGES_PATH === null ? [] : await getCollection("pages");
+  return [...posts, ...pages].map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<"posts"> | CollectionEntry<"pages">;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const isPost = entry.collection === "posts";
+const { Content } = await render(entry);
+---
+<Base
+  title={d.title}
+  description={d.summary}
+  type={isPost ? "article" : "website"}
+  image={d.cover}
+  published={d.published}
+  updated={d.updated}
+  authors={d.authors.map((a) => a.name)}
+>
+  <article>
+    {isPost && (
+      <nav aria-label="Breadcrumb" class="rise -mt-6 mb-6 sm:-mt-10" style="--i: 0">
+        <a href="/" class="group -ml-2 inline-flex min-h-11 items-center gap-1.5 rounded-md px-2 text-sm text-muted transition-colors hover:text-fg">
+          <span aria-hidden="true" class="transition-transform duration-200 group-hover:-translate-x-0.5">←</span>
+          <span class="link-draw">All writing</span>
+        </a>
+      </nav>
+    )}
+    <header class="space-y-6">
+      <h1 class="rise text-[1.85rem] font-semibold leading-[1.15] tracking-[-0.022em] text-balance sm:text-[2.35rem]" style="--i: 1">
+        <span transition:name={vtName("title", entry.id)}>{d.title}</span>
+      </h1>
+      {d.summary && <p class="rise text-[1.08rem] leading-relaxed text-muted text-pretty" style="--i: 2">{d.summary}</p>}
+      <div class="rise" style="--i: 3">
+        <DocMeta id={entry.id} authors={d.authors} published={d.published} updated={d.updated} version={d.version} source={d.source} />
+      </div>
+    </header>
+    {d.cover && (
+      <img src={d.cover} alt="" class="rise mt-10 w-full rounded-lg border border-line" style="--i: 4" loading="eager" decoding="async" />
+    )}
+    <div class="prose rise mt-10" style="--i: 4">
+      <Content />
+    </div>
+  </article>
+</Base>

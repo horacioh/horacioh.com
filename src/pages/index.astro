@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { isoDay, shortDate, vtName } from "../lib/format";
+import { getSiteInfo } from "../lib/seed";
+
+const site = await getSiteInfo();
+const posts = (await getCollection("posts")).sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+const years = [...new Set(posts.map((p) => p.data.published.getUTCFullYear()))];
+let i = 0;
+---
+<Base>
+  <section class="rise max-w-[36rem]" style="--i: 0">
+    <h1 class="text-[1.75rem] font-semibold leading-tight tracking-[-0.02em] sm:text-[2rem]">{site.name ?? "Horacio Herrera"}</h1>
+    {site.summary && <p class="mt-4 text-[1.08rem] leading-relaxed text-muted text-pretty">{site.summary}</p>}
+  </section>
+
+  <section class="mt-16 sm:mt-20" aria-labelledby="writing">
+    <h2 id="writing" class="rise font-mono text-xs uppercase tracking-[0.14em] text-faint" style="--i: 1">Writing</h2>
+    {years.map((year) => (
+      <div class="mt-8 grid gap-x-8 sm:grid-cols-[4rem_1fr]">
+        <h3 class="rise pb-2 font-mono text-sm text-faint sm:pb-0 sm:pt-3" style={`--i: ${++i}`}>{year}</h3>
+        <ol class="divide-y divide-line border-t border-line sm:border-t-0">
+          {posts
+            .filter((p) => p.data.published.getUTCFullYear() === year)
+            .map((post) => (
+              <li class="rise" style={`--i: ${++i}`}>
+                <a href={`/${post.id}`} class="post-row group flex min-h-12 items-baseline gap-4 py-3">
+                  <span class="min-w-0 flex-1 leading-snug">
+                    <span class="link-draw transition-colors group-hover:text-accent" transition:name={vtName("title", post.id)}>{post.data.title}</span>
+                    <span class="arrow ml-1 inline-block w-0 whitespace-nowrap text-accent" aria-hidden="true">→</span>
+                  </span>
+                  <time
+                    datetime={isoDay(post.data.published)}
+                    class="shrink-0 font-mono text-[0.8rem] tabular-nums text-faint"
+                    transition:name={vtName("date", post.id)}
+                  >{shortDate(post.data.published)}</time>
+                </a>
+              </li>
+            ))}
+        </ol>
+      </div>
+    ))}
+  </section>
+</Base>

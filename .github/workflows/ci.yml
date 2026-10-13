@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    # Build against the configured Seed site. Set these as repository
+    # variables (Settings → Secrets and variables → Actions → Variables).
+    env:
+      PUBLIC_SEED_ORIGIN: ${{ vars.PUBLIC_SEED_ORIGIN }}
+      PUBLIC_SEED_ACCOUNT: ${{ vars.PUBLIC_SEED_ACCOUNT }}
+      PUBLIC_SEED_POSTS_PATH: ${{ vars.PUBLIC_SEED_POSTS_PATH || 'posts' }}
+      PUBLIC_SEED_PAGES_PATH: ${{ vars.PUBLIC_SEED_PAGES_PATH }}
+      ASTRO_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.3
+      - run: bun install --frozen-lockfile
+      - run: bun test
+      # astro check syncs the content collections, so it needs the Seed site too.
+      - name: Typecheck
+        if: env.PUBLIC_SEED_ORIGIN != '' && env.PUBLIC_SEED_ACCOUNT != ''
+        run: bun run typecheck
+      - name: Build
+        if: env.PUBLIC_SEED_ORIGIN != '' && env.PUBLIC_SEED_ACCOUNT != ''
+        run: bun run build
+      - name: Build skipped
+        if: env.PUBLIC_SEED_ORIGIN == '' || env.PUBLIC_SEED_ACCOUNT == ''
+        run: echo "::notice::PUBLIC_SEED_ORIGIN / PUBLIC_SEED_ACCOUNT repository variables not set; skipping typecheck and build."

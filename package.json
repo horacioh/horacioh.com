@@ -1,19 +1,26 @@
 {
   "name": "horacioh.com",
-  "version": "0.3.0",
-  "description": "Horacio's Digital Garden",
-  "main": "index.js",
-  "repository": "https://github.com/horacioh/horacioh.com",
-  "author": "Horacio Herrera",
-  "license": "MIT",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "yarn workspace @horacioh/site dev",
-    "clean": "yarn workspace @horacioh/site clean",
-    "build": "yarn workspace @horacioh/site build",
-    "serve": "yarn workspace @horacioh/site serve"
+    "dev": "astro dev",
+    "build": "bun run validate && astro check && astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "validate": "bun run scripts/validate-content.ts",
+    "test": "bun test"
   },
-  "workspaces": [
-    "www"
-  ]
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@ipld/dag-cbor": "^10.0.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.8",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/bun": "^1.4.3",
+    "typescript": "^5.9"
+  },
+  "packageManager": "bun@1.4.3"
 }
