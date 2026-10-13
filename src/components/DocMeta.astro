@@ -1,9 +1,8 @@
 ---
-import { isoDay, mediumDate, vtName } from "../lib/format";
+import { isoDay, mediumDate } from "../lib/format";
 import { shortId, type SeedAuthor } from "../lib/seed";
 
 interface Props {
-  id: string;
   authors?: SeedAuthor[];
   published?: Date;
   updated?: Date;
@@ -11,13 +10,13 @@ interface Props {
   source?: string;
 }
 
-const { id, authors = [], published, updated, version, source } = Astro.props;
+const { authors = [], published, updated, version, source } = Astro.props;
 // Only show "Updated" when it falls on a different day than the publish date.
 const showUpdated = updated && (!published || isoDay(updated) !== isoDay(published));
 const rows = [authors.length, published, showUpdated, version, source].filter(Boolean).length;
 ---
 {rows > 0 && (
-  <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-line py-4 text-[0.8125rem] leading-snug sm:flex sm:flex-wrap sm:justify-between">
+  <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-line py-4 text-[0.8125rem] leading-snug sm:flex sm:flex-wrap sm:justify-between xl:flex-col xl:flex-nowrap xl:justify-start xl:gap-4 xl:border-b-0 xl:pb-0">
     {authors.length > 0 && (
       <div>
         <dt class="text-faint">{authors.length > 1 ? "Authors" : "Author"}</dt>
@@ -27,7 +26,7 @@ const rows = [authors.length, published, showUpdated, version, source].filter(Bo
     {published && (
       <div>
         <dt class="text-faint">Published</dt>
-        <dd class="mt-0.5 tabular-nums"><time datetime={isoDay(published)} transition:name={vtName("date", id)}>{mediumDate(published)}</time></dd>
+        <dd class="mt-0.5 tabular-nums"><time datetime={isoDay(published)}>{mediumDate(published)}</time></dd>
       </div>
     )}
     {showUpdated && (
