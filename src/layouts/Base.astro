@@ -57,24 +57,30 @@ const navItems = navigation.map(({ label, href }) => {
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-surface focus:px-3 focus:py-2 focus:ring-1 focus:ring-line"
     >Skip to content</a>
     <div class="mx-auto flex min-h-dvh max-w-[38rem] flex-col px-6">
-      <header class="flex flex-wrap items-center justify-between gap-4 pt-6 sm:flex-nowrap sm:pt-10" transition:name="site-header">
+      <header class="flex flex-wrap items-center pt-6 sm:flex-nowrap sm:pt-10" transition:name="site-header">
         <a
           href="/"
           class="-ml-2 inline-flex min-h-11 items-center px-2 font-display text-[1.0625rem] font-semibold tracking-[-0.01em]"
           aria-current={current === "/" ? "page" : undefined}
         >{siteName}</a>
-        <nav aria-label="Main" class="-ml-2 flex w-full items-center justify-start text-[0.9375rem] text-muted sm:-mr-2 sm:ml-0 sm:w-auto sm:justify-end">
+        <nav aria-label="Main" class="order-3 -ml-2 mt-2 flex w-full min-w-0 flex-wrap items-center text-[0.9375rem] text-muted sm:order-2 sm:ml-auto sm:mt-0 sm:w-auto sm:flex-nowrap">
           {navItems.map(({ label, href, local, active }) => (
             <a
               href={href}
               target={local ? undefined : "_blank"}
               rel={local ? undefined : "noopener noreferrer"}
-              class:list={["inline-flex min-h-11 items-center whitespace-nowrap px-2.5 transition-colors hover:text-fg", active && "text-fg"]}
+              class:list={["inline-flex min-h-11 items-center whitespace-nowrap px-2 transition-colors hover:text-fg sm:px-2.5", active && "text-fg"]}
               aria-current={active ? "page" : undefined}
             >{label}</a>
           ))}
-          <a href="/rss.xml" class="inline-flex min-h-11 items-center whitespace-nowrap px-2.5 transition-colors hover:text-fg">RSS</a>
         </nav>
+        <a href="/rss.xml" aria-label="RSS feed" title="RSS feed" class="order-2 -mr-3.5 ml-auto inline-flex min-h-11 min-w-11 items-center justify-center text-muted transition-colors hover:text-fg sm:order-3 sm:ml-0">
+          <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true">
+            <circle cx="3" cy="13" r="2" />
+            <path d="M1 6.5a8.5 8.5 0 0 1 8.5 8.5h-2A6.5 6.5 0 0 0 1 8.5v-2Z" />
+            <path d="M1 1.5A13.5 13.5 0 0 1 14.5 15h-2A11.5 11.5 0 0 0 1 3.5v-2Z" />
+          </svg>
+        </a>
       </header>
       <main id="content" class="flex-1 pb-28 pt-16 sm:pt-24" transition:animate="fade">
         <slot />
