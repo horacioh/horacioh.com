@@ -10,3 +10,7 @@ export const shortDate = (d: Date) => d.toLocaleDateString("en", { month: "short
 
 /** View-transition name shared by an index row and its detail page. */
 export const vtName = (kind: "title" | "date", id: string) => `${kind}-${id.replace(/[^A-Za-z0-9_-]/g, "-")}`;
+
+/** `Nov 5, 2021` for the metadata row. */
+export const mediumDate = (d: Date) =>
+  d.toLocaleDateString("en", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });

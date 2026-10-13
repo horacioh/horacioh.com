@@ -1,7 +1,10 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter/wght.css";
+@import "@fontsource-variable/inter-tight/wght.css";
 
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Inter Tight Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --color-bg: var(--bg);
   --color-fg: var(--fg);
@@ -9,32 +12,34 @@
   --color-faint: var(--faint);
   --color-line: var(--line);
   --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
+  --color-surface: var(--surface);
 }
 
-/* Monochrome base + one deep-indigo accent. Plain :root so values always exist,
+/* Warm monochrome base + one rust accent. Plain :root so values always exist,
    even when no utility references them. */
 :root {
   color-scheme: light dark;
-  --bg: #fbfbf9;
-  --fg: #19191c;
-  --muted: #64646b;
-  --faint: #9b9ba2;
-  --line: #e4e4e0;
-  --accent: #3b34c4;
-  --accent-soft: rgb(59 52 196 / 0.08);
+  --bg: #fbfaf8;
+  --fg: #161514;
+  --muted: #6b6761;
+  --faint: #8f8a83;
+  --line: #e7e3dd;
+  --line-strong: #cfc9c1;
+  --surface: #ffffff;
+  --accent: #b4441b;
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #111113;
-    --fg: #e9e9ec;
-    --muted: #9d9da6;
-    --faint: #6c6c75;
-    --line: #29292e;
-    --accent: #a3a0ff;
-    --accent-soft: rgb(163 160 255 / 0.1);
+    --bg: #141312;
+    --fg: #ece9e4;
+    --muted: #a39e97;
+    --faint: #7d7871;
+    --line: #2a2826;
+    --line-strong: #3d3a37;
+    --surface: #1b1a18;
+    --accent: #e8825a;
   }
 }
 
@@ -42,43 +47,42 @@ html {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
+  font-size: 106.25%;
+  line-height: 1.6;
+  font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   -webkit-text-size-adjust: 100%;
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--bg);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
-/* Underline that draws in from the left on hover. */
-.link-draw {
-  background-image: linear-gradient(currentColor, currentColor);
-  background-size: 0% 1px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition:
-    background-size 260ms var(--ease-out),
-    color 160ms ease;
+/* Text links: hairline underline tinted with the accent. */
+.text-link {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 160ms ease, text-decoration-color 160ms ease;
 }
-.link-draw:hover,
-a:focus-visible .link-draw,
-a:hover .link-draw {
-  background-size: 100% 1px;
+.text-link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 /* Staggered fade/rise on load; --i is the item index. */
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
 }
 .rise {
@@ -86,72 +90,61 @@ a:hover .link-draw {
   animation-delay: calc(min(var(--i, 0), 14) * 35ms);
 }
 
-/* Index rows: date + title, no cards. */
-.post-row .arrow {
-  opacity: 0;
-  transform: translateX(-4px);
-  transition:
-    opacity 180ms ease,
-    transform 220ms var(--ease-out);
-}
-.post-row:hover .arrow,
-.post-row:focus-visible .arrow {
-  opacity: 1;
-  transform: none;
-}
 
 /* Article body rendered from Seed blocks. */
 .prose {
-  font-size: 1.0625rem;
   line-height: 1.7;
   overflow-wrap: break-word;
 }
 .prose > * + * {
-  margin-top: 1.15em;
+  margin-top: 1.25em;
 }
 .prose h2,
 .prose h3,
 .prose h4 {
+  font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -0.012em;
-  line-height: 1.3;
-  margin-top: 2.1em;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  margin-top: 2.2em;
   scroll-margin-top: 1.5rem;
+  text-wrap: balance;
 }
 .prose h2 {
-  font-size: 1.3rem;
+  font-size: 1.375rem;
 }
 .prose h3 {
-  font-size: 1.12rem;
+  font-size: 1.15rem;
 }
 .prose h4 {
   font-size: 1rem;
+}
+.prose h2 + *,
+.prose h3 + *,
+.prose h4 + * {
+  margin-top: 0.75em;
 }
 .prose p,
 .prose li {
   text-wrap: pretty;
 }
+.prose strong {
+  font-weight: 600;
+}
 .prose a:not(.embed-card, .web-card, .button, .mention) {
-  color: var(--fg);
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--fg) 30%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-underline-offset: 0.2em;
   transition: text-decoration-color 160ms ease, color 160ms ease;
 }
 .prose a:not(.embed-card, .web-card, .button, .mention):hover {
   color: var(--accent);
   text-decoration-color: var(--accent);
 }
-/* hm:// links: dotted accent underline marks "another Seed document". */
-.prose a.hm-link {
-  text-decoration-style: dotted;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 1.5px;
-}
 .prose ul,
 .prose ol {
-  padding-left: 1.3em;
+  padding-left: 1.25em;
 }
 .prose ul {
   list-style: disc;
@@ -162,15 +155,18 @@ a:hover .link-draw {
 .prose li + li,
 .prose li > ul,
 .prose li > ol {
-  margin-top: 0.35em;
+  margin-top: 0.4em;
 }
 .prose li::marker {
   color: var(--faint);
 }
 .prose blockquote {
-  border-left: 2px solid var(--accent);
-  padding-left: 1em;
-  color: var(--muted);
+  border-left: 1px solid var(--fg);
+  padding-left: 1.1em;
+  font-family: var(--font-display);
+  font-size: 1.15em;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
 }
 .prose blockquote > * + * {
   margin-top: 0.8em;
@@ -179,18 +175,18 @@ a:hover .link-draw {
   font-family: var(--font-mono);
   font-size: 0.86em;
   background: color-mix(in srgb, var(--fg) 6%, transparent);
-  border-radius: 4px;
+  border-radius: 3px;
   padding: 0.1em 0.3em;
 }
 .prose pre {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
-  line-height: 1.6;
+  font-size: 0.82rem;
+  line-height: 1.65;
   overflow-x: auto;
-  padding: 1rem 1.1rem;
+  padding: 1rem 1.15rem;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--fg) 3%, transparent);
+  border-radius: 6px;
+  background: var(--surface);
 }
 .prose pre code {
   background: none;
@@ -200,40 +196,29 @@ a:hover .link-draw {
 .prose figure img,
 .prose figure video {
   width: 100%;
-  border-radius: 6px;
-  border: 1px solid var(--line);
+  border-radius: 4px;
 }
 .prose figcaption {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
+  margin-top: 0.6rem;
+  font-size: 0.875rem;
   color: var(--muted);
 }
 .prose hr {
   border-color: var(--line);
+  margin-block: 2.5em;
 }
 
-/* Inline mention of a Seed document or account. */
+/* Inline mention of a Seed document or account: accent text, no chrome. */
 .mention {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.15em;
-  padding: 0 0.35em;
-  border-radius: 5px;
-  background: var(--accent-soft);
   color: var(--accent);
   font-weight: 500;
   text-decoration: none;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent);
-  transition: background-color 160ms ease, box-shadow 160ms ease;
-}
-.mention[data-kind="document"]::before {
-  content: "↗";
-  font-size: 0.75em;
-  opacity: 0.7;
+  transition: text-decoration-color 160ms ease;
 }
 a.mention:hover {
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
 }
 
 /* Embedded Seed document + web link preview cards. */
@@ -242,40 +227,39 @@ a.mention:hover {
   display: flex;
   gap: 1rem;
   border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 0.95rem 1.1rem;
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 1rem 1.15rem;
   color: inherit;
   text-decoration: none;
-  transition:
-    border-color 180ms ease,
-    background-color 180ms ease,
-    transform 220ms var(--ease-out);
+  transition: border-color 160ms ease;
 }
 .embed-card {
   flex-direction: column;
   gap: 0.2rem;
-  border-left: 2px solid var(--accent);
 }
 .embed-card:hover,
 .web-card:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-  background: var(--accent-soft);
-  transform: translateY(-1px);
+  border-color: var(--line-strong);
 }
 .embed-card__kicker,
 .web-card__site {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
+  font-size: 0.8125rem;
+  color: var(--faint);
 }
 .embed-card__title,
 .web-card__title {
   display: block;
+  font-family: var(--font-display);
   font-weight: 600;
+  font-size: 1.0625rem;
   line-height: 1.35;
-  letter-spacing: -0.008em;
+  letter-spacing: -0.01em;
+  transition: color 160ms ease;
+}
+.embed-card:hover .embed-card__title,
+.web-card:hover .web-card__title {
+  color: var(--accent);
 }
 .embed-card__summary,
 .web-card__summary {
@@ -283,12 +267,13 @@ a.mention:hover {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: 0.92rem;
+  font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--muted);
 }
 .embed-card__meta {
-  font-size: 0.8rem;
+  margin-top: 0.15rem;
+  font-size: 0.8125rem;
   color: var(--faint);
 }
 .web-card__body {
@@ -304,19 +289,22 @@ a.mention:hover {
   height: 4.5rem;
   margin-left: auto;
   object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid var(--line);
+  border-radius: 4px;
 }
 .prose .button {
   display: inline-flex;
   min-height: 2.75rem;
   align-items: center;
-  border-radius: 999px;
-  padding: 0 1.2rem;
-  background: var(--accent);
+  border-radius: 6px;
+  padding: 0 1.15rem;
+  background: var(--fg);
   color: var(--bg);
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
+  transition: background-color 160ms ease;
+}
+.prose .button:hover {
+  background: var(--accent);
 }
 
 @media (prefers-reduced-motion: reduce) {

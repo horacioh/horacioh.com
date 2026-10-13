@@ -31,26 +31,21 @@ const { Content } = await render(entry);
 >
   <article>
     {isPost && (
-      <nav aria-label="Breadcrumb" class="rise -mt-6 mb-6 sm:-mt-10" style="--i: 0">
-        <a href="/" class="group -ml-2 inline-flex min-h-11 items-center gap-1.5 rounded-md px-2 text-sm text-muted transition-colors hover:text-fg">
-          <span aria-hidden="true" class="transition-transform duration-200 group-hover:-translate-x-0.5">←</span>
-          <span class="link-draw">All writing</span>
-        </a>
+      <nav aria-label="Breadcrumb" class="rise -mt-8 mb-8 sm:-mt-12" style="--i: 0">
+        <a href="/" class="-ml-2 inline-flex min-h-11 items-center px-2 text-[0.9375rem] text-muted transition-colors hover:text-fg">All writing</a>
       </nav>
     )}
-    <header class="space-y-6">
-      <h1 class="rise text-[1.85rem] font-semibold leading-[1.15] tracking-[-0.022em] text-balance sm:text-[2.35rem]" style="--i: 1">
+    <header>
+      <h1 class="rise font-display text-[2rem] font-semibold leading-[1.12] tracking-[-0.022em] text-balance sm:text-[2.625rem] sm:leading-[1.08] sm:tracking-[-0.028em]" style="--i: 1">
         <span transition:name={vtName("title", entry.id)}>{d.title}</span>
       </h1>
-      {d.summary && <p class="rise text-[1.08rem] leading-relaxed text-muted text-pretty" style="--i: 2">{d.summary}</p>}
-      <div class="rise" style="--i: 3">
+      {d.summary && <p class="rise mt-5 text-[1.1875rem] leading-normal text-muted text-pretty" style="--i: 2">{d.summary}</p>}
+      <div class="rise mt-10" style="--i: 3">
         <DocMeta id={entry.id} authors={d.authors} published={d.published} updated={d.updated} version={d.version} source={d.source} />
       </div>
     </header>
-    {d.cover && (
-      <img src={d.cover} alt="" class="rise mt-10 w-full rounded-lg border border-line" style="--i: 4" loading="eager" decoding="async" />
-    )}
-    <div class="prose rise mt-10" style="--i: 4">
+    {d.cover && <img src={d.cover} alt="" class="rise mt-10 w-full rounded" style="--i: 4" loading="eager" decoding="async" />}
+    <div class="prose rise mt-11" style="--i: 4">
       <Content />
     </div>
   </article>
