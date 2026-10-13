@@ -50,13 +50,17 @@ const breadcrumbHref = parent ? `/${parent.id}` : "/";
         <span transition:name={vtName("title", entry.id)}>{d.title}</span>
       </h1>
       {d.summary && <p class="rise mt-5 text-[1.1875rem] leading-normal text-muted text-pretty" style="--i: 2">{d.summary}</p>}
-      <div class="rise mt-10" style="--i: 3">
-        <DocMeta id={entry.id} authors={d.authors} published={d.published} updated={d.updated} version={d.version} source={d.source} />
-      </div>
     </header>
-    {d.cover && <img src={d.cover} alt="" class="rise mt-10 w-full rounded" style="--i: 4" loading="eager" decoding="async" />}
-    <div class="prose rise mt-11" style="--i: 4">
-      <Content />
+    <div class="relative mt-11">
+      {d.cover && <img src={d.cover} alt="" class="rise mb-11 w-full rounded" style="--i: 3" loading="eager" decoding="async" />}
+      <div class="prose rise" style="--i: 4">
+        <Content />
+      </div>
+      <aside aria-label="Document details" class="rise mt-16 xl:absolute xl:inset-y-0 xl:left-full xl:mt-0 xl:ml-16 xl:w-44" style="--i: 5">
+        <div class="xl:sticky xl:top-10">
+          <DocMeta authors={d.authors} published={d.published} updated={d.updated} version={d.version} source={d.source} />
+        </div>
+      </aside>
     </div>
   </article>
 </Base>
