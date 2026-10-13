@@ -15,13 +15,13 @@ cp .env.example .env   # optional: defaults target the real Seed site
 bun run dev            # http://localhost:4321
 ```
 
-| Script              | What it does                                                         |
-| ------------------- | -------------------------------------------------------------------- |
-| `bun run dev`       | Dev server. Content is loaded from Seed on start.                    |
-| `bun run build`     | `validate` → `astro check` → `astro build` into `dist/`.             |
-| `bun run preview`   | Serves the built `dist/`.                                            |
-| `bun run typecheck` | `astro check` (also syncs content, so it needs the Seed env).        |
-| `bun run validate`  | `scripts/validate-content.ts`: schema + duplicate checks on Seed.    |
+| Script              | What it does                                                          |
+| ------------------- | --------------------------------------------------------------------- |
+| `bun run dev`       | Dev server. Content is loaded from Seed on start.                     |
+| `bun run build`     | `validate` → `astro check` → `astro build` into `dist/`.              |
+| `bun run preview`   | Serves the built `dist/`.                                             |
+| `bun run typecheck` | `astro check` (also syncs content, so it needs access to Seed).       |
+| `bun run validate`  | `scripts/validate-content.ts`: schema + duplicate checks on Seed.     |
 | `bun run test`      | `bun test`: renderer, embeds/mentions, web previews, content mapping. |
 
 ## Environment
@@ -29,22 +29,19 @@ bun run dev            # http://localhost:4321
 All values are read at build time. The Seed settings default to Horacio's public Seed site; set these only to override
 those defaults.
 
-| Variable                 | Default                                            | Example                      | Notes                                                                    |
-| ------------------------ | -------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------ |
-| `PUBLIC_SEED_ORIGIN`     | `https://seed.horacioh.com`                        | `https://other-seed.example` | Public origin of the Seed site (serves `/api/*` and `/ipfs/*`).          |
-| `PUBLIC_SEED_ACCOUNT`    | `z6Mkvz9TgGtv9zsGsdrksfNk1ajbFancgHREJEz3Y2HsAVdk` | `z6Mk…`                      | Account ID (`hm://<account>`) that owns the site.                        |
-| `PUBLIC_SEED_POSTS_PATH` | `writing`                                          | `articles`                   | Path prefix of direct-child posts. The build fails if none exist.        |
-| `PUBLIC_SEED_PAGES_PATH` | _(unset; pages disabled)_                          | _(empty)_ or `pages`         | Standalone pages. Empty string = root-level docs (minus the posts path). |
-| `SITE_URL`               | `https://horacioh.com`                             | `https://other-site.example` | Canonical URL for links, RSS and OG tags.                                |
-| `WEB_PREVIEW_CACHE`      | _(unset)_                                          | `off`                        | Path of the link-preview cache file, or `off`.                           |
+| Variable              | Default                                            | Example                      | Notes                                                           |
+| --------------------- | -------------------------------------------------- | ---------------------------- | --------------------------------------------------------------- |
+| `PUBLIC_SEED_ORIGIN`  | `https://seed.horacioh.com`                        | `https://other-seed.example` | Public origin of the Seed site (serves `/api/*` and `/ipfs/*`). |
+| `PUBLIC_SEED_ACCOUNT` | `z6Mkvz9TgGtv9zsGsdrksfNk1ajbFancgHREJEz3Y2HsAVdk` | `z6Mk…`                      | Account ID (`hm://<account>`) that owns the site.               |
+| `SITE_URL`            | `https://horacioh.com`                             | `https://other-site.example` | Canonical URL for links, RSS and OG tags.                       |
+| `WEB_PREVIEW_CACHE`   | _(unset)_                                          | `off`                        | Path of the link-preview cache file, or `off`.                  |
 
 ## How content maps
 
-- **Home**: the root document of the account (`hm://<account>`) gives the site name and intro (name + summary).
-- **Posts**: direct-child documents under `/<PUBLIC_SEED_POSTS_PATH>/…` become `/<path>` on the site; deeper nested
-  documents are ignored. Posts are listed newest first on the home page and in `/rss.xml`. Date = `displayPublishTime`,
-  else the document's create time.
-- **Pages** (optional): documents under `PUBLIC_SEED_PAGES_PATH`; top-level ones show up in the header nav.
+- **Home**: the root document of the account (`hm://<account>`) provides the site's name, navigation and rendered content.
+- **Documents**: each safe non-root Seed document is served at the same path on this site, including nested documents.
+  Query blocks resolve against the account's full document list at build time.
+- **RSS**: `/rss.xml` contains the newest direct children of `/writing` and `/short-posts`.
 - **Metadata box**: author(s) (`displayAuthor`, else the signers' profile names, else the account), published, updated,
   version (truncated CID) and a link to the live Seed document.
 

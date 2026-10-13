@@ -19,8 +19,12 @@ export const entrySchema = z.object({
   cover: z.url().optional(),
 });
 
-/** Posts must have a publish date to sort the index and the feed. */
-export const postSchema = entrySchema.extend({ published: z.coerce.date() });
+/** Data for the root document and its navigation. */
+export const homeSchema = z.object({
+  name: z.string().trim().min(1),
+  summary: z.string().trim().min(1).optional(),
+  nav: z.array(z.object({ label: z.string().min(1), href: z.string().min(1) })),
+});
 
 /** Inferred entry data. */
 export type EntryData = z.infer<typeof entrySchema>;

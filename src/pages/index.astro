@@ -1,49 +1,14 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Base from "../layouts/Base.astro";
-import { isoDay, shortDate, vtName } from "../lib/format";
-import { getSiteInfo } from "../lib/seed";
 
-const site = await getSiteInfo();
-const posts = (await getCollection("posts")).sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
-const years = [...new Set(posts.map((p) => p.data.published.getUTCFullYear()))];
-const name = site.name ?? "Horacio Herrera";
-let i = 0;
+const [home] = await getCollection("home");
+if (!home) throw new Error("Seed home document is missing");
+const { Content } = await render(home);
 ---
 <Base>
-  <section class="rise" style="--i: 0">
-    {site.summary ? (
-      <>
-        <h1 class="sr-only">{name}</h1>
-        <p class="font-display text-[1.375rem] font-medium leading-[1.4] tracking-[-0.018em] text-pretty sm:text-[1.5rem]">{site.summary}</p>
-      </>
-    ) : (
-      <h1 class="font-display text-[2rem] font-semibold leading-tight tracking-[-0.025em]">{name}</h1>
-    )}
-  </section>
-
-  <section class="mt-20 sm:mt-24" aria-labelledby="writing">
-    <h2 id="writing" class="rise mb-4 text-[0.9375rem] font-medium text-muted" style="--i: 1">Writing</h2>
-    {years.map((year) => (
-      <div class="grid border-t border-line sm:grid-cols-[4.5rem_1fr]">
-        <h3 class="rise pt-4 text-[0.9375rem] leading-none tabular-nums text-faint sm:pt-[1.15rem]" style={`--i: ${++i}`}>{year}</h3>
-        <ol class="divide-y divide-line">
-          {posts
-            .filter((p) => p.data.published.getUTCFullYear() === year)
-            .map((post) => (
-              <li class="rise" style={`--i: ${++i}`}>
-                <a href={`/${post.id}`} class="group flex min-h-12 items-baseline justify-between gap-6 py-3">
-                  <span class="min-w-0 leading-snug transition-colors duration-150 group-hover:text-accent" transition:name={vtName("title", post.id)}>{post.data.title}</span>
-                  <time
-                    datetime={isoDay(post.data.published)}
-                    class="shrink-0 text-[0.9375rem] tabular-nums text-faint"
-                    transition:name={vtName("date", post.id)}
-                  >{shortDate(post.data.published)}</time>
-                </a>
-              </li>
-            ))}
-        </ol>
-      </div>
-    ))}
-  </section>
+  <h1 class="sr-only">{home.data.name}</h1>
+  <div class="prose rise" style="--i: 0">
+    <Content />
+  </div>
 </Base>

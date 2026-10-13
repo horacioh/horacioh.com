@@ -1,17 +1,40 @@
 import { describe, expect, test } from "bun:test";
-import { SEED_ACCOUNT, SEED_ORIGIN, type SeedBlockNode } from "./seed";
-import { collectRefs, renderBlocks, renderDocument, safeHref, type DocRef } from "./seed-render";
+import {
+  SEED_ACCOUNT,
+  SEED_ORIGIN,
+  type SeedBlockNode,
+  type SeedDocumentInfo,
+} from "./seed";
+import {
+  collectRefs,
+  navigationLinks,
+  renderBlocks,
+  renderDocument,
+  safeHref,
+  type DocRef,
+} from "./seed-render";
 
 const OTHER = "z6MkotherAccount1234567890";
-const node = (block: SeedBlockNode["block"], children: SeedBlockNode[] = []): SeedBlockNode => ({ block, children });
-const p = (text: string, annotations: SeedBlockNode["block"]["annotations"] = []) =>
-  node({ type: "Paragraph", id: "p1", text, annotations });
+const node = (
+  block: SeedBlockNode["block"],
+  children: SeedBlockNode[] = [],
+): SeedBlockNode => ({ block, children });
+const p = (
+  text: string,
+  annotations: SeedBlockNode["block"]["annotations"] = [],
+) => node({ type: "Paragraph", id: "p1", text, annotations });
 
-const doc = (title: string, extra: Partial<DocRef> = {}): DocRef => ({ kind: "document", title, ...extra });
+const doc = (title: string, extra: Partial<DocRef> = {}): DocRef => ({
+  kind: "document",
+  title,
+  ...extra,
+});
 
 describe("safeHref", () => {
   test("keeps http(s) and mailto, rejects script-ish schemes", () => {
-    expect(safeHref("https://example.com/a?b=1")).toBe("https://example.com/a?b=1");
+    expect(safeHref("https://example.com/a?b=1")).toBe(
+      "https://example.com/a?b=1",
+    );
     expect(safeHref("mailto:hi@example.com")).toBe("mailto:hi@example.com");
     expect(safeHref("javascript:alert(1)")).toBeNull();
     expect(safeHref("data:text/html,<b>")).toBeNull();
@@ -19,28 +42,155 @@ describe("safeHref", () => {
 
   test("own-account docs with a site page link to the site route", () => {
     const routes = new Set(["/posts/hello"]);
-    expect(safeHref(`hm://${SEED_ACCOUNT}/posts/hello#blk1`, { routes })).toBe("/posts/hello#blk1");
-    expect(safeHref(`hm://${SEED_ACCOUNT}/posts/hello?v=bafy123&l`, { routes })).toBe("/posts/hello");
-    expect(safeHref(`hm://${SEED_ACCOUNT}/drafts/x`, { routes })).toBe(`${SEED_ORIGIN}/drafts/x`);
+    expect(safeHref(`hm://${SEED_ACCOUNT}/posts/hello#blk1`, { routes })).toBe(
+      "/posts/hello#blk1",
+    );
+    expect(
+      safeHref(`hm://${SEED_ACCOUNT}/posts/hello?v=bafy123&l`, { routes }),
+    ).toBe("/posts/hello");
+    expect(safeHref(`hm://${SEED_ACCOUNT}/drafts/x`, { routes })).toBe(
+      `${SEED_ORIGIN}/drafts/x`,
+    );
+  });
+
+  test("links to the account home resolve to the site root", () => {
+    expect(safeHref(`hm://${SEED_ACCOUNT}`, { routes: new Set(["/"]) })).toBe(
+      "/",
+    );
   });
 
   test("links pinned to a version stay on Seed", () => {
     const routes = new Set(["/posts/hello"]);
-    expect(safeHref(`hm://${SEED_ACCOUNT}/posts/hello?v=bafy123`, { routes })).toBe(`${SEED_ORIGIN}/posts/hello?v=bafy123`);
+    expect(
+      safeHref(`hm://${SEED_ACCOUNT}/posts/hello?v=bafy123`, { routes }),
+    ).toBe(`${SEED_ORIGIN}/posts/hello?v=bafy123`);
   });
 
   test("other accounts go to the hyper.media gateway", () => {
-    expect(safeHref(`hm://${OTHER}/notes/a?v=bafy9`)).toBe(`https://hyper.media/hm/${OTHER}/notes/a?v=bafy9`);
+    expect(safeHref(`hm://${OTHER}/notes/a?v=bafy9`)).toBe(
+      `https://hyper.media/hm/${OTHER}/notes/a?v=bafy9`,
+    );
+  });
+});
+
+describe("navigationLinks", () => {
+  test("preserves order and handles latest and pinned links differently", () => {
+    const routes = new Set(["/about", "/projects", "/writing"]);
+    const navigation = node({ type: "Group", id: "nav" }, [
+      node({
+        type: "Link",
+        id: "about",
+        text: "about",
+        link: `hm://${SEED_ACCOUNT}/about?v=bafy123&l`,
+      }),
+      node({
+        type: "Link",
+        id: "projects",
+        text: "Projects",
+        link: `hm://${SEED_ACCOUNT}/projects?v=bafy456`,
+      }),
+      node({
+        type: "Link",
+        id: "writing",
+        text: "Writing",
+        link: `hm://${SEED_ACCOUNT}/writing?l`,
+      }),
+    ]);
+
+    expect(navigationLinks(navigation, routes)).toEqual([
+      { label: "about", href: "/about" },
+      { label: "Projects", href: `${SEED_ORIGIN}/projects?v=bafy456` },
+      { label: "Writing", href: "/writing" },
+    ]);
+  });
+});
+
+describe("Query blocks", () => {
+  const resultDoc: SeedDocumentInfo = {
+    account: SEED_ACCOUNT,
+    path: "/writing/one",
+    metadata: {
+      name: "First post",
+      summary: "A concise summary",
+      displayPublishTime: "2024-02-03",
+    },
+    version: "v",
+    createTime: "2024-02-03T00:00:00Z",
+    updateTime: "2025-03-04T00:00:00Z",
+  };
+
+  test("renders list rows with local links, dates, and transition names", () => {
+    const query = node({
+      type: "Query",
+      id: "list-query",
+      attributes: { style: "List" },
+    });
+    const html = renderBlocks([query], {
+      routes: new Set(["/writing/one"]),
+      queries: new Map([
+        [query, { documents: [resultDoc], sortTerm: "updated" }],
+      ]),
+    });
+    expect(html).toContain('href="/writing/one"');
+    expect(html).toContain("First post");
+    expect(html).toContain('datetime="2025-03-04"');
+    expect(html).toContain("view-transition-name:title-writing-one");
+    expect(html).not.toContain("A concise summary");
+  });
+
+  test("shows summaries below titles for Card style", () => {
+    const query = node({
+      type: "Query",
+      id: "card-query",
+      attributes: { style: "Card" },
+    });
+    const html = renderBlocks([query], {
+      routes: new Set(["/writing/one"]),
+      queries: new Map([
+        [query, { documents: [resultDoc], sortTerm: "created" }],
+      ]),
+    });
+    expect(html).toContain(
+      'class="seed-query__summary">A concise summary</span>',
+    );
+    expect(html).toContain('datetime="2024-02-03"');
+  });
+
+  test("renderDocument resolves query blocks before rendering", async () => {
+    const query = node({
+      type: "Query",
+      id: "resolved-query",
+      attributes: { style: "List" },
+    });
+    const html = await renderDocument([query], {
+      routes: new Set(["/writing/one"]),
+      query: async (block) => {
+        expect(block.block.id).toBe("resolved-query");
+        return { documents: [resultDoc], sortTerm: "updated" };
+      },
+    });
+    expect(html).toContain('href="/writing/one"');
+    expect(html).toContain("First post");
   });
 });
 
 describe("Embed blocks", () => {
-  const embed = (link: string, view = "Card") => node({ type: "Embed", id: "e1", link, attributes: { view } });
+  const embed = (link: string, view = "Card") =>
+    node({ type: "Embed", id: "e1", link, attributes: { view } });
 
   test("resolved embed renders a document card", () => {
     const link = `hm://${OTHER}/notes/a`;
     const html = renderBlocks([embed(link)], {
-      docs: new Map([[link, doc("A <note>", { summary: "Sum & more", byline: "Ana", date: "2024-02-03" })]]),
+      docs: new Map([
+        [
+          link,
+          doc("A <note>", {
+            summary: "Sum & more",
+            byline: "Ana",
+            date: "2024-02-03",
+          }),
+        ],
+      ]),
     });
     expect(html).toContain('class="embed-card"');
     expect(html).toContain("A &lt;note&gt;");
@@ -52,7 +202,10 @@ describe("Embed blocks", () => {
 
   test("internal embed links to the site route without target=_blank", () => {
     const link = `hm://${SEED_ACCOUNT}/posts/b`;
-    const html = renderBlocks([embed(link)], { docs: new Map([[link, doc("B")]]), routes: new Set(["/posts/b"]) });
+    const html = renderBlocks([embed(link)], {
+      docs: new Map([[link, doc("B")]]),
+      routes: new Set(["/posts/b"]),
+    });
     expect(html).toContain('href="/posts/b"');
     expect(html).toContain("On this site");
     expect(html).not.toContain("target=");
@@ -62,12 +215,16 @@ describe("Embed blocks", () => {
     const link = `hm://${OTHER}/notes/missing-doc`;
     const html = renderBlocks([embed(link)], { docs: new Map([[link, null]]) });
     expect(html).not.toContain("embed-card");
-    expect(html).toBe(`<p id="e1"><a href="https://hyper.media/hm/${OTHER}/notes/missing-doc" target="_blank" rel="noopener noreferrer">missing doc</a></p>`);
+    expect(html).toBe(
+      `<p id="e1"><a href="https://hyper.media/hm/${OTHER}/notes/missing-doc" target="_blank" rel="noopener noreferrer">missing doc</a></p>`,
+    );
   });
 
   test("malformed percent escapes don't break the fallback label", () => {
     const link = `hm://${OTHER}/notes/bad%E0%A4%A`;
-    expect(renderBlocks([embed(link)], { docs: new Map([[link, null]]) })).toContain(">bad%E0%A4%A</a>");
+    expect(
+      renderBlocks([embed(link)], { docs: new Map([[link, null]]) }),
+    ).toContain(">bad%E0%A4%A</a>");
   });
 
   test("non-hm embed link is dropped", () => {
@@ -81,7 +238,18 @@ describe("WebEmbed blocks", () => {
   test("renders a preview card from fetched metadata, never an iframe", () => {
     const url = "https://example.com/post";
     const html = renderBlocks([web(url)], {
-      web: new Map([[url, { url, title: 'Hi "there"', description: "Desc", siteName: "Example", image: "https://example.com/i.png" }]]),
+      web: new Map([
+        [
+          url,
+          {
+            url,
+            title: 'Hi "there"',
+            description: "Desc",
+            siteName: "Example",
+            image: "https://example.com/i.png",
+          },
+        ],
+      ]),
     });
     expect(html).toContain('class="web-card"');
     expect(html).toContain("Hi &quot;there&quot;");
@@ -106,9 +274,12 @@ describe("WebEmbed blocks", () => {
 describe("mentions and hm:// links", () => {
   test("inline Embed annotation becomes a mention labelled with the resolved title", () => {
     const link = `hm://${OTHER}/notes/a`;
-    const html = renderBlocks([p("See \uFFFC now", [{ type: "Embed", starts: [4], ends: [5], link }])], {
-      docs: new Map([[link, doc("The Note", { summary: "S" })]]),
-    });
+    const html = renderBlocks(
+      [p("See \uFFFC now", [{ type: "Embed", starts: [4], ends: [5], link }])],
+      {
+        docs: new Map([[link, doc("The Note", { summary: "S" })]]),
+      },
+    );
     expect(html).toBe(
       `<p id="p1">See <a class="mention" data-kind="document" href="https://hyper.media/hm/${OTHER}/notes/a" target="_blank" rel="noopener noreferrer" title="The Note — S">The Note</a> now</p>`,
     );
@@ -116,18 +287,35 @@ describe("mentions and hm:// links", () => {
 
   test("account mention uses @name and falls back to a short id", () => {
     const link = `hm://${OTHER}`;
-    const ann = [{ type: "Embed", starts: [0], ends: [1], link, attributes: { mentionKind: "account" } }];
-    const resolved = renderBlocks([p("\uFFFC", ann)], { docs: new Map([[link, { kind: "account", title: "Eric" }]]) });
+    const ann = [
+      {
+        type: "Embed",
+        starts: [0],
+        ends: [1],
+        link,
+        attributes: { mentionKind: "account" },
+      },
+    ];
+    const resolved = renderBlocks([p("\uFFFC", ann)], {
+      docs: new Map([[link, { kind: "account", title: "Eric" }]]),
+    });
     expect(resolved).toContain('data-kind="account"');
     expect(resolved).toContain(">@Eric</a>");
-    const fallback = renderBlocks([p("\uFFFC", ann)], { docs: new Map([[link, null]]) });
+    const fallback = renderBlocks([p("\uFFFC", ann)], {
+      docs: new Map([[link, null]]),
+    });
     expect(fallback).toContain(">@z6Mkot…7890</a>");
   });
 
   test("mention overlapping other annotations is emitted once", () => {
     const link = `hm://${OTHER}/a`;
     const html = renderBlocks(
-      [p("x\uFFFCy", [{ type: "Bold", starts: [0], ends: [3] }, { type: "Embed", starts: [1], ends: [2], link }])],
+      [
+        p("x\uFFFCy", [
+          { type: "Bold", starts: [0], ends: [3] },
+          { type: "Embed", starts: [1], ends: [2], link },
+        ]),
+      ],
       { docs: new Map([[link, doc("T")]]) },
     );
     expect(html.match(/class="mention"/g)?.length).toBe(1);
@@ -137,22 +325,33 @@ describe("mentions and hm:// links", () => {
 
   test("hm:// Link annotations get mention-link styling and a title tooltip", () => {
     const link = `hm://${SEED_ACCOUNT}/posts/b`;
-    const html = renderBlocks([p("read this", [{ type: "Link", starts: [5], ends: [9], link }])], {
-      docs: new Map([[link, doc("Post B")]]),
-      routes: new Set(["/posts/b"]),
-    });
-    expect(html).toBe('<p id="p1">read <a class="hm-link" href="/posts/b" title="Post B">this</a></p>');
+    const html = renderBlocks(
+      [p("read this", [{ type: "Link", starts: [5], ends: [9], link }])],
+      {
+        docs: new Map([[link, doc("Post B")]]),
+        routes: new Set(["/posts/b"]),
+      },
+    );
+    expect(html).toBe(
+      '<p id="p1">read <a class="hm-link" href="/posts/b" title="Post B">this</a></p>',
+    );
   });
 
   test("unsafe link annotations render as plain text, text is escaped", () => {
-    const html = renderBlocks([p("<b>x</b>", [{ type: "Link", starts: [0], ends: [8], link: "javascript:alert(1)" }])]);
+    const html = renderBlocks([
+      p("<b>x</b>", [
+        { type: "Link", starts: [0], ends: [8], link: "javascript:alert(1)" },
+      ]),
+    ]);
     expect(html).toBe('<p id="p1">&lt;b&gt;x&lt;/b&gt;</p>');
   });
 });
 
 describe("other blocks", () => {
   test("ipfs images resolve through the Seed origin", () => {
-    const html = renderBlocks([node({ type: "Image", id: "i1", text: "cap", link: "ipfs://bafyimg" })]);
+    const html = renderBlocks([
+      node({ type: "Image", id: "i1", text: "cap", link: "ipfs://bafyimg" }),
+    ]);
     expect(html).toContain(`src="${SEED_ORIGIN}/ipfs/bafyimg"`);
     expect(html).toContain("<figcaption>cap</figcaption>");
   });
@@ -160,10 +359,20 @@ describe("other blocks", () => {
   test("heading levels follow nesting and lists render inline items", () => {
     const tree = [
       node({ type: "Heading", id: "h1", text: "Top" }, [
-        node({ type: "Heading", id: "h2", text: "Sub", attributes: { childrenType: "Unordered" } }, [p("one"), p("two")]),
+        node(
+          {
+            type: "Heading",
+            id: "h2",
+            text: "Sub",
+            attributes: { childrenType: "Unordered" },
+          },
+          [p("one"), p("two")],
+        ),
       ]),
     ];
-    expect(renderBlocks(tree)).toBe('<h2 id="h1">Top</h2><h3 id="h2">Sub</h3><ul><li>one</li><li>two</li></ul>');
+    expect(renderBlocks(tree)).toBe(
+      '<h2 id="h1">Top</h2><h3 id="h2">Sub</h3><ul><li>one</li><li>two</li></ul>',
+    );
   });
 });
 
@@ -177,11 +386,18 @@ describe("renderDocument", () => {
       p("\uFFFC", [{ type: "Embed", starts: [0], ends: [1], link: b }]),
       node({ type: "WebEmbed", id: "w", link: url }),
     ];
-    expect(collectRefs(tree)).toEqual({ hm: new Set([a, b]), web: new Set([url]) });
+    expect(collectRefs(tree)).toEqual({
+      hm: new Set([a, b]),
+      web: new Set([url]),
+      queries: [],
+    });
     const seen: string[] = [];
     const html = await renderDocument(tree, {
       routes: new Set(["/posts/b"]),
-      doc: async (l) => (seen.push(l), l === a ? doc("Doc A") : l === b ? doc("Post B") : null),
+      doc: async (l) => (
+        seen.push(l),
+        l === a ? doc("Doc A") : l === b ? doc("Post B") : null
+      ),
       web: async () => {
         throw new Error("offline");
       },

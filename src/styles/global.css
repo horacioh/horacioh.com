@@ -207,6 +207,26 @@ html {
   border-color: var(--line);
   margin-block: 2.5em;
 }
+.prose .seed-query__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.prose .seed-query__item + .seed-query__item {
+  margin-top: 0;
+}
+.prose .seed-query a {
+  text-decoration: none;
+}
+.prose .seed-query__summary {
+  display: block;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* Inline mention of a Seed document or account: accent text, no chrome. */
 .mention {

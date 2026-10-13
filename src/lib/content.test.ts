@@ -1,57 +1,74 @@
 import { describe, expect, test } from "bun:test";
-import { entryId, findDuplicates, toEntryData, type CollectionSpec } from "./content";
-import { documentAuthors } from "./seed";
-import { postSchema } from "./schema";
-
-const posts: CollectionSpec = { name: "posts", prefix: "writing", exclude: [], required: true };
-const rootPages: CollectionSpec = { name: "pages", prefix: "", exclude: ["writing"], required: false };
+import {
+  entryId,
+  findDuplicateTitles,
+  findDuplicates,
+  resolveQuery,
+  toEntryData,
+  type CheckedEntry,
+} from "./content";
+import { SEED_ACCOUNT, documentAuthors, type SeedDocumentInfo } from "./seed";
+import { entrySchema } from "./schema";
 
 describe("entryId", () => {
-  test("maps Seed paths to routes and skips the collection index", () => {
-    expect(entryId("/writing/foo", posts)).toBe("writing/foo");
-    expect(entryId("/writing/foo/bar", posts)).toBeNull();
-    expect(entryId("/writing", posts)).toBeNull();
-    expect(entryId("/writings/foo", posts)).toBeNull();
-  });
-
-  test("root pages exclude the home doc, posts and reserved routes", () => {
-    expect(entryId("/about", rootPages)).toBe("about");
-    expect(entryId("/about/x", rootPages)).toBeNull();
-    expect(entryId("/", rootPages)).toBeNull();
-    expect(entryId("/writing/foo", rootPages)).toBeNull();
-    expect(entryId("/rss.xml", rootPages)).toBeNull();
-    expect(entryId("/favicon.svg", rootPages)).toBeNull();
-    expect(entryId("/notes/logo.png", rootPages)).toBeNull();
+  test("accepts nested routes and rejects the root, reserved routes, and dotted segments", () => {
+    expect(entryId("/projects/a/b")).toBe("projects/a/b");
+    expect(entryId(undefined)).toBeNull();
+    expect(entryId("/writing")).toBe("writing");
+    expect(entryId("/")).toBeNull();
+    expect(entryId("/rss.xml")).toBeNull();
+    expect(entryId("/projects/a.b")).toBeNull();
+    expect(entryId("/notes/logo.png")).toBeNull();
   });
 });
 
 describe("authors", () => {
-  const base = { account: "z6MkOwner", metadata: {} as Record<string, unknown> };
-  const names = async (uid: string) => (uid === "z6MkAnaAccount1234" ? "Ana" : undefined);
+  const base = {
+    account: "z6MkOwner",
+    metadata: {} as Record<string, unknown>,
+  };
+  const names = async (uid: string) =>
+    uid === "z6MkAnaAccount1234" ? "Ana" : undefined;
 
   test("explicit byline wins over signers", async () => {
-    expect(await documentAuthors({ ...base, metadata: { displayAuthor: "Ana, Bo" }, authors: ["x"] }, names)).toEqual([
-      { name: "Ana" },
-      { name: "Bo" },
-    ]);
+    expect(
+      await documentAuthors(
+        { ...base, metadata: { displayAuthor: "Ana, Bo" }, authors: ["x"] },
+        names,
+      ),
+    ).toEqual([{ name: "Ana" }, { name: "Bo" }]);
   });
 
   test("displayAuthor replaces metadata.authors", async () => {
-    expect(await documentAuthors({ ...base, metadata: { displayAuthor: "Ana", authors: ["Bo"] } }, names)).toEqual([{ name: "Ana" }]);
-    expect(await documentAuthors({ ...base, metadata: { authors: ["Bo"] } }, names)).toEqual([{ name: "Bo" }]);
+    expect(
+      await documentAuthors(
+        { ...base, metadata: { displayAuthor: "Ana", authors: ["Bo"] } },
+        names,
+      ),
+    ).toEqual([{ name: "Ana" }]);
+    expect(
+      await documentAuthors({ ...base, metadata: { authors: ["Bo"] } }, names),
+    ).toEqual([{ name: "Bo" }]);
   });
 
   test("signers are resolved to names, falling back to short ids and then the account", async () => {
-    expect(await documentAuthors({ ...base, authors: ["z6MkAnaAccount1234", "z6MkUnknownAcct9876"] }, names)).toEqual([
+    expect(
+      await documentAuthors(
+        { ...base, authors: ["z6MkAnaAccount1234", "z6MkUnknownAcct9876"] },
+        names,
+      ),
+    ).toEqual([
       { id: "z6MkAnaAccount1234", name: "Ana" },
       { id: "z6MkUnknownAcct9876", name: "z6MkUn…9876" },
     ]);
-    expect(await documentAuthors({ ...base, authors: [] }, names)).toEqual([{ id: "z6MkOwner", name: "z6MkOwner" }]);
+    expect(await documentAuthors({ ...base, authors: [] }, names)).toEqual([
+      { id: "z6MkOwner", name: "z6MkOwner" },
+    ]);
   });
 });
 
-describe("toEntryData + schema", () => {
-  test("uses displayPublishTime, ignores epoch createTime, validates", async () => {
+describe("toEntryData and schema", () => {
+  test("uses displayPublishTime, ignores epoch createTime, and validates", async () => {
     const raw = await toEntryData(
       {
         account: "z6MkOwner",
@@ -59,35 +76,187 @@ describe("toEntryData + schema", () => {
         version: "bafyv",
         createTime: "1970-01-01T00:00:00Z",
         updateTime: "2025-01-02T00:00:00Z",
-        metadata: { name: " A ", summary: "S", displayPublishTime: "2024-05-06" },
+        metadata: {
+          name: " A ",
+          summary: "S",
+          displayPublishTime: "2024-05-06",
+        },
       },
       async () => [{ name: "H" }],
     );
-    const data = postSchema.parse(raw);
-    expect(data.title).toBe("A");
-    expect(data.published.toISOString().slice(0, 10)).toBe("2024-05-06");
-    expect(data.path).toBe("/writing/a");
+    const result = entrySchema.parse(raw);
+    expect(result.title).toBe("A");
+    expect(result.published?.toISOString().slice(0, 10)).toBe("2024-05-06");
+    expect(result.path).toBe("/writing/a");
   });
 
-  test("posts without any date fail the schema", async () => {
+  test("allows index documents without dates", async () => {
     const raw = await toEntryData(
-      { account: "a", path: "/writing/b", version: "v", createTime: "1970-01-01T00:00:00Z", metadata: { name: "B" } },
+      {
+        account: "a",
+        path: "/writing",
+        version: "v",
+        createTime: "1970-01-01T00:00:00Z",
+        metadata: { name: "Writing" },
+      },
       async () => [],
     );
-    expect(postSchema.safeParse(raw).success).toBe(false);
+    const result = entrySchema.parse(raw);
+    expect(result.published).toBeUndefined();
   });
 });
 
-describe("findDuplicates", () => {
-  test("flags route collisions and same title on the same day", () => {
-    const d = new Date("2024-01-01");
-    const errs = findDuplicates([
-      { collection: "posts", id: "posts/a", data: { title: "Hello", published: d } },
-      { collection: "posts", id: "posts/b", data: { title: "hello ", published: d } },
-      { collection: "pages", id: "Posts/A", data: { title: "Other" } },
+const document = (
+  path: string,
+  title: string,
+  createTime = "2024-01-01T00:00:00Z",
+  updateTime = "2024-01-01T00:00:00Z",
+): SeedDocumentInfo => ({
+  account: SEED_ACCOUNT,
+  path,
+  metadata: { name: title },
+  version: "v",
+  createTime,
+  updateTime,
+});
+
+describe("resolveQuery", () => {
+  const docs = [
+    document("", "Home"),
+    document("/projects", "Projects"),
+    document("/projects/a", "A", "2024-01-01T00:00:00Z", "2024-01-03T00:00:00Z"),
+    document("/projects/a/nested", "Nested", "2024-01-01T00:00:00Z", "2024-01-04T00:00:00Z"),
+    document("/projects/b", "B", "2024-01-01T00:00:00Z", "2024-01-02T00:00:00Z"),
+    document(
+      "/writing/a",
+      "Older",
+      "2023-01-01T00:00:00Z",
+      "2023-01-01T00:00:00Z",
+    ),
+    document(
+      "/writing/b",
+      "Newest",
+      "2024-01-01T00:00:00Z",
+      "2025-01-01T00:00:00Z",
+    ),
+    document(
+      "/writing/c",
+      "Middle",
+      "2024-01-01T00:00:00Z",
+      "2024-01-01T00:00:00Z",
+    ),
+  ];
+
+  test("distinguishes direct children from all descendants", () => {
+    const children = resolveQuery(
+      docs,
+      {
+        includes: [{ space: SEED_ACCOUNT, path: "projects", mode: "Children" }],
+      },
+      "/projects",
+    );
+    expect(children.documents.map((entry) => entry.path)).toEqual([
+      "/projects/a",
+      "/projects/b",
     ]);
-    expect(errs).toHaveLength(2);
-    expect(errs.some((e) => e.startsWith("duplicate route /Posts/A"))).toBe(true);
-    expect(errs.some((e) => e.startsWith("duplicate title + date"))).toBe(true);
+
+    const descendants = resolveQuery(
+      docs,
+      {
+        includes: [
+          { space: SEED_ACCOUNT, path: "projects", mode: "AllDescendants" },
+        ],
+      },
+      "/projects/a",
+    );
+    expect(descendants.documents.map((entry) => entry.path)).toEqual([
+      "/projects/a/nested",
+      "/projects/b",
+    ]);
+  });
+
+  test("excludes root and the querying document", () => {
+    const result = resolveQuery(
+      docs,
+      {
+        includes: [{ space: SEED_ACCOUNT, path: "", mode: "AllDescendants" }],
+      },
+      "/projects/a",
+    );
+    expect(result.documents.some((entry) => entry.path === "")).toBe(false);
+    expect(result.documents.some((entry) => entry.path === "/projects/a")).toBe(
+      false,
+    );
+  });
+
+  test("sorts by the selected term and reverse direction before applying the limit", () => {
+    const query = {
+      includes: [
+        { space: SEED_ACCOUNT, path: "writing", mode: "Children" as const },
+      ],
+      sort: [{ term: "updated", reverse: true }],
+      limit: 2,
+    };
+    const newest = resolveQuery(docs, query, "/writing");
+    expect(newest.sortTerm).toBe("updated");
+    expect(newest.documents.map((entry) => entry.path)).toEqual([
+      "/writing/b",
+      "/writing/c",
+    ]);
+
+    const oldest = resolveQuery(
+      docs,
+      { ...query, sort: [{ term: "updated", reverse: false }] },
+      "/writing",
+    );
+    expect(oldest.documents.map((entry) => entry.path)).toEqual([
+      "/writing/a",
+      "/writing/c",
+    ]);
+  });
+
+  test("foreign-space includes produce no results and a warning", () => {
+    const warnings: string[] = [];
+    const result = resolveQuery(
+      docs,
+      {
+        includes: [{ space: "z6MkForeign", path: "", mode: "AllDescendants" }],
+      },
+      "/",
+      (message) => warnings.push(message),
+    );
+    expect(result.documents).toEqual([]);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toContain("unsupported space");
+  });
+});
+
+describe("duplicate checks", () => {
+  test("route collisions are errors while duplicate titles and dates are warnings", () => {
+    const date = new Date("2024-01-01T00:00:00Z");
+    const entries: CheckedEntry[] = [
+      {
+        collection: "docs",
+        id: "projects/A",
+        data: { title: "Hello", published: date },
+      },
+      {
+        collection: "docs",
+        id: "projects/a",
+        data: { title: "hello ", published: date },
+      },
+      {
+        collection: "docs",
+        id: "writing/third",
+        data: { title: "HELLO", published: date },
+      },
+    ];
+    expect(findDuplicates(entries)).toEqual([
+      "duplicate route /projects/a: docs/projects/A and docs/projects/a",
+    ]);
+    expect(findDuplicateTitles(entries)).toEqual([
+      'duplicate title + date "hello " (2024-01-01): docs/projects/A and docs/projects/a',
+      'duplicate title + date "HELLO" (2024-01-01): docs/projects/A and docs/writing/third',
+    ]);
   });
 });

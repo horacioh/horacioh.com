@@ -18,15 +18,6 @@ export const SEED_ACCOUNT = readEnv("PUBLIC_SEED_ACCOUNT") ?? "z6Mkvz9TgGtv9zsGs
 export const HM_GATEWAY = "https://hyper.media";
 
 const cleanPath = (p: string | undefined) => (p ?? "").replace(/^\/+|\/+$/g, "");
-/** Seed path prefix of the `posts` collection (no slashes). */
-export const POSTS_PATH = cleanPath(readEnv("PUBLIC_SEED_POSTS_PATH") ?? "writing");
-/** Seed path prefix of the `pages` collection; unset disables it, `/` means top-level docs. */
-export const PAGES_PATH: string | null = (() => {
-  // Read raw: an empty value is meaningful here (root-level pages).
-  const raw =
-    (typeof process !== "undefined" ? process.env.PUBLIC_SEED_PAGES_PATH : undefined) ?? (import.meta.env as Record<string, string | undefined> | undefined)?.PUBLIC_SEED_PAGES_PATH;
-  return raw === undefined ? null : cleanPath(raw.trim());
-})();
 
 /** Throws a readable error when the Seed origin is invalid. */
 export function assertSeedConfigured(): void {
@@ -61,7 +52,7 @@ export interface SeedBlockNode {
 /** Listing entry returned by QueryDocuments (no content). */
 export interface SeedDocumentInfo {
   account: string;
-  path: string;
+  path?: string;
   metadata: Record<string, unknown>;
   version: string;
   authors?: string[];
@@ -72,6 +63,7 @@ export interface SeedDocumentInfo {
 /** Full document as returned by /api/Resource. */
 export interface SeedDocument extends SeedDocumentInfo {
   content: SeedBlockNode[];
+  detachedBlocks?: Record<string, unknown>;
 }
 
 /** Parsed `hm://<uid>/<path>?v=<version>#<blockRef>` link. */
@@ -98,7 +90,8 @@ export function parseHmLink(link: string): HmLink | null {
 }
 
 /** `hm://` id for a path in an account (defaults to the site account). */
-export const hmId = (path: string, uid = SEED_ACCOUNT) => `hm://${uid}${path ? `/${cleanPath(path)}` : ""}`;
+export const hmId = (path: string, uid = SEED_ACCOUNT) =>
+  `hm://${uid}${path ? `/${cleanPath(path)}` : ""}`;
 
 /** Public URL of a Seed document: the site origin for own docs, the gateway otherwise. */
 export function seedDocUrl(path: string, uid = SEED_ACCOUNT, version?: string): string {
@@ -118,8 +111,9 @@ export async function apiGet<T>(key: string, params: Record<string, string>, ori
   return data.json;
 }
 
-/** Every document of the site account under `/<prefix>` ("" = whole account), sorted by path. */
-export async function listDocuments(prefix: string): Promise<SeedDocumentInfo[]> {
+const documentLists = new Map<string, Promise<SeedDocumentInfo[]>>();
+
+async function fetchDocuments(prefix: string): Promise<SeedDocumentInfo[]> {
   assertSeedConfigured();
   // Lazy import: only needed at build time.
   const { encode: cborEncode } = await import("@ipld/dag-cbor");
@@ -146,6 +140,20 @@ export async function listDocuments(prefix: string): Promise<SeedDocumentInfo[]>
     pageToken = data.nextPageToken || undefined;
   } while (pageToken);
   return docs;
+}
+
+/** Every document of the site account under `/<prefix>` ("" = whole account), sorted by path. */
+export function listDocuments(prefix = ""): Promise<SeedDocumentInfo[]> {
+  const normalized = cleanPath(prefix);
+  let hit = documentLists.get(normalized);
+  if (!hit) {
+    hit = fetchDocuments(normalized).catch((error) => {
+      documentLists.delete(normalized);
+      throw error;
+    });
+    documentLists.set(normalized, hit);
+  }
+  return hit;
 }
 
 const resourceCache = new Map<string, Promise<SeedDocument | null>>();

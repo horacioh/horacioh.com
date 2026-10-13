@@ -1,32 +1,61 @@
-// Checks the Seed site before building: every document of every collection
-// must pass its schema, and there must be no duplicate routes or titles.
+// Checks the Seed account before building: safe routes and metadata must pass
+// their schemas; duplicate routes are errors and duplicate title/date pairs warn.
 //   bun run validate
-import { COLLECTIONS, findDuplicates, listCollection, toEntryData, type CheckedEntry } from "../src/lib/content";
-import { entrySchema, postSchema } from "../src/lib/schema";
-import { getDocument, shortId, type SeedDocumentInfo } from "../src/lib/seed";
+import {
+  entryId,
+  findDuplicateTitles,
+  findDuplicates,
+  siteRoutes,
+  toEntryData,
+  toHomeData,
+  type CheckedEntry,
+} from "../src/lib/content";
+import { entrySchema, homeSchema } from "../src/lib/schema";
+import {
+  getDocument,
+  listDocuments,
+  shortId,
+  type SeedDocumentInfo,
+} from "../src/lib/seed";
+import { navigationLinks } from "../src/lib/seed-render";
 
 // Listing info is enough for the schema; skip profile lookups to keep it fast.
-const noLookup = async (d: SeedDocumentInfo) => [{ id: d.account, name: shortId(d.account) }];
+const noLookup = async (d: SeedDocumentInfo) => [
+  { id: d.account, name: shortId(d.account) },
+];
 
 const errors: string[] = [];
 const checked: CheckedEntry[] = [];
-for (const spec of COLLECTIONS) {
-  const listed = await listCollection(spec);
-  if (!listed.length && spec.required) errors.push(`${spec.name}: no documents under /${spec.prefix}`);
-  const schema = spec.name === "posts" ? postSchema : entrySchema;
-  for (const { id, info } of listed) {
-    const res = schema.safeParse(await toEntryData(info, noLookup));
-    if (!res.success) {
-      errors.push(`${spec.name}/${id}: ${res.error.issues.map((i) => `${i.path.join(".") || "entry"}: ${i.message}`).join("; ")}`);
-      continue;
-    }
-    checked.push({ collection: spec.name, id, data: res.data });
+const documents = await listDocuments("");
+for (const info of documents) {
+  const id = entryId(info.path);
+  if (!id) continue;
+  const result = entrySchema.safeParse(await toEntryData(info, noLookup));
+  if (!result.success) {
+    errors.push(
+      `docs/${id}: ${result.error.issues.map((issue) => `${issue.path.join(".") || "entry"}: ${issue.message}`).join("; ")}`,
+    );
+    continue;
   }
-  console.log(`${spec.name}: ${listed.length} documents under ${spec.prefix ? `/${spec.prefix}` : "/"}`);
+  checked.push({ collection: "docs", id, data: result.data });
 }
+console.log(`docs: ${checked.length} safe document routes`);
+
+const routes = await siteRoutes();
+const home = await getDocument("");
+const homeResult = homeSchema.safeParse({
+  ...toHomeData(home),
+  nav: navigationLinks(home.detachedBlocks?.navigation, routes),
+});
+if (!homeResult.success) {
+  errors.push(
+    `home: ${homeResult.error.issues.map((issue) => `${issue.path.join(".") || "entry"}: ${issue.message}`).join("; ")}`,
+  );
+}
+
 errors.push(...findDuplicates(checked));
-// Make sure the home document (site title/intro) is reachable too.
-await getDocument("").catch((e: Error) => console.warn(`warning: home document unavailable (${e.message})`));
+for (const warning of findDuplicateTitles(checked))
+  console.warn(`warning: ${warning}`);
 
 if (errors.length) {
   console.error(`\n${errors.length} problem(s):\n  ${errors.join("\n  ")}`);

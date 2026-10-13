@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
-import { PAGES_PATH, getSiteInfo } from "../lib/seed";
 
 interface Props {
   title?: string;
@@ -15,16 +14,18 @@ interface Props {
 }
 
 const { title, description, type = "website", image, published, updated, authors = [] } = Astro.props;
-const site = await getSiteInfo();
-const siteName = site.name ?? "Horacio Herrera";
-const desc = description ?? site.summary ?? `Writing by ${siteName}`;
+const [home] = await getCollection("home");
+const siteName = home?.data.name ?? "Horacio Herrera";
+const desc = description ?? home?.data.summary ?? `Writing by ${siteName}`;
 const documentTitle = title ? `${title} · ${siteName}` : siteName;
 const canonical = new URL(Astro.url.pathname.replace(/\/$/, "") || "/", Astro.site).toString();
 const ogImage = new URL(image ?? "/og.jpg", Astro.site).toString();
-const pages = (PAGES_PATH === null ? [] : await getCollection("pages"))
-  .filter((p) => !p.id.includes("/"))
-  .sort((a, b) => a.data.title.localeCompare(b.data.title));
-const current = Astro.url.pathname.replace(/\/$/, "");
+const navigation = home?.data.nav ?? [];
+const current = Astro.url.pathname.replace(/\/$/, "") || "/";
+const navItems = navigation.map(({ label, href }) => {
+  const local = href.startsWith("/");
+  return { label, href, local, active: local && current === href };
+});
 ---
 <!doctype html>
 <html lang="en">
@@ -60,15 +61,17 @@ const current = Astro.url.pathname.replace(/\/$/, "");
         <a
           href="/"
           class="-ml-2 inline-flex min-h-11 items-center px-2 font-display text-[1.0625rem] font-semibold tracking-[-0.01em]"
-          aria-current={current === "" ? "page" : undefined}
+          aria-current={current === "/" ? "page" : undefined}
         >{siteName}</a>
         <nav aria-label="Main" class="-mr-2 flex items-center text-[0.9375rem] text-muted">
-          {pages.map((p) => (
+          {navItems.map(({ label, href, local, active }) => (
             <a
-              href={`/${p.id}`}
-              class:list={["inline-flex min-h-11 items-center px-2.5 transition-colors hover:text-fg", current === `/${p.id}` && "text-fg"]}
-              aria-current={current === `/${p.id}` ? "page" : undefined}
-            >{p.data.title}</a>
+              href={href}
+              target={local ? undefined : "_blank"}
+              rel={local ? undefined : "noopener noreferrer"}
+              class:list={["inline-flex min-h-11 items-center px-2.5 transition-colors hover:text-fg", active && "text-fg"]}
+              aria-current={active ? "page" : undefined}
+            >{label}</a>
           ))}
           <a href="/rss.xml" class="inline-flex min-h-11 items-center px-2.5 transition-colors hover:text-fg">RSS</a>
         </nav>
