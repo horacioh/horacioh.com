@@ -19,8 +19,14 @@ describe("safeHref", () => {
 
   test("own-account docs with a site page link to the site route", () => {
     const routes = new Set(["/posts/hello"]);
-    expect(safeHref(`hm://${SEED_ACCOUNT}/posts/hello?v=bafy123#blk1`, { routes })).toBe("/posts/hello#blk1");
+    expect(safeHref(`hm://${SEED_ACCOUNT}/posts/hello#blk1`, { routes })).toBe("/posts/hello#blk1");
+    expect(safeHref(`hm://${SEED_ACCOUNT}/posts/hello?v=bafy123&l`, { routes })).toBe("/posts/hello");
     expect(safeHref(`hm://${SEED_ACCOUNT}/drafts/x`, { routes })).toBe(`${SEED_ORIGIN}/drafts/x`);
+  });
+
+  test("links pinned to a version stay on Seed", () => {
+    const routes = new Set(["/posts/hello"]);
+    expect(safeHref(`hm://${SEED_ACCOUNT}/posts/hello?v=bafy123`, { routes })).toBe(`${SEED_ORIGIN}/posts/hello?v=bafy123`);
   });
 
   test("other accounts go to the hyper.media gateway", () => {
@@ -57,6 +63,11 @@ describe("Embed blocks", () => {
     const html = renderBlocks([embed(link)], { docs: new Map([[link, null]]) });
     expect(html).not.toContain("embed-card");
     expect(html).toBe(`<p id="e1"><a href="https://hyper.media/hm/${OTHER}/notes/missing-doc" target="_blank" rel="noopener noreferrer">missing doc</a></p>`);
+  });
+
+  test("malformed percent escapes don't break the fallback label", () => {
+    const link = `hm://${OTHER}/notes/bad%E0%A4%A`;
+    expect(renderBlocks([embed(link)], { docs: new Map([[link, null]]) })).toContain(">bad%E0%A4%A</a>");
   });
 
   test("non-hm embed link is dropped", () => {

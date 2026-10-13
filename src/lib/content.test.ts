@@ -19,6 +19,8 @@ describe("entryId", () => {
     expect(entryId("/", rootPages)).toBeNull();
     expect(entryId("/posts/hello", rootPages)).toBeNull();
     expect(entryId("/rss.xml", rootPages)).toBeNull();
+    expect(entryId("/favicon.svg", rootPages)).toBeNull();
+    expect(entryId("/notes/logo.png", rootPages)).toBeNull();
   });
 });
 
@@ -31,6 +33,11 @@ describe("authors", () => {
       { name: "Ana" },
       { name: "Bo" },
     ]);
+  });
+
+  test("displayAuthor replaces metadata.authors", async () => {
+    expect(await documentAuthors({ ...base, metadata: { displayAuthor: "Ana", authors: ["Bo"] } }, names)).toEqual([{ name: "Ana" }]);
+    expect(await documentAuthors({ ...base, metadata: { authors: ["Bo"] } }, names)).toEqual([{ name: "Bo" }]);
   });
 
   test("signers are resolved to names, falling back to short ids and then the account", async () => {

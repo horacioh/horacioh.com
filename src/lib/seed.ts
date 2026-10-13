@@ -22,8 +22,10 @@ const cleanPath = (p: string | undefined) => (p ?? "").replace(/^\/+|\/+$/g, "")
 export const POSTS_PATH = cleanPath(readEnv("PUBLIC_SEED_POSTS_PATH") ?? "posts");
 /** Seed path prefix of the `pages` collection; unset disables it, `/` means top-level docs. */
 export const PAGES_PATH: string | null = (() => {
-  const raw = readEnv("PUBLIC_SEED_PAGES_PATH");
-  return raw === undefined ? null : cleanPath(raw);
+  // Read raw: an empty value is meaningful here (root-level pages).
+  const raw =
+    (typeof process !== "undefined" ? process.env.PUBLIC_SEED_PAGES_PATH : undefined) ?? (import.meta.env as Record<string, string | undefined> | undefined)?.PUBLIC_SEED_PAGES_PATH;
+  return raw === undefined ? null : cleanPath(raw.trim());
 })();
 
 /** Throws a readable error when the Seed site isn't configured. */
@@ -83,6 +85,8 @@ export interface HmLink {
   /** Path with leading slash, "" for the account home. */
   path: string;
   version?: string;
+  /** `?l`: the link follows the latest version even if it names one. */
+  latest: boolean;
   blockRef?: string;
 }
 
@@ -91,10 +95,11 @@ export function parseHmLink(link: string): HmLink | null {
   const m = /^hm:\/\/([A-Za-z0-9]+)((?:\/[^\s?#]*)?)(\?[^\s#]*)?(#[^\s]*)?$/.exec(link.trim());
   if (!m) return null;
   const [, uid, rawPath = "", query = "", hash = ""] = m;
-  const version = new URLSearchParams(query.slice(1)).get("v") || undefined;
+  const params = new URLSearchParams(query.slice(1));
+  const version = params.get("v") || undefined;
   const blockRef = hash.slice(1).replace(/\[.*$/, "") || undefined;
   const path = rawPath.replace(/\/+$/, "");
-  return { uid, path, version, blockRef };
+  return { uid, path, version, latest: params.has("l"), blockRef };
 }
 
 /** `hm://` id for a path in an account (defaults to the site account). */
@@ -226,7 +231,8 @@ export async function documentAuthors(
   resolveName: (uid: string) => Promise<string | undefined> = getAccountName,
 ): Promise<SeedAuthor[]> {
   const m = doc.metadata ?? {};
-  const byline = [m.displayAuthor, m.authors]
+  const explicit = typeof m.displayAuthor === "string" && m.displayAuthor.trim() ? m.displayAuthor : m.authors;
+  const byline = [explicit]
     .flatMap((v) => (Array.isArray(v) ? v : typeof v === "string" ? v.split(",") : []))
     .filter((v): v is string => typeof v === "string")
     .map((v) => v.trim())

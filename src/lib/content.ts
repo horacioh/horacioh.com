@@ -32,7 +32,7 @@ export const COLLECTIONS: CollectionSpec[] = [
 ];
 
 /** Routes the site itself generates; Seed docs can't take them. */
-const RESERVED = new Set(["rss.xml", "404", "index", "_astro"]);
+const RESERVED = new Set(["rss.xml", "404", "index", "_astro", "favicon.svg", "og.jpg"]);
 
 const under = (path: string, prefix: string) => !prefix || path === `/${prefix}` || path.startsWith(`/${prefix}/`);
 
@@ -42,7 +42,8 @@ export function entryId(path: string, spec: CollectionSpec): string | null {
   if (p === "/" || !under(p, spec.prefix) || p === `/${spec.prefix}`) return null;
   if (spec.exclude.some((x) => x && under(p, x))) return null;
   const id = p.slice(1).replace(/\/+$/, "");
-  return RESERVED.has(id.split("/")[0]) ? null : id;
+  // Dotted segments would look like (and collide with) static files.
+  return RESERVED.has(id.split("/")[0]) || id.split("/").some((s) => s.includes(".")) ? null : id;
 }
 
 /** Listed docs of a collection with their entry ids. */

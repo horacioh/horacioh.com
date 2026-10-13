@@ -50,7 +50,9 @@ export function safeHref(link: string, ctx: RenderContext = {}): string | null {
   const hm = parseHmLink(l);
   if (!hm) return null;
   const hash = hm.blockRef ? `#${encodeURIComponent(hm.blockRef)}` : "";
-  if (hm.uid === SEED_ACCOUNT && hm.path && ctx.routes?.has(hm.path)) return `${hm.path}${hash}`;
+  // Local pages show the latest version, so links pinned to an older one stay on Seed.
+  const followsLatest = !hm.version || hm.latest;
+  if (hm.uid === SEED_ACCOUNT && hm.path && followsLatest && ctx.routes?.has(hm.path)) return `${hm.path}${hash}`;
   return `${seedDocUrl(hm.path, hm.uid, hm.version)}${hash}`;
 }
 
@@ -63,7 +65,12 @@ function fallbackLabel(link: string): string {
   const hm = parseHmLink(link);
   if (!hm) return link;
   const last = hm.path.split("/").filter(Boolean).pop();
-  return last ? decodeURIComponent(last).replace(/[-_]+/g, " ") : shortId(hm.uid);
+  if (!last) return shortId(hm.uid);
+  let label = last;
+  try {
+    label = decodeURIComponent(last);
+  } catch {}
+  return label.replace(/[-_]+/g, " ");
 }
 
 function mentionHtml(link: string, ctx: RenderContext, kindHint?: unknown): string {
