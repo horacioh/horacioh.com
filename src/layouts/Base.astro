@@ -57,23 +57,23 @@ const navItems = navigation.map(({ label, href }) => {
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-surface focus:px-3 focus:py-2 focus:ring-1 focus:ring-line"
     >Skip to content</a>
     <div class="mx-auto flex min-h-dvh max-w-[38rem] flex-col px-6">
-      <header class="flex items-center justify-between gap-4 pt-6 sm:pt-10" transition:name="site-header">
+      <header class="flex flex-wrap items-center justify-between gap-4 pt-6 sm:flex-nowrap sm:pt-10" transition:name="site-header">
         <a
           href="/"
           class="-ml-2 inline-flex min-h-11 items-center px-2 font-display text-[1.0625rem] font-semibold tracking-[-0.01em]"
           aria-current={current === "/" ? "page" : undefined}
         >{siteName}</a>
-        <nav aria-label="Main" class="-mr-2 flex items-center text-[0.9375rem] text-muted">
+        <nav aria-label="Main" class="-ml-2 flex w-full items-center justify-start text-[0.9375rem] text-muted sm:-mr-2 sm:ml-0 sm:w-auto sm:justify-end">
           {navItems.map(({ label, href, local, active }) => (
             <a
               href={href}
               target={local ? undefined : "_blank"}
               rel={local ? undefined : "noopener noreferrer"}
-              class:list={["inline-flex min-h-11 items-center px-2.5 transition-colors hover:text-fg", active && "text-fg"]}
+              class:list={["inline-flex min-h-11 items-center whitespace-nowrap px-2.5 transition-colors hover:text-fg", active && "text-fg"]}
               aria-current={active ? "page" : undefined}
             >{label}</a>
           ))}
-          <a href="/rss.xml" class="inline-flex min-h-11 items-center px-2.5 transition-colors hover:text-fg">RSS</a>
+          <a href="/rss.xml" class="inline-flex min-h-11 items-center whitespace-nowrap px-2.5 transition-colors hover:text-fg">RSS</a>
         </nav>
       </header>
       <main id="content" class="flex-1 pb-28 pt-16 sm:pt-24" transition:animate="fade">
